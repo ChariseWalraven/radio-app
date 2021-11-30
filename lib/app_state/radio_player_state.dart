@@ -1,14 +1,15 @@
 import 'dart:async';
-
-import 'package:bradio_cl/Model/StationStream/radio_stream.dart';
-import 'package:bradio_cl/Services/stream_service.dart';
-import 'package:bradio_cl/core/enums/playing_state.dart';
+import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:radio_app/model/station_stream/station_stream_filter.dart';
+import 'package:radio_app/services/stream_service.dart';
 
 
 //This is the state manager class for the radioplayer page.
-class RadioPlayerState extends ChangeNotifier{
+class RadioPlayerState extends ChangeNotifier {
+  int offset = 0;
+  static const int limit = 20;
 
 
   late final Timer _whatsonTimer;
@@ -23,7 +24,7 @@ class RadioPlayerState extends ChangeNotifier{
 
   //We can create getters against any lower level service directly
   //There is no need to keep a copy of the streamlist here
-  List<RadioStream> get stationList => StreamService.streamList;
+  List get stationList => StreamService.streamList;
   int get stationCount => StreamService.streamList.length;
   bool get isLoadingList => StreamService.isLoading;
 
@@ -49,7 +50,8 @@ class RadioPlayerState extends ChangeNotifier{
   void _init() async {
     _setPlayingState(PlayingState.loading);
     notifyListeners();
-    await StreamService.getStreams();
+    StationStreamFilter filter = StationStreamFilter(limit: limit);
+    await StreamService().getStreams(filter);
     _setPlayingState(PlayingState.none);
   }
 
@@ -67,6 +69,12 @@ class RadioPlayerState extends ChangeNotifier{
       debugPrint('RadioPlayerState._getWhatson.changed=$_title');
       notifyListeners();
     }
+  }
+
+  void _updateStreamList() async {
+    offset = offset + limit;
+    StationStreamFilter filter = StationStreamFilter(limit: limit, offset: offset);
+    await StreamService().getStreams(filter);
   }
 
   Future <void> playStream(String newStation, String url) async {

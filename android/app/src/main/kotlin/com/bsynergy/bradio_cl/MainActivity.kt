@@ -1,4 +1,4 @@
-package com.bsynergy.bradio_cl
+package com.bsynergy.radio_app
 
 import io.flutter.embedding.android.FlutterActivity
 
