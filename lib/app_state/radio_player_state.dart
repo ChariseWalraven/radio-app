@@ -71,11 +71,17 @@ class RadioPlayerState extends ChangeNotifier {
     }
   }
 
-  void _updateStreamList() async {
-    offset = offset + limit;
+  void updateStreamList() async {
     StationStreamFilter filter = StationStreamFilter(limit: limit, offset: offset);
-    await StreamService().getStreams(filter);
+    await StreamService().getStreams(filter, isUpdate: true);
+    notifyListeners();
   }
+
+  void updateStreamListWithFilter(StationStreamFilter filter) async {
+    await StreamService().getStreams(filter, isUpdate: true);
+    notifyListeners();
+  }
+
 
   Future <void> playStream(String newStation, String url) async {
     if(newStation == _station) {
