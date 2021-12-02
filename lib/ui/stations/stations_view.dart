@@ -1,8 +1,6 @@
 import 'package:radio_app/model/station_stream/station_stream.dart';
 import 'package:radio_app/app_state/radio_player_state.dart';
-import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_app/ui/widgets/player_bar.dart';
 import 'package:radio_app/ui/widgets/app_bar.dart';
@@ -25,7 +23,7 @@ class StationsView extends StatelessWidget {
     var _state = Provider.of<RadioPlayerState>(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: radioAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -34,50 +32,6 @@ class StationsView extends StatelessWidget {
             if(_state.station != "No station selected") const PlayerBar(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _pauseButton(RadioPlayerState state) {
-    if (state.playingState == PlayingState.playing) {
-      return IconButton(
-          onPressed: () => state.pausePlaying(),
-          icon: const Icon(FontAwesomeIcons.pause)
-      );
-    } else if (state.playingState == PlayingState.paused) {
-      return IconButton(
-          onPressed: () => state.startPlaying(),
-          icon: const Icon(FontAwesomeIcons.play)
-      );
-    }
-    return Container();
-  }
-
-  Widget _nowPlaying(double playerHeight, RadioPlayerState state) {
-    return SizedBox(
-      height: state.playingState != PlayingState.none ? playerHeight : 0,
-      child: Center(
-          child: state.playingState == PlayingState.loading
-              ? const Center(
-            child: CircularProgressIndicator(),
-          )
-              : Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                    state.title != '' ? state
-                        .title : state.station),
-              ),
-              Expanded(
-                child: Row(
-                  children: <Widget>[
-                    _pauseButton(state)
-                  ],
-                ),
-
-              ),
-            ],
-          ),
       ),
     );
   }
