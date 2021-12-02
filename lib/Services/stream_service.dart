@@ -1,34 +1,36 @@
 
 import 'dart:convert';
 
-import 'package:bradio_cl/Model/StationStream/radio_stream.dart';
+import 'package:radio_app/model/station_stream/station_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 
-class StreamService{
-  static final List<RadioStream> _streamList = [];
+class StreamService {
+  static final List<StationStream> _streamList = [];
 
   static bool isLoading = false;
-  static List<RadioStream> get streamList => _streamList;
+  static List<StationStream> get streamList => _streamList;
 
-  static Future<int> getStreams() async {
-    isLoading = true;
-    const url ='https://nl1.api.radio-browser.info/json/stations/bycountrycodeexact/NL?hidebroken=true&order=bitrate';
+  Future<int> getStreams(StationStreamFilter filter, {bool isUpdate = false}) async {
+    debugPrint((!isUpdate).toString());
+    isLoading = true && !isUpdate;
+    String url = Uri.encodeFull("https://nl1.api.radio-browser.info/json/stations/search${filter.constructFilterString()}");
+    debugPrint(url);
     try {
       var response = await http.get(Uri.parse(url));
       if(response.statusCode == 200){
         var utf = utf8.decode(response.bodyBytes);
         var jsonList = jsonDecode(utf);
         for(var stream in jsonList){
-          var radioStream = RadioStream.fromJson(stream);
+          var radioStream = StationStream.fromJson(stream);
           int idx = _streamList.indexWhere((element) => element.name == radioStream.name);
-          if(idx < 0){
+          if(idx < 0) {
             _streamList.add(radioStream);
           } else if (_streamList[idx].bitrate < radioStream.bitrate){
             _streamList[idx] = radioStream;
           }
         }
-        _streamList.sort((a,b)=> a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       }
    
     } catch (e) {
@@ -43,6 +45,4 @@ class StreamService{
     _streamList.removeWhere((element) =>  element.name == stationName);
     debugPrint('StreamService.removeStreamByName($stationName).idx=${_streamList.indexWhere((element) =>  element.name == stationName)}');
   }
-
-
  }
