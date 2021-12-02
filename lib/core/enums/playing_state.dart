@@ -3,5 +3,6 @@ enum PlayingState{
   none,
   loading,
   playing,
-  paused
+  paused,
+  stopped,
 }
