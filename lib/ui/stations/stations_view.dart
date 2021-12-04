@@ -1,9 +1,10 @@
+import 'package:radio_app/core/providers/app_state.dart';
+import 'package:radio_app/core/providers/stations_state.dart';
 import 'package:radio_app/model/station_stream/station_stream.dart';
-import 'package:radio_app/app_state/radio_player_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_app/ui/widgets/player_bar.dart';
-import 'package:radio_app/ui/widgets/app_bar.dart';
+import 'package:radio_app/ui/player/player_bar.dart';
+import 'package:radio_app/ui/stations/stations_list.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class StationsView extends StatelessWidget {
@@ -20,84 +21,33 @@ class StationsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _state = Provider.of<RadioPlayerState>(context);
-
-    return Scaffold(
-      appBar: radioAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            stationsList(_state),
-            if(_state.station != "No station selected") const PlayerBar(),
-          ],
-        ),
-      ),
+    return Consumer<StationsListState>(
+      builder: (context, _state, child) {
+        return Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Local Stations",
+                textScaleFactor: 1.75,
+              ),
+              SizedBox(
+                height: 180.0,
+                child: StationList(stations: _state.localStations),
+              ),
+              const Text(
+                "Stations in English",
+                textScaleFactor: 1.75,
+              ),
+              SizedBox(
+                height: 180.0,
+                child: StationList(stations: _state.langStations),
+              ),
+            ],
+          ),
+        );
+      }
     );
   }
-
-  Widget _listBuilder(RadioPlayerState state) =>
-      ScrollablePositionedList.builder(
-        itemCount: state.stationCount,
-        itemBuilder: (context, index) => _item(state, index),
-        itemPositionsListener: itemPositionsListener,
-        reverse: false,
-        scrollDirection: Axis.vertical,
-      );
-
-  Widget _item(RadioPlayerState state,
-      int index) {
-    final StationStream radioStream = state.stationList[index];
-    bool isActive = radioStream.name == state.station;
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: BorderSide(
-            color: isActive ? Colors.purple.shade400 : Colors.grey,
-            width: isActive ? 4 : 0),
-      ),
-      elevation: isActive ? 0 : 8,
-      child: ListTile(
-        onTap: () {
-          state.playStream(radioStream.name, radioStream.url);
-        },
-        title: Text(radioStream.name),
-        subtitle: Text(radioStream.tags),
-      ),
-    );
-  }
-
-
-  Widget stationsList(RadioPlayerState state) =>
-      ValueListenableBuilder<Iterable<ItemPosition>>(
-        valueListenable: itemPositionsListener.itemPositions,
-        builder: (context, positions, child) {
-          int? lastVisibleItemIndex;
-          if (positions.isNotEmpty) {
-            // Determine the last visible item by finding the item with the
-            // greatest leading edge that is less than 1.  i.e. the last
-            // item whose leading edge in visible in the viewport.
-            lastVisibleItemIndex = positions
-                .where((ItemPosition position) => position.itemLeadingEdge < 1)
-                .reduce((ItemPosition max, ItemPosition position) =>
-            position.itemLeadingEdge > max.itemLeadingEdge
-                ? position
-                : max)
-                .index;
-          }
-          if(lastVisibleItemIndex != null && state.stationCount - lastVisibleItemIndex < 8 ) {
-            state.updateStreamList();
-            debugPrint('Updated stream list');
-          }
-          return Expanded(
-              child: state.isLoadingList
-                  ? const Center(
-                child: CircularProgressIndicator(),
-              )
-                  : _listBuilder(state)
-          );
-        },
-      );
-
 }
-
