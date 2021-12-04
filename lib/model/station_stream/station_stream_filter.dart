@@ -57,6 +57,7 @@ class StationStreamFilter {
   "&nameExact=${nameExact.toString()}"
   "&country=$country"
   "&countryExact=${countryExact.toString()}"
+  "&countrycode=${countrycode.toString()}"
   "&state=$state"
   "&stateExact=${stateExact.toString()}"
   "&language=$language"
