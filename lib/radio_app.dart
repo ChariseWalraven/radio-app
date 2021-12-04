@@ -1,5 +1,5 @@
 import 'package:radio_app/core/constants/constants.dart';
-import 'package:radio_app/ui/stations/stations_screen.dart';
+import 'package:radio_app/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,7 +13,7 @@ class RadioApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const StationsScreen(),
+      home: const HomeScreen(),
     );
   }
 }
