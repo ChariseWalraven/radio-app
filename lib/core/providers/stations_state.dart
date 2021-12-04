@@ -1,11 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
+import 'package:geolocator/geolocator.dart';
 import 'package:radio_app/core/abstract_classes/order.dart';
 import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:radio_app/model/station_stream/station_stream.dart';
 import 'package:radio_app/model/station_stream/station_stream_filter.dart';
+import 'package:radio_app/services/location_service.dart';
 import 'package:radio_app/services/stream_service.dart';
 
 
@@ -13,6 +12,7 @@ import 'package:radio_app/services/stream_service.dart';
 class StationsListState extends ChangeNotifier {
   int offset = 0;
   static const int limit = 10;
+  LocationService locationService = LocationService();
 
   //We can create getters against any lower level service directly
   //There is no need to keep a copy of the streamlist here
@@ -29,6 +29,7 @@ class StationsListState extends ChangeNotifier {
   // local stations
   StreamService localStationsService = StreamService();
   List<StationStream> _localStations = [];
+  String? _countryCode = "";
   List<StationStream> get localStations => _localStations;
   int get localStationsCount => _localStations.length;
   bool get isLoadingLocalList => localStationsService.isLoading;
@@ -43,7 +44,6 @@ class StationsListState extends ChangeNotifier {
   PlayingState _playingState = PlayingState.none;
   PlayingState get playingState => _playingState;
 
-  final _player = AudioPlayer();
 
   StationsListState() {
     _init();
@@ -62,16 +62,25 @@ class StationsListState extends ChangeNotifier {
     StationStreamFilter filter = StationStreamFilter(limit: limit);
     _stations = await stationsService.getStreams(filter);
     // await stationsService.getTags();
-    debugPrint('getting local stations...');
-    StationStreamFilter localStationFilter = StationStreamFilter(countrycode: "NL", limit: limit, order: Order.clickCount);
+
+
+    // get local stations using location service
+    // if location service enabled, check location data
+    if(locationService.serviceEnabled && locationService.permissionStatus == LocationPermission.whileInUse) {
+      // get location
+      await locationService.getLocation();
+      // get country code
+      _countryCode = await locationService.getCountryCode();
+    }
+    StationStreamFilter localStationFilter = StationStreamFilter(countrycode: _countryCode!, limit: limit, order: Order.clickCount);
     _localStations = await localStationsService.getStreams(localStationFilter);
-    debugPrint('Local stream list: ${_localStations[0]}');
+
     StationStreamFilter deviceLanguageFilter = StationStreamFilter(language: "english", limit: limit, order: Order.clickCount);
     _langStations = await langStationsService.getStreams(deviceLanguageFilter);
+
     _setPlayingState(PlayingState.none);
 
     notifyListeners();
-    // debugPrint('local station #1: ${jsonEncode(localStations)}\n lang station #1: ${jsonEncode(langStationList)}');
   }
 
   void updateStreamList() async {
