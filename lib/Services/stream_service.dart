@@ -5,16 +5,18 @@ import 'package:http/http.dart' as http;
 import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 
 class StreamService {
-  static final List<StationStream> _streamList = [];
+  static final List<StationStream> _tagList = [];
 
-  static bool isLoading = false;
-  static List<StationStream> get streamList => _streamList;
+  bool isLoading = false;
+  bool isLoadingTags = false;
+  List<StationStream> get tagList => _tagList;
 
-  Future<int> getStreams(StationStreamFilter filter, {bool isUpdate = false}) async {
-    debugPrint((!isUpdate).toString());
+  Future<List<StationStream>> getStreams(StationStreamFilter filter, {bool isUpdate = false}) async {
+    List<StationStream> _stations = [];
     isLoading = true && !isUpdate;
     String url = Uri.encodeFull("https://nl1.api.radio-browser.info/json/stations/search${filter.constructFilterString()}");
-    debugPrint(url);
+
+    debugPrint('Getting streams from: ${filter.countrycode} $url');
     try {
       var response = await http.get(Uri.parse(url));
       if(response.statusCode == 200){
@@ -22,11 +24,11 @@ class StreamService {
         var jsonList = jsonDecode(utf);
         for(var stream in jsonList){
           var radioStream = StationStream.fromJson(stream);
-          int idx = _streamList.indexWhere((element) => element.name == radioStream.name);
+          int idx = _stations.indexWhere((element) => element.name == radioStream.name);
           if(idx < 0) {
-            _streamList.add(radioStream);
-          } else if (_streamList[idx].bitrate < radioStream.bitrate){
-            _streamList[idx] = radioStream;
+            _stations.add(radioStream);
+          } else if (_stations[idx].bitrate < radioStream.bitrate){
+            _stations[idx] = radioStream;
           }
         }
       }
@@ -34,13 +36,29 @@ class StreamService {
     } catch (e) {
       debugPrint('getStrteams::ERROR:: $e');
     }
-    debugPrint('getSTreams.done.streamCount=${_streamList.length}');
+    debugPrint('getSTreams.done.streamCount=${_stations.length}');
     isLoading = false;
-    return _streamList.length;
+    return _stations;
   }
 
-  static void removeStreamByName(String stationName) {
-    _streamList.removeWhere((element) =>  element.name == stationName);
-    debugPrint('StreamService.removeStreamByName($stationName).idx=${_streamList.indexWhere((element) =>  element.name == stationName)}');
+  Future<int> getTags() async {
+    isLoading = true;
+    String url = Uri.encodeFull("http://nl1.api.radio-browser.info/json/tags");
+    try {
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200){
+        var utf = utf8.decode(response.bodyBytes);
+        var jsonList = jsonDecode(utf);
+        for(var tag in jsonList){
+          debugPrint(tag);
+        }
+      }
+
+    } catch (e) {
+      debugPrint('getStrteams::ERROR:: $e');
+    }
+    debugPrint('getSTreams.done.streamCount=${_tagList.length}');
+    isLoading = false;
+    return _tagList.length;
   }
  }
