@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:radio_app/ui/player/player_bar.dart';
 import 'package:radio_app/ui/stations/stations_view.dart';
 import 'package:radio_app/ui/widgets/bottom_bar.dart';
-import 'package:radio_app/ui/widgets/tile.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
