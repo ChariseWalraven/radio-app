@@ -29,7 +29,7 @@ class StationsState extends ChangeNotifier {
 
   StationStreamFilter _filter = StationStreamFilter(limit: 10);
 
-  set filter(filter) {
+  set filter(StationStreamFilter filter) {
     _filter = filter;
     notifyListeners();
   }
