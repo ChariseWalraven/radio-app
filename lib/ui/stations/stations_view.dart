@@ -21,7 +21,7 @@ class StationsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<StationsListState>(
+    return Consumer<StationsState>(
       builder: (context, _state, child) {
         return Padding(
           padding: const EdgeInsets.all(12.0),
