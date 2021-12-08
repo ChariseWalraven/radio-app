@@ -30,9 +30,18 @@ class StationsView extends StatelessWidget {
             children: const <Widget>[
               LocalStations(),
               SizedBox(
-                height: 180.0,
-                child: StationList(stations: _state.localStations),
+                child: Text('Coming soon!!'),
+              )
+            ],
               ),
+        );
+      }
+    );
+  }
+}
+
+/*
+
               const Text(
                 "Stations in English",
                 textScaleFactor: 1.75,
@@ -41,10 +50,5 @@ class StationsView extends StatelessWidget {
                 height: 180.0,
                 child: StationList(stations: _state.langStations),
               ),
-            ],
-          ),
-        );
-      }
-    );
-  }
-}
+              
+ */
