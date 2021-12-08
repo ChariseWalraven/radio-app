@@ -8,8 +8,6 @@ import 'package:radio_app/services/location_service.dart';
 import 'package:radio_app/services/stream_service.dart';
 
 //This is the state manager class for the stations lists on the home page
-// TODO: turn this class into a parent class for stations so you can reuse some basic functionality, specifically the update, init, and isLoading features.
-// TODO: move the functionality for the different kinds of stations to their own states
 class StationsState extends ChangeNotifier {
   int offset = 0;
   static const int limit = 10;
@@ -35,7 +33,7 @@ class StationsState extends ChangeNotifier {
   }
 
   StationsState() {
-    _init();
+    init();
   }
 
   @override
@@ -44,7 +42,7 @@ class StationsState extends ChangeNotifier {
     super.dispose();
   }
 
-  void _init() async {
+  void init() async {
     _stations = await stationsService.getStreams(_filter);
     notifyListeners();
   }
