@@ -37,7 +37,7 @@ class StationList extends StatelessWidget {
   }
 
   bool _isValidFaviconUrl(String url) {
-    RegExp re = RegExp(r'(\.png|\.jpg|\.ico)');
+    RegExp re = RegExp(r'(\.png|\.jpg)');
     return re.hasMatch(url);
   }
 }
