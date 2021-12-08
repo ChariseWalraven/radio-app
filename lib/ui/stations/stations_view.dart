@@ -27,11 +27,8 @@ class StationsView extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Local Stations",
-                textScaleFactor: 1.75,
-              ),
+            children: const <Widget>[
+              LocalStations(),
               SizedBox(
                 height: 180.0,
                 child: StationList(stations: _state.localStations),
