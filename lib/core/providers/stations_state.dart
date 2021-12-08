@@ -7,9 +7,10 @@ import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 import 'package:radio_app/services/location_service.dart';
 import 'package:radio_app/services/stream_service.dart';
 
-
 //This is the state manager class for the stations lists on the home page
-class StationsListState extends ChangeNotifier {
+// TODO: turn this class into a parent class for stations so you can reuse some basic functionality, specifically the update, init, and isLoading features.
+// TODO: move the functionality for the different kinds of stations to their own states
+class StationsState extends ChangeNotifier {
   int offset = 0;
   static const int limit = 10;
   LocationService locationService = LocationService();
@@ -20,32 +21,20 @@ class StationsListState extends ChangeNotifier {
   // general stations list
   StreamService stationsService = StreamService();
   List<StationStream> _stations = [];
+
   List<StationStream> get stations => _stations;
+
   int get stationsCount => _stations.length;
   bool get isLoading => stationsService.isLoading;
-  List get popularGenreList => stationsService.tagList;
-  bool get isLoadingGenreList => stationsService.isLoadingTags;
 
-  // local stations
-  StreamService localStationsService = StreamService();
-  List<StationStream> _localStations = [];
-  String? _countryCode = "";
-  List<StationStream> get localStations => _localStations;
-  int get localStationsCount => _localStations.length;
-  bool get isLoadingLocalList => localStationsService.isLoading;
+  StationStreamFilter _filter = StationStreamFilter(limit: 10);
 
-  // device language stations (english to start with)
-  StreamService langStationsService = StreamService();
-  List<StationStream> _langStations = [];
-  List<StationStream> get langStations => _langStations;
-  int get langStationCount => _langStations.length;
-  bool get isLoadingLangList => langStationsService.isLoading;
+  set filter(filter) {
+    _filter = filter;
+    notifyListeners();
+  }
 
-  PlayingState _playingState = PlayingState.none;
-  PlayingState get playingState => _playingState;
-
-
-  StationsListState() {
+  StationsState() {
     _init();
   }
 
@@ -55,36 +44,14 @@ class StationsListState extends ChangeNotifier {
     super.dispose();
   }
 
-
   void _init() async {
-    _setPlayingState(PlayingState.loading);
-    notifyListeners();
-    StationStreamFilter filter = StationStreamFilter(limit: limit);
-    _stations = await stationsService.getStreams(filter);
-    // await stationsService.getTags();
-
-
-    // get local stations using location service
-    // if location service enabled, check location data
-    if(locationService.serviceEnabled && locationService.permissionStatus == LocationPermission.whileInUse) {
-      // get location
-      await locationService.getLocation();
-      // get country code
-      _countryCode = await locationService.getCountryCode();
-    }
-    StationStreamFilter localStationFilter = StationStreamFilter(countrycode: _countryCode!, limit: limit, order: Order.clickCount);
-    _localStations = await localStationsService.getStreams(localStationFilter);
-
-    StationStreamFilter deviceLanguageFilter = StationStreamFilter(language: "english", limit: limit, order: Order.clickCount);
-    _langStations = await langStationsService.getStreams(deviceLanguageFilter);
-
-    _setPlayingState(PlayingState.none);
-
+    _stations = await stationsService.getStreams(_filter);
     notifyListeners();
   }
 
   void updateStreamList() async {
-    StationStreamFilter filter = StationStreamFilter(limit: limit, offset: offset);
+    StationStreamFilter filter =
+        StationStreamFilter(limit: 10, offset: 0);
     await StreamService().getStreams(filter, isUpdate: true);
     notifyListeners();
   }
@@ -93,10 +60,4 @@ class StationsListState extends ChangeNotifier {
     await StreamService().getStreams(filter, isUpdate: true);
     notifyListeners();
   }
-
-  void _setPlayingState(PlayingState newState){
-    _playingState = newState;
-    notifyListeners();
-  }
-
 }
