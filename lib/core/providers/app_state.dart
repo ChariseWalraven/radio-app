@@ -5,7 +5,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 import 'package:radio_app/services/stream_service.dart';
 
-
 //This is the state manager class for the entire app (stuff that needs to be accessed through the whole app)
 class AppState extends ChangeNotifier {
   late final Timer _whatsonTimer;
@@ -23,13 +22,11 @@ class AppState extends ChangeNotifier {
   String _title = '';
   String get title => _title;
 
-
   AppState() {
     _init();
-    _whatsonTimer = Timer.periodic(const Duration(milliseconds: 1000), (timer) { 
+    _whatsonTimer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       _getWhatson();
     });
-
   }
 
   @override
@@ -39,7 +36,6 @@ class AppState extends ChangeNotifier {
     _whatsonTimer.cancel();
   }
 
-
   void _init() async {
     _setPlayingState(PlayingState.loading);
     notifyListeners();
@@ -48,10 +44,10 @@ class AppState extends ChangeNotifier {
 
   void _getWhatson() {
     var _what = '';
-    if(_player.playing && _player.icyMetadata != null){
+    if (_player.playing && _player.icyMetadata != null) {
       _what = _player.icyMetadata?.info?.title ?? '';
     }
-    if(_what != _title){
+    if (_what != _title) {
       _title = _what;
       debugPrint('RadioPlayerState._getWhatson.changed=$_title');
       notifyListeners();
@@ -59,7 +55,7 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> playStream(String newStation, String url) async {
-    if(newStation == _station) {
+    if (newStation == _station) {
       return;
     }
     debugPrint('RadioPlayerState.playStream=$newStation');
@@ -67,7 +63,7 @@ class AppState extends ChangeNotifier {
     _title = '';
     _setPlayingState(PlayingState.loading); //contains a notifyListeners call
     try {
-      if(_player.playing) {
+      if (_player.playing) {
         await _player.stop();
       }
       await _player.setUrl(url);
@@ -83,10 +79,10 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> startPlaying() async {
-
-    if(!_player.playing){
+    if (!_player.playing) {
       try {
-        debugPrint('RadioPlayerState.startPlaying.state=${_player.playerState}');
+        debugPrint(
+            'RadioPlayerState.startPlaying.state=${_player.playerState}');
         _setPlayingState(PlayingState.playing);
         await _player.play();
       } catch (e) {
@@ -98,19 +94,19 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> pausePlaying() async {
-    if(_player.playing){
+    if (_player.playing) {
       try {
         _setPlayingState(PlayingState.paused);
         await _player.pause();
         debugPrint('RadioPlayerState.pausePlaying');
-      }  catch (e) {
+      } catch (e) {
         debugPrint('RadioPlayerState.pausePlaying :: ERROR :: $e');
         _setPlayingState(PlayingState.none);
       }
     }
   }
 
-  void _setPlayingState(PlayingState newState){
+  void _setPlayingState(PlayingState newState) {
     _playingState = newState;
     notifyListeners();
   }
@@ -120,5 +116,4 @@ class AppState extends ChangeNotifier {
     _selectedIndex = newIndex;
     notifyListeners();
   }
-
 }
