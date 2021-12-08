@@ -1,8 +1,9 @@
+import 'package:radio_app/core/abstract_classes/order.dart';
 import 'package:radio_app/core/providers/stations_state.dart';
 import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 
 class LocalStationsState extends StationsState {
-  final StationStreamFilter _filter = StationStreamFilter(countrycode: "NL");
+  final StationStreamFilter _filter = StationStreamFilter(countrycode: "NL", order: Order.clickCount);
 
   @override
   init() {
