@@ -1,10 +1,7 @@
-import 'package:radio_app/core/providers/app_state.dart';
 import 'package:radio_app/core/providers/stations_state.dart';
-import 'package:radio_app/model/station_stream/station_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_app/ui/player/player_bar.dart';
-import 'package:radio_app/ui/stations/stations_list.dart';
+import 'package:radio_app/ui/stations/local_stations.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class StationsView extends StatelessWidget {
@@ -33,7 +30,7 @@ class StationsView extends StatelessWidget {
                 child: Text('Coming soon!!'),
               )
             ],
-              ),
+          ),
         );
       }
     );
@@ -41,8 +38,8 @@ class StationsView extends StatelessWidget {
 }
 
 /*
-
-              const Text(
+// NOTE: I've decided to implement this later in favor of focussing on local stations for the moment
+const Text(
                 "Stations in English",
                 textScaleFactor: 1.75,
               ),
