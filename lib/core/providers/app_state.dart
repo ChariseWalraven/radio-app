@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:radio_app/model/station_stream/station_stream_filter.dart';
-import 'package:radio_app/services/stream_service.dart';
 
 //This is the state manager class for the entire app (stuff that needs to be accessed through the whole app)
 class AppState extends ChangeNotifier {
