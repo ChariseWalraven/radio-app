@@ -1,7 +1,7 @@
 name: radio_app
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+20
 
 environment:
@@ -33,8 +33,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/images/music.png
-   - assets/localization/iso_639-1_codes.json
+    - assets/images/music.png
+    - assets/localization/iso_639-1_codes.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
