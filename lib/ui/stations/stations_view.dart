@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 import 'package:radio_app/core/abstract_classes/order.dart';
 import 'package:radio_app/core/providers/local_stations_state.dart';
@@ -8,9 +9,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class StationsView extends StatefulWidget {
   const StationsView({Key? key}) : super(key: key);
-
-  /// The alignment to be used next time the user scrolls or jumps to an item.
-  static double alignment = 0;
 
   @override
   State<StationsView> createState() => _StationsViewState();
