@@ -24,10 +24,7 @@ class StationsState extends ChangeNotifier {
 
   StationStreamFilter _filter = StationStreamFilter(limit: 10);
 
-  set filter(StationStreamFilter filter) {
-    _filter = filter;
-    notifyListeners();
-  }
+  set filter(StationStreamFilter filter) => _filter = filter;
 
   StationsState() {
     init();
@@ -40,13 +37,12 @@ class StationsState extends ChangeNotifier {
   }
 
   void init() async {
-    _stations = await stationsService.getStreams(_filter);
-    notifyListeners();
+    // _stations = await stationsService.getStreams(_filter);
+    // notifyListeners();
   }
 
   void updateStreamList() async {
-    StationStreamFilter filter =
-        StationStreamFilter(limit: 10, offset: 0);
+    StationStreamFilter filter = StationStreamFilter(limit: 10, offset: 0);
     await StreamService().getStreams(filter, isUpdate: true);
     notifyListeners();
   }
@@ -54,5 +50,12 @@ class StationsState extends ChangeNotifier {
   void updateStreamListWithFilter(StationStreamFilter filter) async {
     await StreamService().getStreams(filter, isUpdate: true);
     notifyListeners();
+  }
+
+  Future<int> setInitialStations(StationStreamFilter filter,
+      {bool listen = false}) async {
+    await StreamService().getStreams(filter);
+    if (listen) notifyListeners();
+    return _stations.length;
   }
 }
