@@ -1,6 +1,7 @@
-import 'package:radio_app/core/providers/stations_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/src/provider.dart';
+import 'package:radio_app/core/providers/local_stations_state.dart';
+import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 import 'package:radio_app/ui/stations/local_stations.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
