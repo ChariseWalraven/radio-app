@@ -53,9 +53,9 @@ class StationsState extends ChangeNotifier {
   }
 
   Future<int> setInitialStations(StationStreamFilter filter,
-      {bool listen = false}) async {
-    await StreamService().getStreams(filter);
-    if (listen) notifyListeners();
+      {bool notify = false}) async {
+    _stations = await StreamService().getStreams(filter);
+    if (notify) notifyListeners();
     return _stations.length;
   }
 }
