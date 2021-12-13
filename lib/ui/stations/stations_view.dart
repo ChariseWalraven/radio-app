@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:radio_app/core/abstract_classes/order.dart';
 import 'package:radio_app/core/providers/local_stations_state.dart';
 import 'package:radio_app/model/station_stream/station_stream_filter.dart';
 import 'package:radio_app/ui/stations/local_stations.dart';
@@ -20,24 +21,34 @@ class _StationsViewState extends State<StationsView> {
   final ItemPositionsListener itemPositionsListener =
   ItemPositionsListener.create();
 
-
-  /// The alignment to be used next time the user scrolls or jumps to an item.
-  static double alignment = 0;
-
+  @override
+  void initState() {
+    super.initState();
+    // TODO: use country code from phone instead
+    // TODO: create a flow for obtaining permission to access country code
+    
+    StationStreamFilter filter = StationStreamFilter(
+      countrycode: "GB", 
+      limit: 10, 
+      order: Order.clickCount, 
+      reverse: true
+    );
+    context.read<LocalStationsState>().setInitialStations(filter, notify: true);
+  }
 
   @override
   Widget build(BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
-              LocalStations(),
-              SizedBox(
-                child: Text('Coming soon!!'),
-              )
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          LocalStations(),
+          SizedBox(
+            child: Text('Coming soon!!'),
+          )
+        ],
+      ),
     );
   }
 }
