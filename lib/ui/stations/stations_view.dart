@@ -30,13 +30,6 @@ class _StationsViewState extends State<StationsView> {
     return _countryCode;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // TODO: use country code from phone instead
-    // TODO: create a flow for obtaining permission to access country code
-  
-  }
 
   @override
   Widget build(BuildContext context) {
