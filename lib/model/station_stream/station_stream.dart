@@ -9,6 +9,7 @@ class StationStream {
         required this.favicon,
         required this.tags,
         required this.bitrate,
+        required this.clickCount,
     });
 
     String name;
@@ -18,6 +19,7 @@ class StationStream {
     String favicon;
     String tags;
     int bitrate;
+    int clickCount;
 
     factory StationStream.fromRawJson(String str) =>
         StationStream.fromJson(json.decode(str));
@@ -31,5 +33,6 @@ class StationStream {
             favicon: json["favicon"].trim(),
             tags: json["tags"].trim(),
             bitrate: json["bitrate"],
+            clickCount: json["clickcount"],
         );
 }
