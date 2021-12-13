@@ -27,8 +27,6 @@ class _StationsViewState extends State<StationsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<StationsState>(
-      builder: (context, _state, child) {
         return Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -40,8 +38,6 @@ class _StationsViewState extends State<StationsView> {
               )
             ],
           ),
-        );
-      }
     );
   }
 }
