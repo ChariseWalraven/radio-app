@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:radio_app/services/locale_service.dart';
 import 'package:radio_app/ui/player/player_bar.dart';
 import 'package:radio_app/ui/stations/stations_view.dart';
 import 'package:radio_app/ui/widgets/bottom_bar.dart';
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocaleService _localeService = LocaleService();
     Locale myLocale = Localizations.localeOf(context);
     debugPrint("locale country code: ${myLocale.languageCode}");
     return Scaffold(
