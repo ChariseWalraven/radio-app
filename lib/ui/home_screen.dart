@@ -9,6 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Locale myLocale = Localizations.localeOf(context);
+    debugPrint("locale country code: ${myLocale.languageCode}");
     return Scaffold(
       bottomNavigationBar: BottomBar(),
         body: SafeArea(
