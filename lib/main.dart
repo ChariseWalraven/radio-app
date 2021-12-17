@@ -8,8 +8,6 @@ import 'radio_app.dart';
 
 void main() async {
   runApp(
-    //instantiate the RadioPlayerState class which holds the state for the entire time the app is running
-    //Everything in this state class is now universally available wherever you have context.
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AppState>(
