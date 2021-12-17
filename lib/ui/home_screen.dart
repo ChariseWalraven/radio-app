@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StationsView(),
+                  const StationsView(),
                   PlayerBar(),
                 ],
             ),
