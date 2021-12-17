@@ -17,11 +17,9 @@ class StationsView extends StatefulWidget {
 }
 
 class _StationsViewState extends State<StationsView> {
-  /// Listener that reports the position of items when the list is scrolled.
-  final ItemPositionsListener itemPositionsListener =
-  ItemPositionsListener.create();
   final LocationService _locationService = LocationService();
   String? _countryCode;
+  String _deviceLanguage = "English";
 
   Future<String?> getCountryCode() async {
     await _locationService.getLocation();
@@ -56,8 +54,8 @@ class _StationsViewState extends State<StationsView> {
               }
             }
           ) ,
-          const SizedBox(
-            child: Text('Coming soon!!'),
+          SizedBox(
+            child: Text('Stations in $_deviceLanguage'),
           )
         ],
       ),
