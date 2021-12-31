@@ -1,9 +1,9 @@
 // @file:Suppress("SpellCheckingInspection")
 // ignore_for_file: non_constant_identifier_names
 
-class StationStreamFilter {
+class StationsFilter {
 
-  StationStreamFilter ({
+  StationsFilter ({
     this.name = "",
     this.nameExact = false,
     this.country = "",

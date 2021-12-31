@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/model/station_stream/station_stream.dart';
-import 'package:radio_app/model/station_stream/station_stream_filter.dart';
+import 'package:radio_app/model/station_stream/station.dart';
+import 'package:radio_app/model/station_stream/stations_filter.dart';
 import 'package:radio_app/services/location_service.dart';
-import 'package:radio_app/services/stream_service.dart';
+import 'package:radio_app/services/stations_service.dart';
 
 //This is the state manager class for the stations lists on the home page
 class StationsState extends ChangeNotifier {
@@ -14,17 +14,17 @@ class StationsState extends ChangeNotifier {
   //There is no need to keep a copy of the streamlist here
 
   // general stations list
-  StreamService stationsService = StreamService();
-  List<StationStream> _stations = [];
+  StationsService stationsService = StationsService();
+  List<Station> _stations = [];
 
-  List<StationStream> get stations => _stations;
+  List<Station> get stations => _stations;
 
   int get stationsCount => _stations.length;
   bool get isLoading => stationsService.isLoading;
 
-  StationStreamFilter _filter = StationStreamFilter(limit: 10);
+  StationsFilter _filter = StationsFilter(limit: 10);
 
-  set filter(StationStreamFilter filter) => _filter = filter;
+  set filter(StationsFilter filter) => _filter = filter;
 
   StationsState() {
     init();
@@ -42,19 +42,19 @@ class StationsState extends ChangeNotifier {
   }
 
   void updateStreamList() async {
-    StationStreamFilter filter = StationStreamFilter(limit: 10, offset: 0);
-    await StreamService().getStreams(filter, isUpdate: true);
+    StationsFilter filter = StationsFilter(limit: 10, offset: 0);
+    await StationsService().getStreams(filter, isUpdate: true);
     notifyListeners();
   }
 
-  void updateStreamListWithFilter(StationStreamFilter filter) async {
-    await StreamService().getStreams(filter, isUpdate: true);
+  void updateStreamListWithFilter(StationsFilter filter) async {
+    await StationsService().getStreams(filter, isUpdate: true);
     notifyListeners();
   }
 
-  Future<int> setInitialStations(StationStreamFilter filter,
+  Future<int> setInitialStations(StationsFilter filter,
       {bool notify = false}) async {
-    _stations = await StreamService().getStreams(filter);
+    _stations = await StationsService().getStreams(filter);
     if (notify) notifyListeners();
     return _stations.length;
   }
