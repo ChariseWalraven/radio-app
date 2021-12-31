@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/model/station_stream/station.dart';
-import 'package:radio_app/model/station_stream/stations_filter.dart';
+import 'package:radio_app/model/station/station.dart';
+import 'package:radio_app/model/station/stations_filter.dart';
 import 'package:radio_app/services/location_service.dart';
 import 'package:radio_app/services/stations_service.dart';
 

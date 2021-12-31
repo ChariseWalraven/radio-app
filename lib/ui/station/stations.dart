@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_app/core/providers/app_state.dart';
-import 'package:radio_app/model/station_stream/station.dart';
+import 'package:radio_app/model/station/station.dart';
 import 'package:radio_app/ui/widgets/tile.dart';
 
 class Stations extends StatelessWidget {
