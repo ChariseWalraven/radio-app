@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 // TODO: convert location to country code
+// Not currently in use
 
 class LocationService {
   bool _locationServiceEnabled = false;

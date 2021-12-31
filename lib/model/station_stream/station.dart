@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class StationStream {
-    StationStream({
+class Station {
+    Station({
         required this.name,
         required this.url,
         required this.urlResolved,
@@ -21,11 +21,11 @@ class StationStream {
     int bitrate;
     int clickCount;
 
-    factory StationStream.fromRawJson(String str) =>
-        StationStream.fromJson(json.decode(str));
+    factory Station.fromRawJson(String str) =>
+        Station.fromJson(json.decode(str));
 
-    factory StationStream.fromJson(Map<String, dynamic> json) =>
-        StationStream(
+    factory Station.fromJson(Map<String, dynamic> json) =>
+        Station(
             name: json["name"].trim(),
             url: json["url"].trim(),
             urlResolved: json["url_resolved"].trim(),

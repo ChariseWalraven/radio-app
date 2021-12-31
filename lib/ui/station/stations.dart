@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_app/core/providers/app_state.dart';
-import 'package:radio_app/model/station_stream/station_stream.dart';
+import 'package:radio_app/model/station_stream/station.dart';
 import 'package:radio_app/ui/widgets/tile.dart';
 
-class StationList extends StatelessWidget {
-  const StationList({
+class Stations extends StatelessWidget {
+  const Stations({
     Key? key,
     required this.stations,
   }) : super(key: key);
 
-  final List<StationStream> stations;
+  final List<Station> stations;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class StationList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             itemCount: stations.length,
             itemBuilder: (BuildContext context, int index) {
-              StationStream station = stations[index];
+              Station station = stations[index];
               return Tile(
                   title: station.name,
                   onTap: () {
