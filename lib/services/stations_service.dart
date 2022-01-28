@@ -6,22 +6,20 @@ import 'package:radio_app/model/station/stations_filter.dart';
 
 class StationsService {
   static final List<Station> _tagList = [];
-
-  bool isLoading = false;
-  bool isLoadingTags = false;
+  
   List<Station> get tagList => _tagList;
 
-  Future<List<Station>> getStreams(StationsFilter filter, {bool isUpdate = false}) async {
+  static Future<List<Station>> getStreams(StationsFilter filter, {bool isUpdate = false}) async {
     List<Station> _stations = [];
-    isLoading = true && !isUpdate;
     String url = Uri.encodeFull("https://nl1.api.radio-browser.info/json/stations/search${filter.constructFilterString()}");
 
-    debugPrint('Getting streams from: ${filter.countrycode} $url');
+    debugPrint('Getting streams in: ${filter.language}, limit: ${filter.limit} $url');
     try {
       var response = await http.get(Uri.parse(url));
       if(response.statusCode == 200){
         var utf = utf8.decode(response.bodyBytes);
-        var jsonList = jsonDecode(utf);
+        List<dynamic> jsonList = jsonDecode(utf);
+
         for(var stream in jsonList){
           var radioStream = Station.fromJson(stream);
           int idx = _stations.indexWhere((element) => element.name == radioStream.name);
@@ -34,15 +32,13 @@ class StationsService {
       }
    
     } catch (e) {
-      debugPrint('getStrteams::ERROR:: $e');
+      debugPrint('getStreams::ERROR:: $e');
     }
-    debugPrint('getSTreams.done.streamCount=${_stations.length}');
-    isLoading = false;
+    debugPrint('getStreams.done.streamCount=${_stations.length}');
     return _stations;
   }
 
   Future<int> getTags() async {
-    isLoading = true;
     String url = Uri.encodeFull("http://nl1.api.radio-browser.info/json/tags");
     try {
       var response = await http.get(Uri.parse(url));
@@ -55,10 +51,9 @@ class StationsService {
       }
 
     } catch (e) {
-      debugPrint('getStrteams::ERROR:: $e');
+      debugPrint('getTags::ERROR:: $e');
     }
-    debugPrint('getSTreams.done.streamCount=${_tagList.length}');
-    isLoading = false;
+    debugPrint('getTags.done.streamCount=${_tagList.length}');
     return _tagList.length;
   }
  }
