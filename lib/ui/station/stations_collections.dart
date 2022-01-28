@@ -7,27 +7,33 @@ import 'package:radio_app/ui/station/stations_collection.dart';
 class StationsCollections extends StatelessWidget {
   StationsCollections({Key? key}) : super(key: key);
 
-  // final StationCollection _stationCollection = StationCollection(  
-  //   title: "Test stations", 
+  // final StationCollection _stationCollection = StationCollection(
+  //   title: "Test stations",
   //   filter: StationsFilter(limit: 10, hidebroken: true,)
   // );
 
   // final _models.StationsCollection _stationsCollection = _models.StationsCollection();
 
-
   @override
   Widget build(BuildContext context) {
-  var _state = Provider.of<StationsState>(context);
-
-  // debugPrint(_state.offset.toString());
-    return Column(
-      children: const [
-        Text('You were working on the future builder for the stations collection list...')
-      ]
+    return Consumer<StationsState>(
+      builder: (BuildContext context, StationsState state, Widget? child) {
+        debugPrint('state: ${state.stations.length}');
+        // return const Text('Placeholder');
+        return ListView.builder(
+          itemCount: state.stations.length,
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (BuildContext context, int i) {
+            return StationsCollection(
+                title: state.stations[i].title,
+                stations: state.stations[i].collection);
+          },
+        );
+      },
     );
   }
 }
-
 
 /*
 _stationsCollection.stationCollectionList.map((stationCollection) => 
