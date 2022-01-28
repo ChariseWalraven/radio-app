@@ -1,6 +1,7 @@
 // this class is responsible for keeping track of many station collections
 
 import 'package:flutter/foundation.dart';
+import 'package:radio_app/core/abstract_classes/order.dart';
 import 'package:radio_app/services/stations_collection_service.dart';
 import 'package:radio_app/model/station/stations_filter.dart';
 import 'package:radio_app/services/locale_service.dart';
@@ -27,7 +28,11 @@ class StationsCollectionsService {
     debugPrint('StationsCollectionsService::populateCollections');
     for(var language in _defaultLanguages) {
       var languageISOCode = await _localeService.getISOLocaleByLanguageName(language);
-      var filter = StationsFilter(limit: 10, language: languageISOCode.name.toLowerCase());
+      var filter = StationsFilter( 
+        language: languageISOCode.name.toLowerCase(), 
+        order: Order.clickCount, 
+        reverse: true
+      );
       var stationCollection = StationsCollection(title: 'Stations in Language: ${languageISOCode.name}(${languageISOCode.endonym})', filter: filter);
 
       await stationCollection.stations;
