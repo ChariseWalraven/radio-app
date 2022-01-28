@@ -13,13 +13,13 @@ class StationsState extends ChangeNotifier {
   LocationService locationService = LocationService();
 
   // station collections
-  static final List<StationsCollection> _collections = StationsCollectionsService.collections;
+  static List<StationsCollection> _collections = StationsCollectionsService.collections;
 
   // general stations list
   StationsService stationsService = StationsService();
   List<Station> _stations = [];
 
-  List<Station> get stations => _stations;
+  List<StationsCollection> get stations => _collections;
 
   int get stationsCount => _stations.length;
   // bool get isLoading => stationsService.isLoading;
@@ -29,7 +29,7 @@ class StationsState extends ChangeNotifier {
   set filter(StationsFilter filter) => _filter = filter;
 
   StationsState() {
-    init();
+    _init();
   }
 
   @override
@@ -38,12 +38,13 @@ class StationsState extends ChangeNotifier {
     super.dispose();
   }
 
-  void init() async {
+  void _init() async {
     // _stations = await stationsService.getStreams(_filter);
     // notifyListeners();
     debugPrint('initializing stations state');
-    await StationsCollectionsService.populateCollections();
+    _collections = await StationsCollectionsService.populateCollections();
     debugPrint("populated ${_collections.length} collections.");
+    notifyListeners();
   }
 
   void updateStreamList() async {
