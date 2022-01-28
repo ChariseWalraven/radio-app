@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radio_app/ui/station/stations_collections.dart';
 // ignore: implementation_imports
 
 class StationsView extends StatefulWidget {
@@ -16,8 +17,8 @@ class _StationsViewState extends State<StationsView> {
       padding: const EdgeInsets.all(12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
-          Text('coming soon...')
+        children: <Widget>[
+          StationsCollections()
         ],
       ),
     );
