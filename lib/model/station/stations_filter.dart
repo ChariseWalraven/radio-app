@@ -12,7 +12,7 @@ class StationsFilter {
     this.state = "",
     this.stateExact = false,
     this.language = "",
-    this.languageExact = false,
+    this.languageExact = true,
     this.tag = "",
     this.tagExact = false,
     this.tagList = "",
@@ -25,8 +25,8 @@ class StationsFilter {
     this.order = "random",
     this.reverse = false,
     this.offset = 0,
-    this.limit = 10000,
-    this.hidebroken = false,
+    this.limit = 20,
+    this.hidebroken = true,
   });
 
   String name;
@@ -57,7 +57,7 @@ class StationsFilter {
   "&nameExact=${nameExact.toString()}"
   "&country=$country"
   "&countryExact=${countryExact.toString()}"
-  "&countrycode=${countrycode.toString()}"
+  // "&countrycode=${countrycode.toString()}"
   "&state=$state"
   "&stateExact=${stateExact.toString()}"
   "&language=$language"
