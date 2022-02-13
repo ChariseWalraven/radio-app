@@ -26,7 +26,7 @@ class Station {
   factory Station.fromRawJson(String str) => Station.fromJson(json.decode(str));
 
   factory Station.fromJson(Map<String, dynamic> json) => Station(
-        uuid: json["uui"].trim(),
+        uuid: json["uuid"],
         name: json["name"].trim(),
         url: json["url"].trim(),
         urlResolved: json["url_resolved"].trim(),
