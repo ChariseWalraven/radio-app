@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Station {
   Station({
-    required this.uuid,
+    required this.stationuuid,
     required this.name,
     required this.url,
     required this.urlResolved,
@@ -13,7 +13,7 @@ class Station {
     required this.clickCount,
   });
 
-  String uuid;
+  String stationuuid;
   String name;
   String url;
   String urlResolved;
@@ -26,7 +26,7 @@ class Station {
   factory Station.fromRawJson(String str) => Station.fromJson(json.decode(str));
 
   factory Station.fromJson(Map<String, dynamic> json) => Station(
-        uuid: json["uuid"],
+        stationuuid: json["stationuuid"],
         name: json["name"].trim(),
         url: json["url"].trim(),
         urlResolved: json["url_resolved"].trim(),
