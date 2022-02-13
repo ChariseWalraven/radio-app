@@ -47,6 +47,17 @@ class StationsService {
     return station;
   }
 
+  static Future<List<Station>> getStreamsByStationUUID(List<String> uuids) async {
+    debugPrint('StationsService::getStreamByStationUUID');
+    List<Station> stations = [];
+    for(var uuid in uuids) {
+      Station station = await getStreamByStationUUID(uuid);
+      stations.add(station);
+    }
+
+    return stations;
+  }
+
   static Future<List<Station>> getStreams(StationsFilter filter,
       {bool isUpdate = false}) async {
     List<Station> _stations = [];

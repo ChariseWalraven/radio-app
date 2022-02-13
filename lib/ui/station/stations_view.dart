@@ -13,8 +13,8 @@ class StationsView extends StatefulWidget {
 class _StationsViewState extends State<StationsView> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
+    return const Padding(
+      padding: EdgeInsets.all(12.0),
       child: StationsCollections()
     );
   }

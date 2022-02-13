@@ -13,7 +13,7 @@ class FavouritesService {
   final Future<SharedPreferences> _preferences = SharedPreferences.getInstance();
   final String _favouritesKey = "favourite-station-uuids";
 
-  Future<List<String>> _getFavourites() async {
+  Future<List<String>> getFavourites() async {
     // get favourites list
     SharedPreferences _prefs = await _preferences;
     List<String>_favouritesList = _prefs.getStringList(_favouritesKey)?? await setFavourites([]);
@@ -25,12 +25,21 @@ class FavouritesService {
     SharedPreferences _prefs = await _preferences;
     _prefs.setStringList(_favouritesKey, favourites);
 
-    return _getFavourites();
+    return getFavourites();
+  }
+
+  Future<List<String>> addFavourite(String favourite) async {
+    List<String> _favourites = await getFavourites();
+    _favourites.add(favourite);
+    
+    setFavourites(_favourites);
+
+    return getFavourites();
   }
 
   Future<List<String>> removeFavourite(String favourite) async {
     // get favourites and pop the item passed
-    List<String> _favourites = await _getFavourites();
+    List<String> _favourites = await getFavourites();
 
     _favourites.removeWhere((String item) => item == favourite);
 
