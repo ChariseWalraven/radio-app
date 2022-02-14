@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:radio_app/core/providers/favourites_state.dart';
-import 'package:radio_app/ui/favourites/favourites_list.dart';
+import 'package:radio_app/ui/favourites/favourites_view.dart';
+import 'package:radio_app/ui/player/player_bar.dart';
+import 'package:radio_app/ui/widgets/bottom_bar.dart';
 
 class FavouritesScreen extends StatelessWidget {
   const FavouritesScreen({Key? key}) : super(key: key);
@@ -9,15 +9,10 @@ class FavouritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomBar(),
+      bottomSheet: PlayerBar(),
       body: const SafeArea(
-        child: FavouritesList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.remove),
-        onPressed: () {
-          context.read<FavouritesState>().removeFavourite('test');
-          debugPrint('pressed!');
-        },
+        child: FavouritesView(),
       ),
     );
   }
