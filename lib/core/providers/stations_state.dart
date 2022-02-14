@@ -13,13 +13,13 @@ class StationsState extends ChangeNotifier {
   LocationService locationService = LocationService();
 
   // station collections
-  static List<StationsCollection> _collections = StationsCollectionsService.collections;
+  static List<StationsCollectionService> _collections = StationsCollectionsService.collections;
 
   // general stations list
   StationsService stationsService = StationsService();
   List<Station> _stations = [];
 
-  List<StationsCollection> get stations => _collections;
+  List<StationsCollectionService> get stations => _collections;
 
   int get stationsCount => _stations.length;
   // bool get isLoading => stationsService.isLoading;
