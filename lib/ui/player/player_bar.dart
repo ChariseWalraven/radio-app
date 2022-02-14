@@ -3,9 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_app/core/providers/app_state.dart';
 import 'package:radio_app/core/enums/playing_state.dart';
+import 'package:radio_app/core/providers/favourites_state.dart';
 
 class PlayerBar extends StatelessWidget {
-  PlayerBar({Key? key}) : super(key: key);
+  const PlayerBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,7 @@ class PlayerBar extends StatelessWidget {
                 : Row(
               children: <Widget>[
                 Expanded(
-                  child: Text(
-                      _state.title != '' ? _state
-                          .title : _state.station),
+                  child: Text(_state.station.name),
                 ),
                 Expanded(
                   child: Row(
@@ -37,6 +36,13 @@ class PlayerBar extends StatelessWidget {
                   ),
 
                 ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      _favouriteButton(_state, context)
+                    ]
+                  ),
+                ),
               ],
             ),
           ),
@@ -44,18 +50,29 @@ class PlayerBar extends StatelessWidget {
       }
     );
   }
+
   Widget _pauseButton(AppState state) {
     if (state.playingState == PlayingState.playing) {
       return IconButton(
           onPressed: () => state.pausePlaying(),
-          icon: const Icon(FontAwesomeIcons.pause)
+          icon: const Icon(Icons.pause)
       );
     } else if (state.playingState == PlayingState.paused) {
       return IconButton(
           onPressed: () => state.startPlaying(),
-          icon: const Icon(FontAwesomeIcons.play)
+          icon: const Icon(Icons.play_arrow)
       );
     }
     return Container();
+  }
+
+  Widget _favouriteButton(AppState state, BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        state.toggleFavourite(state.station.stationuuid);
+        Provider.of<FavouritesState>(context, listen: false).refreshFavourites();
+      },
+      icon: Icon(state.station.isFavourite ? Icons.favorite : Icons.favorite_border)
+    );
   }
 }
