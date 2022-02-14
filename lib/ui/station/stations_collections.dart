@@ -12,7 +12,6 @@ class StationsCollections extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<StationsState>(
       builder: (BuildContext context, StationsState state, Widget? child) {
-        debugPrint('state: ${state.stations.length}');
         return ListView.builder(
           itemCount: state.stations.length,
           shrinkWrap: true,
