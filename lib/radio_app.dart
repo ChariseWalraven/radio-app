@@ -10,11 +10,14 @@ class RadioApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: appName,
+      home: const HomeScreen(),
+      routes: <String, WidgetBuilder> {
+        "/favourites": (BuildContext context) => const FavouritesScreen(), 
+      },
+      title: kAppName,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FavouritesScreen(),
     );
   }
 }
