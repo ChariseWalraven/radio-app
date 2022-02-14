@@ -32,7 +32,7 @@ class StationsCollectionsService {
         order: Order.clickCount, 
         reverse: true
       );
-      var stationCollection = StationsCollectionService(title: 'Stations: ${languageISOCode.name}(${languageISOCode.endonym})', filter: filter);
+      var stationCollection = StationsCollectionService(title: 'Stations in ${languageISOCode.name}(${languageISOCode.endonym})', filter: filter);
 
       await stationCollection.stations;
       _collections.add(stationCollection);
