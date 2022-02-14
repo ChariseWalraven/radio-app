@@ -62,11 +62,7 @@ class StationsCollection extends StatelessWidget {
             title: station.name,
             onTap: () {
               debugPrint('Title tapped: ${station.name}');
-              context.read<AppState>().playStream(
-                  station.name,
-                  station.urlResolved == ""
-                      ? station.url
-                      : station.urlResolved);
+              context.read<AppState>().playStream(station);
             },
             imageUrl:
                 _isValidFaviconUrl(station.favicon) ? station.favicon : "");
