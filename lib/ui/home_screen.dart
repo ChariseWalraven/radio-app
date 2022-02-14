@@ -11,16 +11,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomBar(),
-      body: SafeArea(
+      bottomSheet: PlayerBar(),
+      body: const SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            children: [
-              const Expanded( child: StationsView()
-              ),
-              PlayerBar(),
-            ],
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child:  StationsView()
         ),
       ),
     );
