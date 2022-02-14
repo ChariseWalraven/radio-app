@@ -58,8 +58,8 @@ class StationsService {
     return stations;
   }
 
-  static Future<List<Station>> getStreams(StationsFilter filter,
-      {bool isUpdate = false}) async {
+  static Future<List<Station>> getStreams(StationsFilter filter, {bool isUpdate = false, List<String> favouritesList = const []}) async {
+    // if favourites list != null, check if it's a favourite
     List<Station> _stations = [];
     String url = Uri.encodeFull(
         "https://nl1.api.radio-browser.info/json/stations/search${filter.constructFilterString()}");
@@ -72,8 +72,10 @@ class StationsService {
         var utf = utf8.decode(response.bodyBytes);
         List<dynamic> jsonList = jsonDecode(utf);
 
-        for (var stream in jsonList) {
-          var radioStream = Station.fromJson(stream);
+        for (Map<String, dynamic> stream in jsonList) {
+          bool isFavourite = favouritesList.indexWhere((element) => element == stream["stationuuid"]) > -1;
+
+          Station radioStream = Station.fromJson(stream, isFavourite: isFavourite);
           int idx = _stations
               .indexWhere((element) => element.name == radioStream.name);
           if (idx < 0) {
