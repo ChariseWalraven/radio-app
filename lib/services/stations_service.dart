@@ -9,7 +9,7 @@ class StationsService {
 
   List<Station> get tagList => _tagList;
 
-  static Future<Station> getStreamByStationUUID(String uuid) async {
+  static Future<Station> getStreamByStationUUID(String uuid, {bool isFavourite = false}) async {
     debugPrint('StationsService::getStreamByStationUUID');
 
     Station station = Station(
@@ -38,7 +38,7 @@ class StationsService {
           throw Exception('Station with uuid: $uuid not found.');
         }
 
-        station = Station.fromJson(jsonList[0]);
+        station = Station.fromJson(jsonList[0], isFavourite: isFavourite);
       }
     } catch (e) {
       debugPrint('StationsService::getStreamByStationUUID::ERROR:: $e');
@@ -47,11 +47,11 @@ class StationsService {
     return station;
   }
 
-  static Future<List<Station>> getStreamsByStationUUID(List<String> uuids) async {
+  static Future<List<Station>> getStreamsByStationUUID(List<String> uuids, {bool isFavourite = false}) async {
     debugPrint('StationsService::getStreamByStationUUID');
     List<Station> stations = [];
     for(var uuid in uuids) {
-      Station station = await getStreamByStationUUID(uuid);
+      Station station = await getStreamByStationUUID(uuid, isFavourite: isFavourite);
       stations.add(station);
     }
 
