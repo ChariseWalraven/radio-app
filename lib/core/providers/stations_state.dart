@@ -24,7 +24,7 @@ class StationsState extends ChangeNotifier {
   int get stationsCount => _stations.length;
   // bool get isLoading => stationsService.isLoading;
 
-  StationsFilter _filter = StationsFilter(limit: 10);
+  StationsFilter _filter = const StationsFilter(limit: 10);
 
   set filter(StationsFilter filter) => _filter = filter;
 
@@ -44,11 +44,13 @@ class StationsState extends ChangeNotifier {
     debugPrint('initializing stations state');
     _collections = await StationsCollectionsService.populateCollections();
     debugPrint("populated ${_collections.length} collections.");
+    // debugPrint('checking station favourites working');
+    // debugPrint('This should be true: ${_collections[1].collection[0].isFavourite}. \nThis should be false: ${_collections[0].collection[0].isFavourite}');
     notifyListeners();
   }
 
   void updateStreamList() async {
-    StationsFilter filter = StationsFilter(limit: 10, offset: 0);
+    StationsFilter filter = const StationsFilter(limit: 10, offset: 0);
     await StationsService.getStreams(filter, isUpdate: true);
     notifyListeners();
   }
