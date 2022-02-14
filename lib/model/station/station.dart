@@ -11,6 +11,7 @@ class Station {
     required this.tags,
     required this.bitrate,
     required this.clickCount,
+    this.isFavourite = false,
   });
 
   String stationuuid;
@@ -22,10 +23,12 @@ class Station {
   String tags;
   int bitrate;
   int clickCount;
+  bool isFavourite;
 
   factory Station.fromRawJson(String str) => Station.fromJson(json.decode(str));
 
-  factory Station.fromJson(Map<String, dynamic> json) => Station(
+  factory Station.fromJson(Map<String, dynamic> json, {bool isFavourite = false}) => Station(
+        isFavourite: isFavourite,
         stationuuid: json["stationuuid"],
         name: json["name"].trim(),
         url: json["url"].trim(),

@@ -33,12 +33,13 @@ class StationsCollectionService {
 
   Future<List<Station>> _fetchStations() async {
     debugPrint('StationsCollection::_fetchStations');
+    List<String> favouritesList = await _favouritesService.getFavourites(); 
 
     if (isFavouritesList) {
       List<String> uuids = await _favouritesService.getFavourites();
       return await StationsService.getStreamsByStationUUID(uuids);
     }
-    return await StationsService.getStreams(filter);
+    return await StationsService.getStreams(filter, favouritesList: favouritesList);
   }
 
   Future<List<Station>> refreshStations() async {
