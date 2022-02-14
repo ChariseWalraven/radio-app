@@ -11,20 +11,20 @@ import 'package:radio_app/services/locale_service.dart';
 class StationsCollectionsService {
 
   static final List<String> _defaultLanguages = ['chinese', 'english', 'spanish', 'german', 'arabic'];
-  static final List<StationsCollection> _collections = [];
+  static final List<StationsCollectionService> _collections = [];
 
   static final LocaleService _localeService = LocaleService();
 
-  static List<StationsCollection> get collections => _collections;
-  static StationsCollection collection(String stationTitle) => _getStationCollectionByTitle(stationTitle);
+  static List<StationsCollectionService> get collections => _collections;
+  static StationsCollectionService collection(String stationTitle) => _getStationCollectionByTitle(stationTitle);
 
-  static StationsCollection _getStationCollectionByTitle(String stationTitle) {
+  static StationsCollectionService _getStationCollectionByTitle(String stationTitle) {
     // TODO: filter collections by title
     // TODO: account for title not existing
     return _collections[0];
   }
 
-  static Future<List<StationsCollection>> populateCollections() async {
+  static Future<List<StationsCollectionService>> populateCollections() async {
     debugPrint('StationsCollectionsService::populateCollections');
     for(var language in _defaultLanguages) {
       var languageISOCode = await _localeService.getISOLocaleByLanguageName(language);
@@ -33,7 +33,7 @@ class StationsCollectionsService {
         order: Order.clickCount, 
         reverse: true
       );
-      var stationCollection = StationsCollection(title: 'Stations in Language: ${languageISOCode.name}(${languageISOCode.endonym})', filter: filter);
+      var stationCollection = StationsCollectionService(title: 'Stations in Language: ${languageISOCode.name}(${languageISOCode.endonym})', filter: filter);
 
       await stationCollection.stations;
       _collections.add(stationCollection);
