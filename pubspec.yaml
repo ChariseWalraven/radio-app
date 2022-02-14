@@ -23,6 +23,7 @@ dependencies:
   just_audio: ^0.9.17
   scrollable_positioned_list: ^0.2.3
   shared_preferences: ^2.0.13
+  figma_squircle: ^0.5.3
 
 dev_dependencies:
   flutter_test:
