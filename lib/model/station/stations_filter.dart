@@ -3,7 +3,7 @@
 
 class StationsFilter {
 
-  StationsFilter ({
+  const StationsFilter ({
     this.name = "",
     this.nameExact = false,
     this.country = "",
@@ -29,29 +29,29 @@ class StationsFilter {
     this.hidebroken = true,
   });
 
-  String name;
-  bool nameExact;
-  String country;
-  bool countryExact;
-  String countrycode;
-  String state;
-  bool stateExact;
-  String language;
-  bool languageExact;
-  String tag;
-  bool tagExact;
-  String tagList;
-  String codec;
-  int bitrateMin;
-  int bitrateMax;
+  final String name;
+  final bool nameExact;
+  final String country;
+  final bool countryExact;
+  final String countrycode;
+  final String state;
+  final bool stateExact;
+  final String language;
+  final bool languageExact;
+  final String tag;
+  final bool tagExact;
+  final String tagList;
+  final String codec;
+  final int bitrateMin;
+  final int bitrateMax;
   // String has_geo_info;
   // String has_extended_info;
-  bool is_https;
-  String order;
-  bool reverse;
-  int offset;
-  int limit;
-  bool hidebroken;
+  final bool is_https;
+  final String order;
+  final bool reverse;
+  final int offset;
+  final int limit;
+  final bool hidebroken;
 
   constructFilterString() => "?name=$name"
   "&nameExact=${nameExact.toString()}"
