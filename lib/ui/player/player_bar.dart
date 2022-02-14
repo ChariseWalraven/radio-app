@@ -25,7 +25,7 @@ class PlayerBar extends StatelessWidget {
                 : Row(
               children: <Widget>[
                 Expanded(
-                  child: Text(_state.station.name),
+                  child: Text(_state.title),
                 ),
                 Expanded(
                   child: Row(
