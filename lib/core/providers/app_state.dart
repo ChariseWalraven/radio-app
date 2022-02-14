@@ -20,8 +20,11 @@ class AppState extends ChangeNotifier {
   Station _station = kDefaultStation;
   Station get station => _station;
 
-  // String _title = '';
-  // String get title => _title;
+  String _name = '';
+  String get name => _name;
+
+  String _title = '';
+  String get title => _title;
 
   AppState() {
     _init();
@@ -44,24 +47,28 @@ class AppState extends ChangeNotifier {
   }
 
   void _getWhatson() {
-    var _what = '';
+    debugPrint('RadioPlayerState::_getWhatson');
+    var t = '';
+    var n = '';
     if (_player.playing && _player.icyMetadata != null) {
-      _what = _player.icyMetadata?.info?.title ?? '';
+      t = _player.icyMetadata?.info?.title ?? '';
+      n = _player.icyMetadata?.headers?.name ?? '';
+
+      debugPrint('Title: $t. Name: $n.');
     }
-    if (_what != _station.name) {
-      // _station = 
-      // debugPrint('RadioPlayerState._getWhatson.changed=${_station.name}');
-      notifyListeners();
-    }
+
+    if(t == _title) return;
+    if(n == _name) return;
+    _title = t;
+    _name = n;
+    notifyListeners();
   }
 
   Future<void> playStream(Station newStation) async {
     if (newStation == _station) {
       return;
     }
-    // debugPrint('RadioPlayerState.playStream=$newStation');
     _station = newStation;
-    // _title = '';
     _setPlayingState(PlayingState.loading); //contains a notifyListeners call
     try {
       if (_player.playing) {
@@ -71,8 +78,8 @@ class AppState extends ChangeNotifier {
       await _player.load();
       await startPlaying();
     } catch (e) {
-      debugPrint('RadioPlayerState.playStream :: ERROR :: $e');
-      // _station = 'Error: Cannot play ${newStation.name}';
+      debugPrint('RadioPlayerState.playStream::ERROR::$e');
+      _title = 'Error: Cannot play ${newStation.name}';
       // TODO: remove broken stream
       // StreamService.removeStreamByName(newStation);
       _setPlayingState(PlayingState.none);
@@ -87,9 +94,9 @@ class AppState extends ChangeNotifier {
         _setPlayingState(PlayingState.playing);
         await _player.play();
       } catch (e) {
-        debugPrint('RadioPlayerState.startPlaying :: ERROR :: $e');
+        debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
         _setPlayingState(PlayingState.none);
-        // _station = 'Error trying to play $station';
+        _title = 'Error trying to play ${station.name}';
       }
     }
   }
