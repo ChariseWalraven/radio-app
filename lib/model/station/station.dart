@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class Station {
-  Station({
+   Station({
     required this.stationuuid,
     required this.name,
     required this.url,
@@ -14,15 +16,15 @@ class Station {
     this.isFavourite = false,
   });
 
-  String stationuuid;
-  String name;
-  String url;
-  String urlResolved;
-  String homepage;
-  String favicon;
-  String tags;
-  int bitrate;
-  int clickCount;
+  final String stationuuid;
+  final String name;
+  final String url;
+  final String urlResolved;
+  final String homepage;
+  final String favicon;
+  final String tags;
+  final int bitrate;
+  final int clickCount;
   bool isFavourite;
 
   factory Station.fromRawJson(String str) => Station.fromJson(json.decode(str));
@@ -39,4 +41,8 @@ class Station {
         bitrate: json["bitrate"],
         clickCount: json["clickcount"],
       );
+
+  void toggleFavourite() {
+    isFavourite = !isFavourite;
+  }
 }
