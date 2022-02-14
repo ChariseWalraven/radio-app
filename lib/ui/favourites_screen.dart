@@ -10,7 +10,7 @@ class FavouritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomBar(),
-      bottomSheet: PlayerBar(),
+      bottomSheet: const PlayerBar(),
       body: const SafeArea(
         child: FavouritesView(),
       ),
