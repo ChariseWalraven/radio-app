@@ -13,6 +13,15 @@ class FavouritesService {
   final Future<SharedPreferences> _preferences = SharedPreferences.getInstance();
   final String _favouritesKey = "favourite-station-uuids";
 
+  FavouritesService() {
+    _init();
+  }
+
+  _init() async {
+    // add dummy favourites
+    setFavourites(["962c17fc-fa99-4aef-9e41-93f711b4ebf0", "960d6459-0601-11e8-ae97-52543be04c81", "962c17fc-fa99-4aef-9e41-93f711b4ebf0", "960d6459-0601-11e8-ae97-52543be04c81", "962c17fc-fa99-4aef-9e41-93f711b4ebf0", "960d6459-0601-11e8-ae97-52543be04c81", "962c17fc-fa99-4aef-9e41-93f711b4ebf0", "960d6459-0601-11e8-ae97-52543be04c81"]);
+  }
+
   Future<List<String>> getFavourites() async {
     // get favourites list
     SharedPreferences _prefs = await _preferences;
