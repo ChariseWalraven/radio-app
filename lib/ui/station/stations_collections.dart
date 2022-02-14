@@ -18,7 +18,7 @@ class StationsCollections extends StatelessWidget {
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemBuilder: (BuildContext context, int i) {
-            services_sc.StationsCollection currentStation = state.stations[i];
+            services_sc.StationsCollectionService currentStation = state.stations[i];
             return StationsCollection(
               title: currentStation.title,
               stations: currentStation.collection,
