@@ -19,7 +19,6 @@ class StationsCollectionsService {
   static StationsCollectionService collection(String stationTitle) => _getStationCollectionByTitle(stationTitle);
 
   static StationsCollectionService _getStationCollectionByTitle(String stationTitle) {
-    // TODO: filter collections by title
     // TODO: account for title not existing
     return _collections[0];
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_app/core/constants/constants.dart';
 import 'package:radio_app/core/providers/app_state.dart';
-import 'package:radio_app/ui/player/player_bar.dart';
 
 class BottomBar extends StatelessWidget {
   BottomBar({

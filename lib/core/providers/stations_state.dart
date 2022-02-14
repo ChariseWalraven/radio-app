@@ -24,10 +24,6 @@ class StationsState extends ChangeNotifier {
   int get stationsCount => _stations.length;
   // bool get isLoading => stationsService.isLoading;
 
-  StationsFilter _filter = const StationsFilter(limit: 10);
-
-  set filter(StationsFilter filter) => _filter = filter;
-
   StationsState() {
     _init();
   }
