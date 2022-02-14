@@ -19,7 +19,7 @@ class FavouritesService {
 
   _init() async {
     // add dummy favourites
-    setFavourites(["98adecf7-2683-4408-9be7-02d3f9098eb8", "962cc6df-0601-11e8-ae97-52543be04c81", "d28420a4-eccf-47a2-ace1-088c7e7cb7e0", "9712f8c5-2fba-4d5c-a7a9-d094d1adf41b"]);
+    // setFavourites(["98adecf7-2683-4408-9be7-02d3f9098eb8", "962cc6df-0601-11e8-ae97-52543be04c81", "d28420a4-eccf-47a2-ace1-088c7e7cb7e0", "9712f8c5-2fba-4d5c-a7a9-d094d1adf41b"]);
   }
 
   Future<List<String>> getFavourites() async {
