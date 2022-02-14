@@ -37,7 +37,7 @@ class StationsCollectionService {
 
     if (isFavouritesList) {
       List<String> uuids = await _favouritesService.getFavourites();
-      return await StationsService.getStreamsByStationUUID(uuids);
+      return await StationsService.getStreamsByStationUUID(uuids, isFavourite: isFavouritesList);
     }
     return await StationsService.getStreams(filter, favouritesList: favouritesList);
   }
