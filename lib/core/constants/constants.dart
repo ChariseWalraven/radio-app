@@ -1,1 +1,3 @@
-const String appName = "Radio App";
+const String kAppName = "Radio App";
+const String kFavouritesRouteName = "/favourites";
+const String kHomeRouteName =  "/";
