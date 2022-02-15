@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:radio_app/ui/player/player_bar.dart';
+import 'package:radio_app/ui/widgets/player.dart';
 import 'package:radio_app/ui/station/stations_view.dart';
 import 'package:radio_app/ui/widgets/bottom_bar.dart';
 
