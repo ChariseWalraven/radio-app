@@ -26,7 +26,8 @@ class BottomBar extends StatelessWidget {
         heightFactor: 0.09,
         widthFactor: 1,
         child: CustomCard(
-          child: IntrinsicWidth(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
             child: BottomNavigationBar(
               currentIndex: appState.selectedIndex,
               items: const <BottomNavigationBarItem>[
