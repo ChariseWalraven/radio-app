@@ -11,7 +11,7 @@ class RadioApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HomeScreen(),
+      home: const TestScreen(),
       routes: <String, WidgetBuilder>{
         kFavouritesRouteName: (BuildContext context) => const FavouritesScreen(),
         "/test": (BuildContext context) => const TestScreen(),

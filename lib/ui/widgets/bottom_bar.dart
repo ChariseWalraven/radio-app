@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_app/core/constants/constants.dart';
 import 'package:radio_app/core/providers/app_state.dart';
+import 'package:radio_app/ui/widgets/custom_card.dart';
 
 class BottomBar extends StatelessWidget {
   BottomBar({Key? key}) : super(key: key);
@@ -21,14 +22,38 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppState>(builder: (context, appState, child) {
-      return Stack(
-        fit: StackFit.loose,
-        children: [
-          outlineForDropShadow,
-          dropShadow,
-          outlineForBackground,
-          background,
-          BottomNavigationBar(
+      return FractionallySizedBox(
+        heightFactor: 0.09,
+        widthFactor: 1,
+        child: CustomCard(
+          child: IntrinsicWidth(
+            child: BottomNavigationBar(
+              currentIndex: appState.selectedIndex,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: "Favourites",
+                ),
+                BottomNavigationBarItem(icon: Icon(Icons.code), label: "Test")
+              ],
+              onTap: (int index) => _onItemTapped(index, context),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+/**
+ * 
+ * 
+ * 
+ *BottomNavigationBar(
             currentIndex: appState.selectedIndex,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -43,11 +68,9 @@ class BottomBar extends StatelessWidget {
             ],
             onTap: (int index) => _onItemTapped(index, context),
           ),
-        ],
-      );
-    });
-  }
-}
+ * 
+ * 
+ */
 
 class IconLink extends StatelessWidget {
   const IconLink({Key? key}) : super(key: key);
