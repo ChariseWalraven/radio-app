@@ -6,21 +6,18 @@ class CustomCard extends StatelessWidget {
     Key? key,
     this.borderColor,
     this.child,
+    this.shadowSize = 10,
     this.cornerRadius = 20,
   }) : super(key: key);
 
   final Color? borderColor;
-  final double borderWidth = 2.0;
+  final double borderWidth = 4.0;
+  final double shadowSize;
   final Widget? child;
 
   final double cornerRadius;
   final double cornerSmoothing = 0.6;
   final Color transparent = const Color(0x00FFFFFF);
-
-  // background
-  // border
-  // drop shadow
-  // fill parent
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +26,7 @@ class CustomCard extends StatelessWidget {
     final Color _borderColor = borderColor ?? colorScheme.onBackground;
     final Color _backgroundColor = colorScheme.background;
 
-    // debugPrint('secondary: ${_backgroundColor.toString()}');
-
-    return 
-        _card(colorScheme.secondary, _backgroundColor, _borderColor);
+    return _card(colorScheme.secondary, _backgroundColor, _borderColor);
   }
 
   Widget _card(Color shadowColor, Color backgroundColor, Color borderColor) {
@@ -42,54 +36,56 @@ class CustomCard extends StatelessWidget {
         cornerSmoothing: cornerSmoothing,
       ),
     );
+    return LayoutBuilder(builder: (context, configuration) {
+      double shadowHeight = configuration.maxHeight - borderWidth;
+      double shadowWidth = configuration.maxWidth - borderWidth - 10;
 
-    return FractionallySizedBox(
-      heightFactor: 1,
-      widthFactor: 1,
-      child: Material(
-        color: borderColor,
-        shape: _shape,
-        clipBehavior: Clip.antiAlias,
-        child: FractionallySizedBox(
-          heightFactor: 0.985,
-          widthFactor: 0.99,
-          child: Material(
-            shape: _shape,
-            clipBehavior: Clip.antiAlias,
-            color: shadowColor,
-            child: FractionallySizedBox(
-              alignment: Alignment.topCenter,
-              heightFactor: 0.8,
-              widthFactor: 1,
-              child: Material(
-                clipBehavior: Clip.antiAlias,
-                shape: _shape,
-                color: borderColor,
-                child: FractionallySizedBox(
-                  heightFactor: 0.985,
-                  widthFactor: 0.99,
-                  child: Stack(children: [
-                    FractionallySizedBox(
-                      alignment: Alignment.center,
-                      heightFactor: 1,
-                      widthFactor: 1,
-                      child: Material(
-                        shape: _shape, 
-                        color: backgroundColor,
-                        child: FittedBox(
-                          alignment: Alignment.center,
-                          fit: BoxFit.none,
-                          child: child?? const SizedBox()
-                          ),
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: shadowWidth,
+            decoration: ShapeDecoration(
+              shape: _shape,
+              color: borderColor,
             ),
           ),
-        ),
-      ),
-    );
+          Container(
+            height: shadowHeight,
+            width: shadowWidth,
+            decoration: ShapeDecoration(
+              shape: _shape,
+              color: shadowColor,
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.only(top: borderWidth/2),
+                height: shadowHeight - shadowSize,
+                width: configuration.maxWidth,
+                decoration: ShapeDecoration(
+                  shape: _shape,
+                  color: borderColor,
+                ),
+              ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.only(top: borderWidth/2),
+                height: shadowHeight - shadowSize - (borderWidth/2),
+                width: configuration.maxWidth - borderWidth,
+                decoration: ShapeDecoration(
+                  shape: _shape,
+                  color: backgroundColor,
+                ),
+                child: child ?? const SizedBox(),
+              ),
+          ),
+          
+        ],
+      );
+    });
   }
 }

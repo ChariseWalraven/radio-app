@@ -22,23 +22,26 @@ class BottomBar extends StatelessWidget {
       return FractionallySizedBox(
         heightFactor: 0.09,
         widthFactor: 1,
-        child: CustomCard(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: BottomNavigationBar(
-              currentIndex: appState.selectedIndex,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: "Favourites",
-                ),
-                BottomNavigationBarItem(icon: Icon(Icons.code), label: "Test")
-              ],
-              onTap: (int index) => _onItemTapped(index, context),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 1.5),
+          child: CustomCard(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: BottomNavigationBar(
+                currentIndex: appState.selectedIndex,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: "Home",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite),
+                    label: "Favourites",
+                  ),
+                  BottomNavigationBarItem(icon: Icon(Icons.code), label: "Test")
+                ],
+                onTap: (int index) => _onItemTapped(index, context),
+              ),
             ),
           ),
         ),

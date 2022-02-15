@@ -13,13 +13,11 @@ class TestScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-            color: Colors.blue,
-            height: 400,
-            // width: 200,
-            // child: CustomCard(
-
-            // ),
-          )
+            height: 300,
+            width: 300,
+            color: Colors.pink,
+            child: CustomCard(),
+          ),
         ),
       ),
     );
