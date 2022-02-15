@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radio_app/ui/widgets/custom_card.dart';
 
 class Tile extends StatelessWidget {
   const Tile({
@@ -18,13 +19,7 @@ class Tile extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey.shade800,
-              width: 2.0,
-            ),
-          ),
+        child: CustomCard(
           child: Column(
             children: [
               Container(
