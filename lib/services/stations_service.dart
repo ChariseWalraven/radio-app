@@ -43,18 +43,20 @@ class StationsService {
     return station;
   }
 
-  static Future<List<Station>> getStreamsByStationUUID(List<String> uuids, {bool isFavourite = false}) async {
-    debugPrint('StationsService::getStreamByStationUUID');
+  static Future<List<Station>> getStreamsByStationUUID(List<String> uuids,
+      {bool isFavourite = false}) async {
     List<Station> stations = [];
-    for(var uuid in uuids) {
-      Station station = await getStreamByStationUUID(uuid, isFavourite: isFavourite);
+    for (var uuid in uuids) {
+      Station station =
+          await getStreamByStationUUID(uuid, isFavourite: isFavourite);
       stations.add(station);
     }
 
     return stations;
   }
 
-  static Future<List<Station>> getStreams(StationsFilter filter, {bool isUpdate = false, List<String> favouritesList = const []}) async {
+  static Future<List<Station>> getStreams(StationsFilter filter,
+      {bool isUpdate = false, List<String> favouritesList = const []}) async {
     // if favourites list != null, check if it's a favourite
     List<Station> _stations = [];
     String url = Uri.encodeFull(
@@ -69,13 +71,18 @@ class StationsService {
         List<dynamic> jsonList = jsonDecode(utf);
 
         for (Map<String, dynamic> stream in jsonList) {
-          bool isFavourite = favouritesList.indexWhere((element) => element == stream["stationuuid"]) > -1;
+          bool isFavourite = favouritesList
+                  .indexWhere((element) => element == stream["stationuuid"]) >
+              -1;
 
-          Station radioStream = Station.fromJson(stream, isFavourite: isFavourite);
+          Station radioStream =
+              Station.fromJson(stream, isFavourite: isFavourite);
           int idx = _stations
               .indexWhere((element) => element.name == radioStream.name);
           if (idx < 0) {
+            if (_isUrlValid(radioStream.urlResolved)) {
             _stations.add(radioStream);
+            }
           } else if (_stations[idx].bitrate < radioStream.bitrate) {
             _stations[idx] = radioStream;
           }
@@ -95,7 +102,7 @@ class StationsService {
         var utf = utf8.decode(response.bodyBytes);
         var jsonList = jsonDecode(utf);
         for (var tag in jsonList) {
-          debugPrint(tag);
+          continue;
         }
       }
     } catch (e) {
