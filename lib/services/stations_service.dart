@@ -101,6 +101,7 @@ class StationsService {
       if (response.statusCode == 200) {
         var utf = utf8.decode(response.bodyBytes);
         var jsonList = jsonDecode(utf);
+        // ignore: unused_local_variable
         for (var tag in jsonList) {
           continue;
         }

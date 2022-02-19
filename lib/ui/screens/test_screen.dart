@@ -52,7 +52,7 @@ class FavouritesTest extends StatelessWidget {
               List<String> favs = await favService.getFavourites();
 
               debugPrint('removing favourite: ${favs[favs.length - 1]}');
-              await favService.removeFavourite('${favs[favs.length - 1]}');
+              await favService.removeFavourite(favs[favs.length - 1]);
             },
             child: const Text('Remove most recent favourite'),
           ),

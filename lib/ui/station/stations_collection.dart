@@ -51,12 +51,6 @@ class StationsCollection extends StatelessWidget {
     );
   }
 
-// TODO: find a way to check if the file is empty (flutter throws an error if you try to display an empty file)
-  bool _isValidFaviconUrl(String url) {
-    RegExp re = RegExp(r'(\.png|\.jpg)');
-    return re.hasMatch(url);
-  }
-
   GridView gridViewBuilder() {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
