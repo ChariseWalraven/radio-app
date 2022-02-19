@@ -54,9 +54,9 @@ class Station {
     String _favicon =_pickRandomPlaceholder();
     try {
       if(json['favicon'] != '') {
-        // if(_isValidFaviconUrl(json['favicon'])) {
+        if(_isValidFaviconUrl(json['favicon'])) {
           _favicon = json['favicon'];
-        // }
+        }
       }
     } catch(e) {
       debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
