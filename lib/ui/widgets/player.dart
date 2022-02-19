@@ -8,6 +8,8 @@ import 'package:radio_app/model/station/station.dart';
 import 'package:radio_app/ui/widgets/custom_card.dart';
 import 'package:radio_app/ui/widgets/tile.dart';
 
+// TODO: find a way to only buld the title and name of station when that changes. Right now it's rebuilding every second. Not great. Means we cn't use animations.
+
 class PlayerBar extends StatelessWidget {
   const PlayerBar({Key? key}) : super(key: key);
 
@@ -17,7 +19,8 @@ class PlayerBar extends StatelessWidget {
   }
 }
 
-Widget _pauseButton(AppState state) {
+Widget _pauseButton(BuildContext context) {
+  AppState state = context.watch<AppState>(); 
   if (state.playingState == PlayingState.playing) {
     return IconButton(
       onPressed: () => state.pausePlaying(),
@@ -34,7 +37,8 @@ Widget _pauseButton(AppState state) {
   return Container();
 }
 
-Widget _favouriteButton(AppState state, BuildContext context) {
+Widget _favouriteButton(BuildContext context) {
+  AppState state = context.watch<AppState>();
   void _handleOnPress() async {
     await state.toggleFavourite(state.station.stationuuid);
     Provider.of<FavouritesState>(context, listen: false).refreshFavourites();
@@ -67,14 +71,13 @@ class StationNameAndImage extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
-          child: Center(
-            child: Text(
-              stationName,
-              style: TextStyle(
-                fontSize: 11 * MediaQuery.of(context).textScaleFactor,
-                overflow: TextOverflow.ellipsis,
-              ),
+        Center(
+          child: Text(
+            stationName,
+            maxLines: 2,
+            style: TextStyle(
+              fontSize: 11 * MediaQuery.of(context).textScaleFactor,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         )
@@ -106,13 +109,14 @@ Widget _playerBuilder(BuildContext context, AppState _state, Widget? _) {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Column(
               children: [
                 Expanded(
                   child: Center(
                     child: Text(
                       _state.title,
+                      maxLines: 2,
                       softWrap: true,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,
@@ -124,8 +128,8 @@ Widget _playerBuilder(BuildContext context, AppState _state, Widget? _) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    _favouriteButton(_state, context),
-                    _pauseButton(_state),
+                    _favouriteButton(context),
+                    _pauseButton(context),
                   ],
                 )
               ],
