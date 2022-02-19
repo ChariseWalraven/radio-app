@@ -27,17 +27,14 @@ class StationsCollectionService {
   get stations => _fetchStations();
 
   void _init() async {
-    debugPrint('StationsCollection::_init');
     collection = await _fetchStations();
   }
 
   Future<List<Station>> _fetchStations() async {
-    debugPrint('StationsCollection::_fetchStations');
     List<String> favouritesList = await _favouritesService.getFavourites(); 
 
     if (isFavouritesList) {
-      List<String> uuids = await _favouritesService.getFavourites();
-      return await StationsService.getStreamsByStationUUID(uuids, isFavourite: isFavouritesList);
+      return await StationsService.getStreamsByStationUUID(favouritesList, isFavourite: isFavouritesList);
     }
     return await StationsService.getStreams(filter, favouritesList: favouritesList);
   }

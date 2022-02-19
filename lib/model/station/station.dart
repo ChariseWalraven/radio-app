@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
+
 class Station {
    Station({
     required this.stationuuid,
@@ -34,7 +38,7 @@ class Station {
         url: json["url"].trim(),
         urlResolved: json["url_resolved"].trim(),
         homepage: json["homepage"].trim(),
-        favicon: json["favicon"].trim(),
+        favicon: _getFavicon(json),
         tags: json["tags"].trim(),
         bitrate: json["bitrate"],
         clickCount: json["clickcount"],
@@ -44,3 +48,37 @@ class Station {
     isFavourite = !isFavourite;
   }
 }
+
+
+ String _getFavicon(Map<String, dynamic> json) {
+    String _favicon =_pickRandomPlaceholder();
+    try {
+      if(json['favicon'] != '') {
+        // if(_isValidFaviconUrl(json['favicon'])) {
+          _favicon = json['favicon'];
+        // }
+      }
+    } catch(e) {
+      debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
+      _favicon = "assets/images/vinyl-record-blue-bg.png";
+    }
+    return _favicon;
+  }
+
+  String _pickRandomPlaceholder() {
+    int random = Random().nextInt(4);
+
+    List<String> images = [
+      "assets/images/vinyl-record-blue-bg.png",
+      "assets/images/vinyl-record-green-bg.png",
+      "assets/images/vinyl-record-yellow-bg.png",
+      "assets/images/vinyl-record-red-bg.png",
+    ];
+
+     return images[random];
+  }
+
+  bool _isValidFaviconUrl(String url) {
+    RegExp re = RegExp(r'(\.png|\.jpg)');
+    return re.hasMatch(url);
+  }
