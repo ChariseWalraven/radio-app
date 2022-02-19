@@ -23,21 +23,21 @@ class Tile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _withCustomBackground = CustomCard(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: title.length > 30 ? 1 : 2,
+            // flex: title.length > 30 ? 1 : 2,
             child: CoverImage(
               imageUrl: imageUrl,
             ),
           ),
-          Expanded(
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                overflow: TextOverflow.fade,
-              )
-            ),
+          Text(
+            title,
+            maxLines: 3,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              overflow: TextOverflow.ellipsis,
+            )
           )
         ],
       ),
