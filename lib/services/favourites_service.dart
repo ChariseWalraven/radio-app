@@ -6,7 +6,6 @@
   - removing favorites
 */
 
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavouritesService {
@@ -25,14 +24,14 @@ class FavouritesService {
   Future<List<String>> getFavourites() async {
     // get favourites list
     SharedPreferences _prefs = await _preferences;
-    List<String>_favouritesList = _prefs.getStringList(_favouritesKey)?? await setFavourites([]);
+    List<String> _favouritesList = _prefs.getStringList(_favouritesKey)?? await setFavourites([]);
 
     return _favouritesList;
   }
 
   Future<List<String>> setFavourites(List<String> favourites) async {
     SharedPreferences _prefs = await _preferences;
-    _prefs.setStringList(_favouritesKey, favourites);
+    await _prefs.setStringList(_favouritesKey, favourites);
 
     return getFavourites();
   }
@@ -42,7 +41,7 @@ class FavouritesService {
 
     _favourites.add(favourite);
     
-    setFavourites(_favourites);
+    await setFavourites(_favourites);
 
     return getFavourites();
   }
@@ -52,7 +51,7 @@ class FavouritesService {
     List<String> _favourites = await getFavourites();
 
     _favourites.removeWhere((String item) => item == favourite);
-
+  
     await setFavourites(_favourites);
 
     return _favourites;
