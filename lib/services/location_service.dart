@@ -23,7 +23,7 @@ class LocationService {
     try {
       await _checkLocationServiceEnabled();
     } catch(e) {
-      debugPrint('LocationService._init::$e');
+      debugPrint('ERROR::LocationService._init::$e');
       return;
     }
   }

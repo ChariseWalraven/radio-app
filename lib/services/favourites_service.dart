@@ -52,8 +52,6 @@ class FavouritesService {
 
     _favourites.removeWhere((String item) => item == favourite);
 
-    debugPrint(_favourites.toString());
-
     await setFavourites(_favourites);
 
     return _favourites;

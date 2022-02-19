@@ -12,7 +12,6 @@ class FavouritesView extends StatelessWidget {
     return Consumer<FavouritesState>(
       builder: (BuildContext context, FavouritesState state, Widget? child) {
         List<Station> favourites = state.favourites;
-        debugPrint('state: ${favourites.length}');
         return StationsCollection(
             stations: favourites,
             title: "Favourites",
