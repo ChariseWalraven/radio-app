@@ -39,6 +39,7 @@ class FavouritesService {
 
   Future<List<String>> addFavourite(String favourite) async {
     List<String> _favourites = await getFavourites();
+
     _favourites.add(favourite);
     
     setFavourites(_favourites);
