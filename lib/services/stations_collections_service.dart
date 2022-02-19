@@ -1,6 +1,5 @@
 // this class is responsible for keeping track of many station collections
 
-import 'package:flutter/foundation.dart';
 import 'package:radio_app/core/abstract_classes/order.dart';
 import 'package:radio_app/services/stations_collection_service.dart';
 import 'package:radio_app/model/station/stations_filter.dart';
@@ -31,7 +30,7 @@ class StationsCollectionsService {
         order: Order.clickCount, 
         reverse: true
       );
-      var stationCollection = StationsCollectionService(title: 'Stations in ${languageISOCode.name}(${languageISOCode.endonym})', filter: filter);
+      var stationCollection = StationsCollectionService(title: 'Stations in ${languageISOCode.endonym}', filter: filter);
 
       await stationCollection.stations;
       _collections.add(stationCollection);
