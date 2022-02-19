@@ -23,8 +23,8 @@ class AppState extends ChangeNotifier {
   String _name = '';
   String get name => _name;
 
-  String _title = '';
-  String get title => _title;
+  String _songTitle = '';
+  String get title => _songTitle;
 
   AppState() {
     _init();
@@ -35,7 +35,6 @@ class AppState extends ChangeNotifier {
 
   @override
   void dispose() {
-    debugPrint('RadioPlayerState.dispose');
     super.dispose();
     _whatsonTimer.cancel();
   }
@@ -47,20 +46,23 @@ class AppState extends ChangeNotifier {
   }
 
   void _getWhatson() {
-    debugPrint('RadioPlayerState::_getWhatson');
     var t = '';
     var n = '';
-    if (_player.playing && _player.icyMetadata != null) {
-      t = _player.icyMetadata?.info?.title ?? '';
-      n = _player.icyMetadata?.headers?.name ?? '';
 
-      debugPrint('Title: $t. Name: $n.');
-    }
+    if (_player.icyMetadata == null) return;
 
-    if(t == _title) return;
-    if(n == _name) return;
-    _title = t;
-    _name = n;
+    t = _player.icyMetadata?.info?.title ?? '';
+    n = _player.icyMetadata?.headers?.name ?? '';
+
+    t = t == ''? _station.name : t;
+
+    t.trim();
+    n.trim();
+  
+
+    if(t != _songTitle) _songTitle = t;
+    if(n != _name) _name = n;
+    
     notifyListeners();
   }
 
@@ -79,24 +81,22 @@ class AppState extends ChangeNotifier {
       await startPlaying();
     } catch (e) {
       debugPrint('RadioPlayerState.playStream::ERROR::$e');
-      _title = 'Error: Cannot play ${newStation.name}';
+      _songTitle = 'Error: Cannot play ${newStation.name}';
       // TODO: remove broken stream
       // StreamService.removeStreamByName(newStation);
-      _setPlayingState(PlayingState.none);
+      _setPlayingState(PlayingState.paused);
     }
   }
 
   Future<void> startPlaying() async {
     if (!_player.playing) {
       try {
-        debugPrint(
-            'RadioPlayerState.startPlaying.state=${_player.playerState}');
         _setPlayingState(PlayingState.playing);
         await _player.play();
       } catch (e) {
-        debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
+        debugPrint('RadioPlayerState.startPlaying::ERROR::$e');        
         _setPlayingState(PlayingState.none);
-        _title = 'Error trying to play ${station.name}';
+        _songTitle = 'Error trying to play ${station.name}';
       }
     }
   }
@@ -106,7 +106,6 @@ class AppState extends ChangeNotifier {
       try {
         _setPlayingState(PlayingState.paused);
         await _player.pause();
-        debugPrint('RadioPlayerState.pausePlaying');
       } catch (e) {
         debugPrint('RadioPlayerState.pausePlaying :: ERROR :: $e');
         _setPlayingState(PlayingState.none);
@@ -125,15 +124,12 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavourite(String uuid) async {
-    debugPrint('AppState::toggleFavourite');
+  Future<void> toggleFavourite(String uuid) async {
     FavouritesService favService = FavouritesService();
     if(_station.isFavourite) {
-      debugPrint('Removing favourite for uuid: $uuid');
       await favService.removeFavourite(uuid);
     }
     else {
-      debugPrint('Adding favourite for uuid: $uuid');
       await favService.addFavourite(uuid);
     }
     _station.toggleFavourite();
