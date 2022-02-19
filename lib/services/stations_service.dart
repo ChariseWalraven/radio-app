@@ -81,7 +81,7 @@ class StationsService {
               .indexWhere((element) => element.name == radioStream.name);
           if (idx < 0) {
             if (_isUrlValid(radioStream.urlResolved)) {
-            _stations.add(radioStream);
+              _stations.add(radioStream);
             }
           } else if (_stations[idx].bitrate < radioStream.bitrate) {
             _stations[idx] = radioStream;
@@ -110,4 +110,26 @@ class StationsService {
     }
     return _tagList.length;
   }
+}
+
+bool _isUrlValid(String url) {
+  // matches urls that start with http or https and that
+  // have some sort of top level domain name with at 2 - 3
+  // alphabetic characters, optionally followed by a / and
+  // some alphanumeric characters.
+
+  // If it's making your brain turn into pudding trying to
+  // decipher the regex, just paste it into regex101.com, 
+  // along with the following urls to see it in action:
+  // http://178.32.62.154:9010/ 
+  // http://radio.mosaiquefm.net:8000/mosalive 
+  // http://stream6.tanitweb.com/shems 
+  // http://streaming2.toutech.net:8000/jawharafm 
+  // http://stream.live.vc.bbcmedia.co.uk/bbc_arabic_radio/whatever/blah3
+
+  // Note of warning: This is the quick and dirty solution, so be nice.
+
+  RegExp re =
+      RegExp(r'(https?:\/\/[\d\w\.]*\.([a-z]){2,3}(:\d{4})?(\/[a-z_\/0-9]*)?)');
+  return re.hasMatch(url);
 }
