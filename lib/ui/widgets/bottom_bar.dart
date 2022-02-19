@@ -20,28 +20,31 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppState>(builder: (context, appState, child) {
       return FractionallySizedBox(
-        heightFactor: 0.09,
+        heightFactor: 0.095,
         widthFactor: 1,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 1.5),
-          child: CustomCard(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: BottomNavigationBar(
-                currentIndex: appState.selectedIndex,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite),
-                    label: "Favourites",
-                  ),
-                  BottomNavigationBarItem(icon: Icon(Icons.code), label: "Test")
-                ],
-                onTap: (int index) => _onItemTapped(index, context),
-              ),
+        child: CustomCard(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: BottomNavigationBar(
+              // iconSize: kIconSizeDefault,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              currentIndex: appState.selectedIndex,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.album),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.code),
+                  label: '',
+                )
+              ],
+              onTap: (int index) => _onItemTapped(index, context),
             ),
           ),
         ),
