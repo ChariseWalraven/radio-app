@@ -8,8 +8,6 @@ import 'package:radio_app/model/station/station.dart';
 import 'package:radio_app/ui/widgets/custom_card.dart';
 import 'package:radio_app/ui/widgets/tile.dart';
 
-// TODO: find a way to only buld the title and name of station when that changes. Right now it's rebuilding every second. Not great. Means we cn't use animations.
-
 class PlayerBar extends StatelessWidget {
   const PlayerBar({Key? key}) : super(key: key);
 
