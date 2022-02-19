@@ -10,7 +10,7 @@ class RadioApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: RoutingService.home,
-      routes: <String, WidgetBuilder>{
+      routes: <String, WidgetBuilder> {
         RoutingService.favourites: (BuildContext context) => RoutingService.favouritesScreen,
         RoutingService.home: (BuildContext context) => RoutingService.homeScreen,
         RoutingService.test: (BuildContext context) => RoutingService.testScreen,
@@ -18,6 +18,9 @@ class RadioApp extends StatelessWidget {
       title: kAppName,
       theme: ThemeData(
         colorScheme: appColorScheme,
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.white.withOpacity(0),
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           elevation: 0,
           backgroundColor: Colors.white.withOpacity(0.0),
