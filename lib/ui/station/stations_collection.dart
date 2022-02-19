@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:radio_app/core/providers/app_state.dart';
 import 'package:radio_app/model/station/station.dart';
 import 'package:radio_app/ui/widgets/tile.dart';
@@ -18,24 +19,35 @@ class StationsCollection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          fit: FlexFit.loose,
-          child: Text(title)
-        ),
-        scrollDirection == Axis.vertical
-            ? Flexible(
-                fit: FlexFit.loose,
-                flex: 20,
-                child: gridViewBuilder(),
-              )
-            : LimitedBox(
-                maxHeight: 180,
-                child: gridViewBuilder(),
+    bool isNotPaused =
+        context.watch<AppState>().playingState != PlayingState.none;
+    bool isVerticalScroll = scrollDirection == Axis.vertical;
+    final double playerHeight = (MediaQuery.of(context).size.height * 0.15) + 5;
+    return Padding(
+      padding: EdgeInsets.only(
+          bottom: isNotPaused && isVerticalScroll ? playerHeight : 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 16 * MediaQuery.of(context).textScaleFactor,
               ),
-      ],
+            ),
+          ),
+          isVerticalScroll
+              ? Expanded(child: gridViewBuilder())
+              : LimitedBox(
+                  maxHeight: 180,
+                  child: gridViewBuilder(),
+                ),
+        ],
+      ),
     );
   }
 
@@ -48,24 +60,23 @@ class StationsCollection extends StatelessWidget {
   GridView gridViewBuilder() {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: scrollDirection == Axis.vertical? 2 : 1,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20, 
+        crossAxisCount: scrollDirection == Axis.vertical ? 2 : 1,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
       shrinkWrap: true,
       scrollDirection: scrollDirection,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
       itemCount: stations.length,
       itemBuilder: (BuildContext context, int index) {
         Station station = stations[index];
         return Tile(
-            title: station.name,
-            onTap: () {
-              debugPrint('Title tapped: ${station.name}');
-              context.read<AppState>().playStream(station);
-            },
-            imageUrl:
-                _isValidFaviconUrl(station.favicon) ? station.favicon : "");
+          enableCustomBackground: true,
+          title: station.name,
+          onTap: () {
+            context.read<AppState>().playStream(station);
+          },
+          imageUrl: station.favicon,
+        );
       },
     );
   }
