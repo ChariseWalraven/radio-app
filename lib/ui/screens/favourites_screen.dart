@@ -12,7 +12,10 @@ class FavouritesScreen extends StatelessWidget {
       bottomNavigationBar: BottomBar(),
       bottomSheet: const PlayerBar(),
       body: const SafeArea(
-        child: FavouritesView(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: FavouritesView(),
+        ),
       ),
     );
   }
