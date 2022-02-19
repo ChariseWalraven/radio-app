@@ -4,6 +4,7 @@ import 'package:radio_app/core/constants/constants.dart';
 import 'package:radio_app/core/providers/app_state.dart';
 import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:radio_app/core/providers/favourites_state.dart';
+import 'package:radio_app/model/station/station.dart';
 import 'package:radio_app/ui/widgets/custom_card.dart';
 import 'package:radio_app/ui/widgets/tile.dart';
 
@@ -12,89 +13,135 @@ class PlayerBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double playerHeight = MediaQuery.of(context).size.height * 0.15;
-    return Consumer<AppState>(builder: (context, _state, child) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 5, right: 5, left: 5),
-        height: _state.playingState != PlayingState.none ? playerHeight : 0,
-        child: CustomCard(
-          enableShadow: false,
-          child: Center(
-            child: _state.playingState == PlayingState.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: CoverImage(
-                                    imageUrl: _state.station.favicon),
-                              ),
-                              Expanded(
-                                child: Text(_state.name),
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Center(child: Text(_state.title)),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  _favouriteButton(_state, context),
-                                  _pauseButton(_state),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-          ),
-        ),
-      );
-    });
+    return Consumer<AppState>(builder: _playerBuilder);
   }
+}
 
-  Widget _pauseButton(AppState state) {
-    if (state.playingState == PlayingState.playing) {
-      return IconButton(
-        onPressed: () => state.pausePlaying(),
-        icon: const Icon(Icons.pause_circle_filled),
-        iconSize: kIconSizeDefault,
-      );
-    } else if (state.playingState == PlayingState.paused) {
-      return IconButton(
-        onPressed: () => state.startPlaying(),
-        icon: const Icon(Icons.play_circle),
-        iconSize: kIconSizeDefault,
-      );
-    }
-    return Container();
-  }
-
-  Widget _favouriteButton(AppState state, BuildContext context) {
-    void _handleOnPress() async {
-      await state.toggleFavourite(state.station.stationuuid);
-      Provider.of<FavouritesState>(context, listen: false)
-            .refreshFavourites();
-    }
+Widget _pauseButton(AppState state) {
+  if (state.playingState == PlayingState.playing) {
     return IconButton(
-      onPressed: _handleOnPress,
-      icon: Icon(
-          state.station.isFavourite ? Icons.favorite : Icons.favorite_border),
+      onPressed: () => state.pausePlaying(),
+      icon: const Icon(Icons.pause_circle_filled),
+      iconSize: kIconSizeDefault,
+    );
+  } else if (state.playingState == PlayingState.paused) {
+    return IconButton(
+      onPressed: () => state.startPlaying(),
+      icon: const Icon(Icons.play_circle),
+      iconSize: kIconSizeDefault,
     );
   }
+  return Container();
+}
+
+Widget _favouriteButton(AppState state, BuildContext context) {
+  void _handleOnPress() async {
+    await state.toggleFavourite(state.station.stationuuid);
+    Provider.of<FavouritesState>(context, listen: false).refreshFavourites();
+  }
+
+  return IconButton(
+    onPressed: _handleOnPress,
+    icon: Icon(
+        state.station.isFavourite ? Icons.favorite : Icons.favorite_border),
+  );
+}
+
+class StationNameAndImage extends StatelessWidget {
+  const StationNameAndImage(
+      {Key? key, required this.stationFaviconUrl, required this.stationName})
+      : super(key: key);
+
+  final String stationFaviconUrl;
+  final String stationName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Center(
+            child: CoverImage(
+              imageUrl: stationFaviconUrl,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              stationName,
+              style: TextStyle(
+                fontSize: 11 * MediaQuery.of(context).textScaleFactor,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+const Widget _loadingIndicator = Center(child: CircularProgressIndicator());
+
+Widget _playerBuilder(BuildContext context, AppState _state, Widget? _) {
+  final double playerHeight = MediaQuery.of(context).size.height * 0.15;
+
+  final PlayingState playingState = _state.playingState;
+  final Station station = _state.station;
+  final String name = _state.name;
+
+  Widget _child = _loadingIndicator;
+
+  if (playingState != PlayingState.loading) {
+    _child = Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: StationNameAndImage(
+              stationFaviconUrl: station.favicon,
+              stationName: name,
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      _state.title,
+                      softWrap: true,
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 12 * MediaQuery.of(context).textScaleFactor,
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _favouriteButton(_state, context),
+                    _pauseButton(_state),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  return Container(
+    margin: const EdgeInsets.only(bottom: 5, right: 5, left: 5),
+    height: _state.playingState != PlayingState.none ? playerHeight : 0,
+    child: CustomCard(
+      enableShadow: false,
+      child: _child,
+    ),
+  );
 }
