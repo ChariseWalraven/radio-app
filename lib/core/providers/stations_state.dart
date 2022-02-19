@@ -28,20 +28,8 @@ class StationsState extends ChangeNotifier {
     _init();
   }
 
-  @override
-  void dispose() {
-    debugPrint('RadioPlayerState.dispose');
-    super.dispose();
-  }
-
   void _init() async {
-    // _stations = await stationsService.getStreams(_filter);
-    // notifyListeners();
-    debugPrint('initializing stations state');
     _collections = await StationsCollectionsService.populateCollections();
-    debugPrint("populated ${_collections.length} collections.");
-    // debugPrint('checking station favourites working');
-    // debugPrint('This should be true: ${_collections[1].collection[0].isFavourite}. \nThis should be false: ${_collections[0].collection[0].isFavourite}');
     notifyListeners();
   }
 
