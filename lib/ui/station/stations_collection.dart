@@ -32,7 +32,7 @@ class StationsCollection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
             child: Text(
               title,
               style: TextStyle(
@@ -43,7 +43,7 @@ class StationsCollection extends StatelessWidget {
           isVerticalScroll
               ? Expanded(child: gridViewBuilder())
               : LimitedBox(
-                  maxHeight: 180,
+                  maxHeight: 190,
                   child: gridViewBuilder(),
                 ),
         ],
