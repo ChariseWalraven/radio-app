@@ -25,13 +25,19 @@ class Tile extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            flex: 2,
+            flex: title.length > 30 ? 1 : 2,
             child: CoverImage(
               imageUrl: imageUrl,
             ),
           ),
           Expanded(
-            child: Text(title),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                overflow: TextOverflow.fade,
+              )
+            ),
           )
         ],
       ),
@@ -69,21 +75,24 @@ class CoverImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image:
-              imageUrl == "" ? _placeholderImage : _backgroundImage(imageUrl),
-          fit: BoxFit.contain,
-        ),
-      ),
+      child: _backgroundImage(imageUrl),
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     image:
+        //         imageUrl == "" ? _placeholderImage : _backgroundImage(imageUrl),
+        //     fit: BoxFit.contain,
+        //   ),
+        // ),
     );
   }
 
   final ImageProvider _placeholderImage =
       const AssetImage("assets/images/vinyl-record-blue-bg.png");
 
-  ImageProvider _backgroundImage(String url){
-    if(url.startsWith('http')) return NetworkImage(url);
-    return AssetImage(url);
+  FadeInImage _backgroundImage(String url){
+    if(url.startsWith('http')) {
+        return FadeInImage(placeholder: _placeholderImage, image: NetworkImage(url));
+    }
+    return FadeInImage(placeholder: _placeholderImage, image: AssetImage(url));
   }
 }
