@@ -13,7 +13,6 @@ class FavouritesState extends ChangeNotifier {
   }
 
   _init() async {
-    debugPrint('FavouritesState::_init');
     _favourites = await _stationsCollectionService.refreshStations();
     notifyListeners();
   }

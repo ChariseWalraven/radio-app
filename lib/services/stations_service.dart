@@ -10,8 +10,6 @@ class StationsService {
   List<Station> get tagList => _tagList;
 
   static Future<Station> getStreamByStationUUID(String uuid, {bool isFavourite = false}) async {
-    debugPrint('StationsService::getStreamByStationUUID');
-
     Station station = Station(
         urlResolved: "",
         bitrate: 0,
@@ -25,8 +23,6 @@ class StationsService {
 
     String url = Uri.encodeFull(
         "https://nl1.api.radio-browser.info/json/stations/byuuid/$uuid");
-
-    debugPrint('Getting stream with uuid $uuid. Url: $url.');
 
     try {
       var response = await http.get(Uri.parse(url));
@@ -88,7 +84,6 @@ class StationsService {
     } catch (e) {
       debugPrint('getStreams::ERROR:: $e');
     }
-    debugPrint('getStreams.done.streamCount=${_stations.length}');
     return _stations;
   }
 
@@ -106,7 +101,6 @@ class StationsService {
     } catch (e) {
       debugPrint('getTags::ERROR:: $e');
     }
-    debugPrint('getTags.done.streamCount=${_tagList.length}');
     return _tagList.length;
   }
 }

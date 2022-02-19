@@ -24,7 +24,6 @@ class StationsCollectionsService {
   }
 
   static Future<List<StationsCollectionService>> populateCollections() async {
-    debugPrint('StationsCollectionsService::populateCollections');
     for(var language in _defaultLanguages) {
       var languageISOCode = await _localeService.getISOLocaleByLanguageName(language);
       var filter = StationsFilter( 
