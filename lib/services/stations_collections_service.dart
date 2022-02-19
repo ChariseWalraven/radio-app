@@ -18,8 +18,7 @@ class StationsCollectionsService {
   static StationsCollectionService collection(String stationTitle) => _getStationCollectionByTitle(stationTitle);
 
   static StationsCollectionService _getStationCollectionByTitle(String stationTitle) {
-    // TODO: account for title not existing
-    return _collections[0];
+    return _collections.firstWhere((collection) => collection.title == stationTitle);
   }
 
   static Future<List<StationsCollectionService>> populateCollections() async {
