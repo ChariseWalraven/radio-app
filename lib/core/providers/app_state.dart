@@ -49,6 +49,8 @@ class AppState extends ChangeNotifier {
     var t = '';
     var n = '';
 
+    bool somethingChanged = false;
+
     if (_player.icyMetadata == null) return;
 
     t = _player.icyMetadata?.info?.title ?? '';
@@ -60,10 +62,18 @@ class AppState extends ChangeNotifier {
     n.trim();
   
 
-    if(t != _songTitle) _songTitle = t;
-    if(n != _name) _name = n;
+    if(t != _songTitle) {
+      _songTitle = t;
+      somethingChanged = true;
+    }
+    if(n != _name) {
+      _name = n;
+      somethingChanged = true;
+    }
     
-    notifyListeners();
+    if(somethingChanged) {
+      notifyListeners();
+    }
   }
 
   Future<void> playStream(Station newStation) async {
@@ -102,26 +112,30 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> pausePlaying() async {
-    if (_player.playing) {
-      try {
-        _setPlayingState(PlayingState.paused);
-        await _player.pause();
-      } catch (e) {
-        debugPrint('RadioPlayerState.pausePlaying :: ERROR :: $e');
-        _setPlayingState(PlayingState.none);
-      }
+    if(!_player.playing) return;
+
+    try {
+      _setPlayingState(PlayingState.paused);
+      await _player.pause();
+    } catch (e) {
+      debugPrint('RadioPlayerState.pausePlaying :: ERROR :: $e');
+      _setPlayingState(PlayingState.none);
     }
   }
 
   void _setPlayingState(PlayingState newState) {
-    _playingState = newState;
-    notifyListeners();
+    if(_playingState != newState) {
+      _playingState = newState;
+      notifyListeners();
+    }
   }
 
   // begin bottomBar code
   void updateSelectedIndex(int newIndex) {
-    _selectedIndex = newIndex;
-    notifyListeners();
+    if(_selectedIndex != newIndex) {
+      _selectedIndex = newIndex;
+      notifyListeners();
+    }
   }
 
   Future<void> toggleFavourite(String uuid) async {
