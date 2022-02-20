@@ -5,4 +5,5 @@ enum PlayingState{
   playing,
   paused,
   stopped,
+  errored
 }
