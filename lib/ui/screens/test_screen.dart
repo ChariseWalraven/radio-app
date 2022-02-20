@@ -1,42 +1,30 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:radio_app/model/station/stations_filter.dart';
-import 'package:radio_app/services/favourites_service.dart';
+import 'package:radio_app/services/shared_preferences/blacklist_service.dart';
+import 'package:radio_app/services/shared_preferences/favourites_service.dart';
 import 'package:radio_app/ui/widgets/bottom_bar.dart';
 import 'package:radio_app/ui/widgets/player.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    StationsFilter filter = StationsFilter();
-
     return Scaffold(
-      bottomSheet: const PlayerBar(),
-      bottomNavigationBar: BottomBar(),
-      body: SafeArea(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              // filter.offset = filter.offset + 10;
-            },
-            child: Text('Add 0 to filter')
-          ),
-        )
-      ),
-    );
+        bottomSheet: const PlayerBar(),
+        bottomNavigationBar: BottomBar(),
+        body: const SafeArea(
+          child: BlackListTest(),
+        ));
   }
 }
 
-class FavouritesTest extends StatelessWidget {
-  const FavouritesTest({Key? key}) : super(key: key);
+class BlackListTest extends StatelessWidget {
+  const BlackListTest({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FavouritesService favService = FavouritesService();
+    final BlackListService blService = BlackListService();
     return FractionallySizedBox(
       alignment: Alignment.topCenter,
       heightFactor: 0.8,
@@ -45,31 +33,31 @@ class FavouritesTest extends StatelessWidget {
         children: [
           Expanded(
             child: FutureBuilder(
-                future: favService.getFavourites(),
+                future: blService.getItems(),
                 builder: _favouritesListBuilder),
           ),
           ElevatedButton(
-              child: const Text('Add favourite'),
+              child: const Text('Add black list item'),
               onPressed: () async {
-                List<String> favs = await favService.getFavourites();
-                await favService.addFavourite('${favs.length}');
+                List<String> favs = await blService.getItems();
+                await blService.add('${favs.length}');
                 debugPrint('pressed');
               }),
           ElevatedButton(
             onPressed: () async {
-              List<String> favs = await favService.getFavourites();
+              List<String> favs = await blService.getItems();
 
-              debugPrint('removing favourite: ${favs[favs.length - 1]}');
-              await favService.removeFavourite(favs[favs.length - 1]);
+              debugPrint('removing black list item: ${favs[favs.length - 1]}');
+              await blService.remove(favs[favs.length - 1]);
             },
-            child: const Text('Remove most recent favourite'),
+            child: const Text('Remove most recent black list item'),
           ),
           ElevatedButton(
-            child: const Text('Clear favourites'),
+            child: const Text('Clear black list'),
             onPressed: () {
               try {
-                debugPrint('trying to set favourites to []');
-                favService.setFavourites([]);
+                debugPrint('trying to set blacklist to []');
+                blService.setItems([]);
               } catch (e) {
                 debugPrint('ERROR::$e');
               }
