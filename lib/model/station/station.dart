@@ -28,6 +28,7 @@ class Station {
   final int bitrate;
   final int clickCount;
   bool isFavourite;
+  String placeholderFavicon = _pickRandomPlaceholder();
 
   factory Station.fromRawJson(String str) => Station.fromJson(json.decode(str));
 
