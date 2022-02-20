@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/services/location_service.dart';
 import 'package:radio_app/services/stations_collection_service.dart';
 import 'package:radio_app/services/stations_collections_service.dart';
 
@@ -7,7 +6,6 @@ import 'package:radio_app/services/stations_collections_service.dart';
 class StationsState extends ChangeNotifier {
   int offset = 0;
   static const int limit = 10;
-  LocationService locationService = LocationService();
 
   bool isUpdating = false;
 
