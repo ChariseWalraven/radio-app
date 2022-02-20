@@ -23,6 +23,7 @@ class StationsCollectionService {
   StationsFilter filter = kDefaultStationsFilter;
 
   final FavouritesService _favouritesService = FavouritesService();
+  final BlacklistService _blacklistService = BlacklistService();
 
   get stations => _fetchStations();
 
@@ -32,13 +33,14 @@ class StationsCollectionService {
 
   Future<List<Station>> _fetchStations() async {
     List<String> favouritesList = await _favouritesService.getItems();
+    List<String> blacklist = await _blacklistService.getItems();
 
     if (isFavouritesList) {
       return await StationsService.getStreamsByStationUUID(favouritesList,
           isFavourite: isFavouritesList);
     }
     return await StationsService.getStreams(filter,
-        favouritesList: favouritesList);
+        favouritesList: favouritesList, blacklist: blacklist);
   }
 
   Future<List<Station>> refreshStations({bool isUpdate = false}) async {
@@ -58,7 +60,7 @@ class StationsCollectionService {
   static void blacklistStationByUUID(
       {required String stationuuid, required List<Station> collection}) {
     /// blacklists and removes station by uuid
-    BlackListService().add(stationuuid);
+    BlacklistService().add(stationuuid);
     _removeStationByUUID(stationuuid: stationuuid, collection: collection);
   }
 

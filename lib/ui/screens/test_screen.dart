@@ -24,7 +24,7 @@ class BlackListTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BlackListService blService = BlackListService();
+    final BlacklistService blService = BlacklistService();
     return FractionallySizedBox(
       alignment: Alignment.topCenter,
       heightFactor: 0.8,
