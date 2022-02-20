@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/model/station/stations_filter.dart';
 import 'package:radio_app/services/location_service.dart';
 import 'package:radio_app/services/stations_collection_service.dart';
 import 'package:radio_app/services/stations_collections_service.dart';
-import 'package:radio_app/services/stations_service.dart';
 
 //This is the state manager class for the stations lists on the home page
 class StationsState extends ChangeNotifier {
