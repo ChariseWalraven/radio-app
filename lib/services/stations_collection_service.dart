@@ -1,7 +1,8 @@
 import 'package:radio_app/core/constants/constants.dart';
 import 'package:radio_app/model/station/station.dart';
 import 'package:radio_app/model/station/stations_filter.dart';
-import 'package:radio_app/services/favourites_service.dart';
+import 'package:radio_app/services/shared_preferences/blacklist_service.dart';
+import 'package:radio_app/services/shared_preferences/favourites_service.dart';
 import 'package:radio_app/services/stations_service.dart';
 
 // this class is responsible for keeping track of the stations associated with the filter and title passed to it
@@ -30,7 +31,7 @@ class StationsCollectionService {
   }
 
   Future<List<Station>> _fetchStations() async {
-    List<String> favouritesList = await _favouritesService.getFavourites();
+    List<String> favouritesList = await _favouritesService.getItems();
 
     if (isFavouritesList) {
       return await StationsService.getStreamsByStationUUID(favouritesList,
@@ -45,6 +46,20 @@ class StationsCollectionService {
       return await _getMoreStations();
     }
     return await _fetchStations();
+  }
+
+  static void _removeStationByUUID(
+      {required String stationuuid, required List<Station> collection}) {
+    /// removes station from collection
+    collection
+        .removeWhere((Station station) => station.stationuuid == stationuuid);
+  }
+
+  static void blacklistStationByUUID(
+      {required String stationuuid, required List<Station> collection}) {
+    /// blacklists and removes station by uuid
+    BlackListService().add(stationuuid);
+    _removeStationByUUID(stationuuid: stationuuid, collection: collection);
   }
 
   Future<List<Station>> _getMoreStations() async {
