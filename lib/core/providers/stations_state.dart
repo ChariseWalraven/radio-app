@@ -12,16 +12,12 @@ class StationsState extends ChangeNotifier {
   static const int limit = 10;
   LocationService locationService = LocationService();
 
+  bool isUpdating = false;
+
   // station collections
   static List<StationsCollectionService> _collections = StationsCollectionsService.collections;
 
-  // general stations list
-  StationsService stationsService = StationsService();
-  List<Station> _stations = [];
-
   List<StationsCollectionService> get stations => _collections;
-
-  int get stationsCount => _stations.length;
   // bool get isLoading => stationsService.isLoading;
 
   StationsState() {
@@ -33,21 +29,17 @@ class StationsState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateStreamList() async {
-    StationsFilter filter = const StationsFilter(limit: 10, offset: 0);
-    await StationsService.getStreams(filter, isUpdate: true);
-    notifyListeners();
-  }
-
-  void updateStreamListWithFilter(StationsFilter filter) async {
-    await StationsService.getStreams(filter, isUpdate: true);
-    notifyListeners();
-  }
-
-  Future<int> setInitialStations(StationsFilter filter,
-      {bool notify = false}) async {
-    _stations = await StationsService.getStreams(filter);
-    if (notify) notifyListeners();
-    return _stations.length;
+  Future<void> updateStreamList(int stationIndex) async {
+    if(!isUpdating) {
+      isUpdating = true;
+      notifyListeners();
+      StationsCollectionService stationCollectionService = _collections[stationIndex];
+      await stationCollectionService.refreshStations(isUpdate: true);
+      debugPrint('Got ${stationCollectionService.collection.length} stations');
+      notifyListeners();
+      isUpdating = false;
+      return;
+    }
+    debugPrint('Already updating. Not going to fetch more stations.');
   }
 }
