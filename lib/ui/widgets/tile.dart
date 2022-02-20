@@ -8,7 +8,8 @@ class Tile extends StatelessWidget {
     required this.onTap,
     this.height = 120.0,
     this.width = 120.0,
-    this.imageUrl = "",
+    required this.imageUrl,
+    required this.placeholderImagePath,
     this.enableCustomBackground = false,
   }) : super(key: key);
 
@@ -16,6 +17,7 @@ class Tile extends StatelessWidget {
   final double width;
   final String title;
   final String imageUrl;
+  final String placeholderImagePath;
   final VoidCallback onTap;
   final bool enableCustomBackground;
 
@@ -47,6 +49,7 @@ class Tile extends StatelessWidget {
       children: [
         CoverImage(
           imageUrl: imageUrl,
+          placeholderImagePath: placeholderImagePath,
         ),
         Text(title)
       ],
@@ -67,15 +70,17 @@ class Tile extends StatelessWidget {
 class CoverImage extends StatelessWidget {
   const CoverImage({
     Key? key,
-    this.imageUrl = "",
+    required this.imageUrl,
+    required this.placeholderImagePath
   }) : super(key: key);
 
   final String imageUrl;
+  final String placeholderImagePath;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: _backgroundImage(imageUrl),
+      child: _backgroundImage(imageUrl, placeholderImagePath),
         // decoration: BoxDecoration(
         //   image: DecorationImage(
         //     image:
@@ -87,11 +92,14 @@ class CoverImage extends StatelessWidget {
   }
 
   final ImageProvider _placeholderImage =
-      const AssetImage("assets/images/vinyl-record-blue-bg.png");
+      const AssetImage("assets/images/vinyl-record-greyscale.png");
 
-  FadeInImage _backgroundImage(String url){
+  FadeInImage _backgroundImage(String url, String placeholderImagePath){
     if(url.startsWith('http')) {
-        return FadeInImage(placeholder: _placeholderImage, image: NetworkImage(url));
+        return FadeInImage(
+          placeholder: _placeholderImage, 
+          image: NetworkImage(url), 
+        );
     }
     return FadeInImage(placeholder: _placeholderImage, image: AssetImage(url));
   }

@@ -50,11 +50,15 @@ Widget _favouriteButton(BuildContext context) {
 }
 
 class StationNameAndImage extends StatelessWidget {
-  const StationNameAndImage(
-      {Key? key, required this.stationFaviconUrl, required this.stationName})
-      : super(key: key);
+  const StationNameAndImage({
+    Key? key, 
+    required this.stationFaviconUrl, 
+    required this.stationName,
+    required this.stationPlaceholderImagePath,
+  }) : super(key: key);
 
   final String stationFaviconUrl;
+  final String stationPlaceholderImagePath;
   final String stationName;
 
   @override
@@ -66,6 +70,7 @@ class StationNameAndImage extends StatelessWidget {
           child: Center(
             child: CoverImage(
               imageUrl: stationFaviconUrl,
+              placeholderImagePath: stationPlaceholderImagePath,
             ),
           ),
         ),
@@ -104,6 +109,7 @@ Widget _playerBuilder(BuildContext context, AppState _state, Widget? _) {
             child: StationNameAndImage(
               stationFaviconUrl: station.favicon,
               stationName: name,
+              stationPlaceholderImagePath: station.placeholderFavicon,
             ),
           ),
           Expanded(
