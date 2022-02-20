@@ -30,23 +30,24 @@ class StationsCollectionService {
   }
 
   Future<List<Station>> _fetchStations() async {
-    List<String> favouritesList = await _favouritesService.getFavourites(); 
+    List<String> favouritesList = await _favouritesService.getFavourites();
 
     if (isFavouritesList) {
-      return await StationsService.getStreamsByStationUUID(favouritesList, isFavourite: isFavouritesList);
+      return await StationsService.getStreamsByStationUUID(favouritesList,
+          isFavourite: isFavouritesList);
     }
-    return await StationsService.getStreams(filter, favouritesList: favouritesList);
+    return await StationsService.getStreams(filter,
+        favouritesList: favouritesList);
   }
 
   Future<List<Station>> refreshStations({bool isUpdate = false}) async {
-    if(isUpdate) {
+    if (isUpdate) {
       return await _getMoreStations();
     }
     return await _fetchStations();
   }
 
   Future<List<Station>> _getMoreStations() async {
-
     /// note: we use this mapping workaround in order to update the filter
     /// because we use it elsewhere as a default value for parameters and
     /// dart complains if you use anything other than a constant for that.
@@ -64,7 +65,18 @@ class StationsCollectionService {
 
     List<Station> newStations = await _fetchStations();
 
-    collection.addAll(newStations);
+    for (Station newStation in newStations) {
+      // don't add duplicates
+      bool stationExists = collection
+          .where((Station station) =>
+              station.name == newStation.name &&
+              station.urlResolved == newStation.urlResolved)
+          .isNotEmpty;
+
+      if (stationExists) continue;
+
+      collection.add(newStation);
+    }
 
     return collection;
   }
