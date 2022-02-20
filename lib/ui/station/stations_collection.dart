@@ -73,7 +73,7 @@ class StationsCollection extends StatelessWidget {
           placeholderImagePath: station.placeholderFavicon,
           title: station.name,
           onTap: () {
-            context.read<AppState>().playStream(station);
+            context.read<AppState>().playStream(newStation: station, collection: stations);
           },
           imageUrl: station.favicon,
         );
@@ -106,7 +106,7 @@ class StationsCollection extends StatelessWidget {
           placeholderImagePath: station.placeholderFavicon,
           title: station.name,
           onTap: () {
-            context.read<AppState>().playStream(station);
+            context.read<AppState>().playStream(newStation: station, collection: stations);
           },
           imageUrl: station.favicon,
         );
