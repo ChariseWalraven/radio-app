@@ -56,7 +56,7 @@ class StationsService {
   }
 
   static Future<List<Station>> getStreams(StationsFilter filter,
-      {bool isUpdate = false, List<String> favouritesList = const []}) async {
+      {bool isUpdate = false, List<String> favouritesList = const [], List<String> blacklist = const []}) async {
     // if favourites list != null, check if it's a favourite
     List<Station> _stations = [];
     String url = Uri.encodeFull(
@@ -79,13 +79,16 @@ class StationsService {
               Station.fromJson(stream, isFavourite: isFavourite);
           int idx = _stations
               .indexWhere((element) => element.name == radioStream.name);
-          if (idx < 0) {
-            if (_isUrlValid(radioStream.urlResolved)) {
-              _stations.add(radioStream);
+          if(isOnBlacklist(blacklist, radioStream)) continue;
+          if(idx > 0) {
+            if(_stations[idx].bitrate < radioStream.bitrate) {
+              _stations[idx] = radioStream;
             }
-          } else if (_stations[idx].bitrate < radioStream.bitrate) {
-            _stations[idx] = radioStream;
+            continue;
           }
+          if(!_isUrlValid(radioStream.urlResolved)) continue;
+
+          _stations.add(radioStream);
         }
       }
     } catch (e) {
@@ -112,6 +115,9 @@ class StationsService {
     return _tagList.length;
   }
 }
+
+bool isOnBlacklist(List<String> blacklist, Station radioStream) => blacklist.indexWhere((String blacklistedUUID) => blacklistedUUID == radioStream.stationuuid) > -1;
+
 
 bool _isUrlValid(String url) {
   // matches urls that start with http or https and that
