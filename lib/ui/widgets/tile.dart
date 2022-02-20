@@ -100,6 +100,7 @@ class CoverImage extends StatelessWidget {
         return FadeInImage(
           placeholder: _placeholderImage, 
           image: NetworkImage(url), 
+          fit: BoxFit.contain,
           imageErrorBuilder: (_, _a, _b) {
             return Image.asset(placeholderImagePath);
           }
