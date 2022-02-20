@@ -3,8 +3,11 @@ import 'package:radio_app/core/constants/constants.dart';
 import 'package:radio_app/core/enums/playing_state.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:radio_app/core/providers/stations_state.dart';
 import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/services/favourites_service.dart';
+import 'package:radio_app/services/shared_preferences/favourites_service.dart';
+import 'package:radio_app/services/stations_collection_service.dart';
+import 'package:radio_app/services/stations_collections_service.dart';
 
 //This is the state manager class for the entire app (stuff that needs to be accessed through the whole app)
 class AppState extends ChangeNotifier {
@@ -26,6 +29,8 @@ class AppState extends ChangeNotifier {
   String _songTitle = '';
   String get title => _songTitle;
 
+  List<Station> _currentCollection = [];
+
   AppState() {
     _init();
     _whatsonTimer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
@@ -40,6 +45,7 @@ class AppState extends ChangeNotifier {
   }
 
   void _init() async {
+    _addPlayerListeners();
     _setPlayingState(PlayingState.loading);
     notifyListeners();
     _setPlayingState(PlayingState.none);
@@ -56,45 +62,56 @@ class AppState extends ChangeNotifier {
     t = _player.icyMetadata?.info?.title ?? '';
     n = _player.icyMetadata?.headers?.name ?? '';
 
-    t = t == ''? _station.name : t;
+    t = t == '' ? _station.name : t;
 
     t.trim();
     n.trim();
-  
 
-    if(t != _songTitle) {
+    if (t != _songTitle) {
       _songTitle = t;
       somethingChanged = true;
     }
-    if(n != _name) {
+    if (n != _name) {
       _name = n;
       somethingChanged = true;
     }
-    
-    if(somethingChanged) {
+
+    if (somethingChanged) {
       notifyListeners();
     }
   }
 
-  Future<void> playStream(Station newStation) async {
+  Future<void> playStream(
+      {required Station newStation, required List<Station> collection}) async {
     if (newStation == _station) {
       return;
     }
     _station = newStation;
+    _currentCollection = collection;
     _setPlayingState(PlayingState.loading); //contains a notifyListeners call
+
+    Future.delayed(const Duration(milliseconds: 5000), () async {
+      if (_playingState == PlayingState.loading) {
+        debugPrint(
+            'Player has been loading for 5 seconds. Something went wrong. Stopping player.');
+        await _player.stop();
+        _setPlayingState(PlayingState.errored);
+      }
+    });
+
     try {
       if (_player.playing) {
         await _player.stop();
+        notifyListeners();
       }
       await _player.setUrl(_station.urlResolved);
       await _player.load();
       await startPlaying();
+      notifyListeners();
     } catch (e) {
-      debugPrint('RadioPlayerState.playStream::ERROR::$e');
+      debugPrint('PlayerState.playStream::ERROR::$e');
       _songTitle = 'Error: Cannot play ${newStation.name}';
-      // TODO: remove broken stream
-      // StreamService.removeStreamByName(newStation);
-      _setPlayingState(PlayingState.paused);
+      _setPlayingState(PlayingState.errored);
     }
   }
 
@@ -104,15 +121,21 @@ class AppState extends ChangeNotifier {
         _setPlayingState(PlayingState.playing);
         await _player.play();
       } catch (e) {
-        debugPrint('RadioPlayerState.startPlaying::ERROR::$e');        
-        _setPlayingState(PlayingState.none);
+        debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
+        _setPlayingState(PlayingState.errored);
         _songTitle = 'Error trying to play ${station.name}';
+        notifyListeners();
       }
     }
   }
 
+  void removeAndBlacklistStream() {
+    StationsCollectionService.blacklistStationByUUID(
+        collection: _currentCollection, stationuuid: station.stationuuid);
+  }
+
   Future<void> pausePlaying() async {
-    if(!_player.playing) return;
+    if (!_player.playing) return;
 
     try {
       _setPlayingState(PlayingState.paused);
@@ -124,7 +147,7 @@ class AppState extends ChangeNotifier {
   }
 
   void _setPlayingState(PlayingState newState) {
-    if(_playingState != newState) {
+    if (_playingState != newState) {
       _playingState = newState;
       notifyListeners();
     }
@@ -132,7 +155,7 @@ class AppState extends ChangeNotifier {
 
   // begin bottomBar code
   void updateSelectedIndex(int newIndex) {
-    if(_selectedIndex != newIndex) {
+    if (_selectedIndex != newIndex) {
       _selectedIndex = newIndex;
       notifyListeners();
     }
@@ -140,14 +163,23 @@ class AppState extends ChangeNotifier {
 
   Future<void> toggleFavourite(String uuid) async {
     FavouritesService favService = FavouritesService();
-    if(_station.isFavourite) {
-      await favService.removeFavourite(uuid);
-    }
-    else {
-      await favService.addFavourite(uuid);
+    if (_station.isFavourite) {
+      await favService.remove(uuid);
+    } else {
+      await favService.add(uuid);
     }
     _station.toggleFavourite();
-    
+
     notifyListeners();
+  }
+
+  _addPlayerListeners() {
+    // TODO: move some code that's dependent on events here to optimise the app state
+    _player.playbackEventStream.listen((PlaybackEvent? event) {
+      debugPrint(
+          "AppState::_addPlayerListeners. metadata: ${event.toString()}");
+    }, onError: (Object e, StackTrace stack) {
+      debugPrint('AppState::_addPlayerListeners::ERROR: $e');
+    });
   }
 }
