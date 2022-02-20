@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 
 class Station {
-   Station({
+  Station({
     required this.stationuuid,
     required this.name,
     required this.url,
@@ -30,7 +30,9 @@ class Station {
 
   factory Station.fromRawJson(String str) => Station.fromJson(json.decode(str));
 
-  factory Station.fromJson(Map<String, dynamic> json, {bool isFavourite = false}) => Station(
+  factory Station.fromJson(Map<String, dynamic> json,
+          {bool isFavourite = false}) =>
+      Station(
         isFavourite: isFavourite,
         stationuuid: json["stationuuid"],
         name: json["name"].trim(),
@@ -48,34 +50,28 @@ class Station {
   }
 }
 
-
- String _getFavicon(Map<String, dynamic> json) {
-    String _favicon =_pickRandomPlaceholder();
-    try {
-      if(json['favicon'] != '') {
-        _favicon = json['favicon'];
-      }
-    } catch(e) {
-      debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
-      _favicon = "assets/images/vinyl-record-blue.png";
+String _getFavicon(Map<String, dynamic> json) {
+  String _favicon = _pickRandomPlaceholder();
+  try {
+    if (json['favicon'] != '') {
+      _favicon = json['favicon'];
     }
-    return _favicon;
+  } catch (e) {
+    debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
+    _favicon = "assets/images/vinyl-record-blue.png";
   }
+  return _favicon;
+}
 
-  String _pickRandomPlaceholder() {
-    int random = Random().nextInt(4);
+String _pickRandomPlaceholder() {
+  int random = Random().nextInt(4);
 
-    List<String> images = [
-      "assets/images/vinyl-record-cyan.png",
-      "assets/images/vinyl-record-green.png",
-      "assets/images/vinyl-record-yellow.png",
-      "assets/images/vinyl-record-red.png",
-    ];
+  List<String> images = [
+    "assets/images/vinyl-record-cyan.png",
+    "assets/images/vinyl-record-green.png",
+    "assets/images/vinyl-record-yellow.png",
+    "assets/images/vinyl-record-red.png",
+  ];
 
-     return images[random];
-  }
-
-  bool _isValidFaviconUrl(String url) {
-    RegExp re = RegExp(r'(\.png|\.jpg)');
-    return re.hasMatch(url);
-  }
+  return images[random];
+}
