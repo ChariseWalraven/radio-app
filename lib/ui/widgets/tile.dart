@@ -6,16 +6,16 @@ class Tile extends StatelessWidget {
     Key? key,
     required this.title,
     required this.onTap,
-    this.height = 120.0,
-    this.width = 120.0,
+    this.maxHeight = 150.0,
+    this.maxWidth = 150.0,
     required this.imageUrl,
     required this.placeholderImagePath,
     this.enableCustomBackground = false,
     this.isFavourite = false,
   }) : super(key: key);
 
-  final double height;
-  final double width;
+  final double maxHeight;
+  final double maxWidth;
   final String title;
   final bool isFavourite;
   final String imageUrl;
@@ -25,29 +25,33 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _withCustomBackground = CustomCard(
-      shadowColor: isFavourite ? Colors.cyan.shade300 : Colors.yellow,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            // flex: title.length > 30 ? 1 : 2,
-            child: CoverImage(
-              imageUrl: imageUrl,
-              placeholderImagePath: placeholderImagePath,
-            ),
+    Widget _withCustomBackground = ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: maxHeight,
+          maxWidth: maxWidth,
+        ),
+        child: CustomCard(
+          shadowColor: isFavourite ? Colors.cyan.shade300 : Colors.yellow,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: CoverImage(
+                  imageUrl: imageUrl,
+                  placeholderImagePath: placeholderImagePath,
+                ),
+              ),
+              Text(
+                title,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
-          Text(
-            title,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              overflow: TextOverflow.ellipsis,
-            )
-          )
-        ],
-      ),
-    );
+        ));
 
     Widget _withoutCustomBackground = Column(
       children: [
@@ -72,11 +76,9 @@ class Tile extends StatelessWidget {
 }
 
 class CoverImage extends StatelessWidget {
-  const CoverImage({
-    Key? key,
-    required this.imageUrl,
-    required this.placeholderImagePath
-  }) : super(key: key);
+  const CoverImage(
+      {Key? key, required this.imageUrl, required this.placeholderImagePath})
+      : super(key: key);
 
   final String imageUrl;
   final String placeholderImagePath;
@@ -91,16 +93,15 @@ class CoverImage extends StatelessWidget {
   final ImageProvider _placeholderImage =
       const AssetImage("assets/images/vinyl-record-grey.png");
 
-  FadeInImage _backgroundImage(String url, String placeholderImagePath){
-    if(url.startsWith('http')) {
-        return FadeInImage(
-          placeholder: _placeholderImage, 
-          image: NetworkImage(url), 
+  FadeInImage _backgroundImage(String url, String placeholderImagePath) {
+    if (url.startsWith('http')) {
+      return FadeInImage(
+          placeholder: _placeholderImage,
+          image: NetworkImage(url),
           fit: BoxFit.contain,
           imageErrorBuilder: (_, _a, _b) {
             return Image.asset(placeholderImagePath);
-          }
-        );
+          });
     }
     return FadeInImage(placeholder: _placeholderImage, image: AssetImage(url));
   }

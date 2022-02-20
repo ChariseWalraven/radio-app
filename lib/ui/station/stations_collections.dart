@@ -19,6 +19,7 @@ class StationsCollections extends StatelessWidget {
           itemBuilder: (BuildContext context, int i) {
             services_sc.StationsCollectionService currentStation = state.stations[i];
             return StationsCollection(
+              fetchMoreStationsCallback: () => state.updateStreamList(i),
               title: currentStation.title,
               stations: currentStation.collection,
             );

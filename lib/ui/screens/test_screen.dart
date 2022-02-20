@@ -1,32 +1,42 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:radio_app/model/station/stations_filter.dart';
 import 'package:radio_app/services/favourites_service.dart';
 import 'package:radio_app/ui/widgets/bottom_bar.dart';
 import 'package:radio_app/ui/widgets/player.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    StationsFilter filter = StationsFilter();
+
     return Scaffold(
       bottomSheet: const PlayerBar(),
       bottomNavigationBar: BottomBar(),
-      body: const SafeArea(
-        child: FavouritesTest(),
+      body: SafeArea(
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              // filter.offset = filter.offset + 10;
+            },
+            child: Text('Add 0 to filter')
+          ),
+        )
       ),
     );
   }
 }
 
 class FavouritesTest extends StatelessWidget {
-  const FavouritesTest({ Key? key }) : super(key: key);
-
+  const FavouritesTest({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
-  final FavouritesService favService = FavouritesService();
+  Widget build(BuildContext context) {
+    final FavouritesService favService = FavouritesService();
     return FractionallySizedBox(
       alignment: Alignment.topCenter,
       heightFactor: 0.8,
@@ -35,18 +45,16 @@ class FavouritesTest extends StatelessWidget {
         children: [
           Expanded(
             child: FutureBuilder(
-              future: favService.getFavourites(),
-              builder: _favouritesListBuilder
-            ),
+                future: favService.getFavourites(),
+                builder: _favouritesListBuilder),
           ),
           ElevatedButton(
-            child: const Text('Add favourite'),
-            onPressed: () async {
-            List<String> favs = await favService.getFavourites();
-              await favService.addFavourite('${favs.length}');
-              debugPrint('pressed');
-            }
-          ),
+              child: const Text('Add favourite'),
+              onPressed: () async {
+                List<String> favs = await favService.getFavourites();
+                await favService.addFavourite('${favs.length}');
+                debugPrint('pressed');
+              }),
           ElevatedButton(
             onPressed: () async {
               List<String> favs = await favService.getFavourites();
@@ -62,7 +70,7 @@ class FavouritesTest extends StatelessWidget {
               try {
                 debugPrint('trying to set favourites to []');
                 favService.setFavourites([]);
-              } catch(e) {
+              } catch (e) {
                 debugPrint('ERROR::$e');
               }
             },
@@ -73,13 +81,13 @@ class FavouritesTest extends StatelessWidget {
   }
 }
 
-
-Widget _favouritesListBuilder(BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+Widget _favouritesListBuilder(
+    BuildContext context, AsyncSnapshot<List<String>> snapshot) {
   const JsonEncoder _jsonEncoder = JsonEncoder.withIndent('  ');
   String result = 'Nothing';
-  if(snapshot.hasData) {
+  if (snapshot.hasData) {
     result = _jsonEncoder.convert(snapshot.data);
-  } else if(snapshot.hasError) {
+  } else if (snapshot.hasError) {
     result = 'Whoops, error: ${snapshot.error}';
   }
 
