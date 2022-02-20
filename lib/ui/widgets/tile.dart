@@ -31,6 +31,7 @@ class Tile extends StatelessWidget {
             // flex: title.length > 30 ? 1 : 2,
             child: CoverImage(
               imageUrl: imageUrl,
+              placeholderImagePath: placeholderImagePath,
             ),
           ),
           Text(
@@ -99,6 +100,9 @@ class CoverImage extends StatelessWidget {
         return FadeInImage(
           placeholder: _placeholderImage, 
           image: NetworkImage(url), 
+          imageErrorBuilder: (_, _a, _b) {
+            return Image.asset(placeholderImagePath);
+          }
         );
     }
     return FadeInImage(placeholder: _placeholderImage, image: AssetImage(url));
