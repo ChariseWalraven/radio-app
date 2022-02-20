@@ -31,6 +31,8 @@ class AppState extends ChangeNotifier {
 
   List<Station> _currentCollection = [];
 
+  Future? loadingTimeout;
+
   AppState() {
     _init();
     _whatsonTimer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
@@ -88,9 +90,14 @@ class AppState extends ChangeNotifier {
     }
     _station = newStation;
     _currentCollection = collection;
-    _setPlayingState(PlayingState.loading); //contains a notifyListeners call
+    _setPlayingState(PlayingState.loading);
 
-    Future.delayed(const Duration(milliseconds: 5000), () async {
+    // ignore any old timeouts; if someone switches between
+    // stations before they're done loading it can cause false
+    // timeouts
+    if(loadingTimeout != null) loadingTimeout!.ignore();
+
+    loadingTimeout = Future.delayed(const Duration(milliseconds: 5000), () async {
       if (_playingState == PlayingState.loading) {
         debugPrint(
             'Player has been loading for 5 seconds. Something went wrong. Stopping player.');
@@ -107,10 +114,8 @@ class AppState extends ChangeNotifier {
       await _player.setUrl(_station.urlResolved);
       await _player.load();
       await startPlaying();
-      notifyListeners();
     } catch (e) {
       debugPrint('PlayerState.playStream::ERROR::$e');
-      _songTitle = 'Error: Cannot play ${newStation.name}';
       _setPlayingState(PlayingState.errored);
     }
   }
@@ -123,8 +128,6 @@ class AppState extends ChangeNotifier {
       } catch (e) {
         debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
         _setPlayingState(PlayingState.errored);
-        _songTitle = 'Error trying to play ${station.name}';
-        notifyListeners();
       }
     }
   }
@@ -132,6 +135,7 @@ class AppState extends ChangeNotifier {
   void removeAndBlacklistStream() {
     StationsCollectionService.blacklistStationByUUID(
         collection: _currentCollection, stationuuid: station.stationuuid);
+    _setPlayingState(PlayingState.none); // set to none to reset player bar
   }
 
   Future<void> pausePlaying() async {
