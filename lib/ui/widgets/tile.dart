@@ -93,7 +93,7 @@ class CoverImage extends StatelessWidget {
   }
 
   final ImageProvider _placeholderImage =
-      const AssetImage("assets/images/vinyl-record-greyscale.png");
+      const AssetImage("assets/images/vinyl-record-grey.png");
 
   FadeInImage _backgroundImage(String url, String placeholderImagePath){
     if(url.startsWith('http')) {
