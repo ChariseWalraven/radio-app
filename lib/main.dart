@@ -11,10 +11,10 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AppState>(
-          create: (context) => AppState(),
+          create: (_) => AppState(),
         ),
         ChangeNotifierProvider<StationsState>(
-          create: (context) => StationsState(),
+          create: (_) => StationsState(),
         ),
         ChangeNotifierProvider<FavouritesState>(
           create: (_) => FavouritesState(),
