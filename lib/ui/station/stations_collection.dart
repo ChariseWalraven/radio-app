@@ -65,6 +65,7 @@ class StationsCollection extends StatelessWidget {
         Station station = stations[index];
         return Tile(
           enableCustomBackground: true,
+          isFavourite: station.isFavourite,
           placeholderImagePath: station.placeholderFavicon,
           title: station.name,
           onTap: () {

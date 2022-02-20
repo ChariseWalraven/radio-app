@@ -11,11 +11,13 @@ class Tile extends StatelessWidget {
     required this.imageUrl,
     required this.placeholderImagePath,
     this.enableCustomBackground = false,
+    this.isFavourite = false,
   }) : super(key: key);
 
   final double height;
   final double width;
   final String title;
+  final bool isFavourite;
   final String imageUrl;
   final String placeholderImagePath;
   final VoidCallback onTap;
@@ -24,6 +26,7 @@ class Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _withCustomBackground = CustomCard(
+      shadowColor: isFavourite ? Colors.cyan.shade300 : Colors.yellow,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
