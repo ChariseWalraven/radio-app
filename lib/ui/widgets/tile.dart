@@ -82,13 +82,6 @@ class CoverImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: _backgroundImage(imageUrl, placeholderImagePath),
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image:
-        //         imageUrl == "" ? _placeholderImage : _backgroundImage(imageUrl),
-        //     fit: BoxFit.contain,
-        //   ),
-        // ),
     );
   }
 
