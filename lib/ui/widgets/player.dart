@@ -64,24 +64,22 @@ class StationNameAndImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           flex: 3,
-          child: Center(
-            child: CoverImage(
-              imageUrl: stationFaviconUrl,
-              placeholderImagePath: stationPlaceholderImagePath,
-            ),
+          child: CoverImage(
+            imageUrl: stationFaviconUrl,
+            placeholderImagePath: stationPlaceholderImagePath,
           ),
         ),
-        Center(
-          child: Text(
-            stationName,
-            maxLines: 2,
-            style: TextStyle(
-              fontSize: 11 * MediaQuery.of(context).textScaleFactor,
-              overflow: TextOverflow.ellipsis,
-            ),
+        Text(
+          stationName,
+          maxLines: 4,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 11 * MediaQuery.of(context).textScaleFactor,
+            overflow: TextOverflow.ellipsis,
           ),
         )
       ],
@@ -113,14 +111,14 @@ Widget _playerBuilder(BuildContext context, AppState _state, Widget? _) {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Column(
               children: [
                 Expanded(
                   child: Center(
                     child: Text(
                       _state.title,
-                      maxLines: 2,
+                      maxLines: 3,
                       softWrap: true,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,

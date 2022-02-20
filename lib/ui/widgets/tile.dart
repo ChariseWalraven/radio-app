@@ -34,8 +34,10 @@ class Tile extends StatelessWidget {
           shadowColor: isFavourite ? Colors.cyan.shade300 : Colors.yellow,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
+                flex: 2,
                 child: CoverImage(
                   imageUrl: imageUrl,
                   placeholderImagePath: placeholderImagePath,
@@ -54,12 +56,19 @@ class Tile extends StatelessWidget {
         ));
 
     Widget _withoutCustomBackground = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CoverImage(
-          imageUrl: imageUrl,
-          placeholderImagePath: placeholderImagePath,
+        Expanded(
+          child: CoverImage(
+            imageUrl: imageUrl,
+            placeholderImagePath: placeholderImagePath,
+          ),
         ),
-        Text(title)
+        Text(
+          title,
+          textAlign: TextAlign.center,
+        ),
       ],
     );
 
