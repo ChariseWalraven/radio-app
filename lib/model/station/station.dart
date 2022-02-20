@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 
 class Station {
@@ -61,7 +59,7 @@ class Station {
       }
     } catch(e) {
       debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
-      _favicon = "assets/images/vinyl-record-blue-bg.png";
+      _favicon = "assets/images/vinyl-record-blue.png";
     }
     return _favicon;
   }
@@ -70,10 +68,10 @@ class Station {
     int random = Random().nextInt(4);
 
     List<String> images = [
-      "assets/images/vinyl-record-blue-bg.png",
-      "assets/images/vinyl-record-green-bg.png",
-      "assets/images/vinyl-record-yellow-bg.png",
-      "assets/images/vinyl-record-red-bg.png",
+      "assets/images/vinyl-record-cyan.png",
+      "assets/images/vinyl-record-green.png",
+      "assets/images/vinyl-record-yellow.png",
+      "assets/images/vinyl-record-red.png",
     ];
 
      return images[random];
