@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
-ColorScheme appColorScheme = ColorScheme(
-  primary: Colors.green,
-  primaryContainer: Colors.green.shade700,
-  secondary: Colors.yellow,
-  secondaryContainer: Colors.yellow.shade700,
-  surface: Colors.grey.shade100,
-  background: Colors.grey.shade50,
-  error: Colors.red,
-  onPrimary: Colors.grey.shade900,
-  onSecondary: Colors.grey.shade900,
-  onSurface: Colors.grey.shade900,
-  onBackground: Colors.grey.shade900,
-  onError: Colors.grey.shade50,
-  brightness: Brightness.light,
+ColorScheme appColorScheme =
+    ColorScheme.fromSwatch(primarySwatch: Colors.green, accentColor: Colors.yellow).copyWith(
+      onBackground: Colors.grey.shade900,
+      background: Colors.white,
+      tertiary: Colors.cyan.shade300
+    );
+
+ThemeData theme = ThemeData(
+  colorScheme: appColorScheme,
+  bottomSheetTheme: BottomSheetThemeData(
+    backgroundColor: Colors.white.withOpacity(0),
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 0,
+    backgroundColor: Colors.white.withOpacity(0.0),
+    unselectedItemColor: Colors.black,
+  ),
+  iconTheme: const IconThemeData(
+    size: 24.0,
+  ),
 );
