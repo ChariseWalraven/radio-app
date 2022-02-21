@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingo_jam/ui/style/style_constants.dart';
 import 'package:lingo_jam/ui/widgets/player.dart';
 import 'package:lingo_jam/ui/station/stations_view.dart';
 import 'package:lingo_jam/ui/widgets/bottom_bar.dart';
@@ -13,7 +14,7 @@ class HomeScreen extends StatelessWidget {
       bottomSheet: const PlayerBar(),
       body: const SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalScreenPadding),
           child:  StationsView()
         ),
       ),
