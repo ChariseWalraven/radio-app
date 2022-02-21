@@ -19,7 +19,12 @@ class StationsCollectionsService {
     'indonesian',
     'french',
     'russian',
-    'portuguese'
+    'portuguese',
+    'japanese',
+    'italian',
+    'greek',
+    'korean',
+    'swahili'
   ];
   static final List<StationsCollectionService> _collections = [];
 
