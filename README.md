@@ -19,6 +19,17 @@ Features:
 - Spanish - Español
 - Arabic - العربية
 - German - Deutsch
+- Hindi - हिन्दी, हिंदी
+- Bengali - বাংলা
+- Indonesian - Bahasa Indonesia
+- French - français
+- Russian - русский
+- Portuguese - Português
+- Japanese - 日本語 (にほんご)
+- Italian - Italiano
+- Greek - Ελληνικά
+- Korean - 한국어
+- Swahili - Kiswahili
 
 </details>
 
