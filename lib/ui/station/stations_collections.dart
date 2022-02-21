@@ -20,11 +20,12 @@ class StationsCollections extends StatelessWidget {
             services_sc.StationsCollectionService currentStation =
                 state.stations[i];
             return StationsCollection(
-              fetchMoreStationsCallback: () => state.updateStreamList(i),
-              title: currentStation.title,
-              stations: currentStation.collection,
-              isLoading: currentStation.isLoading,
-            );
+                fetchMoreStationsCallback: () => state.updateStreamList(i),
+                title: currentStation.title,
+                stations: currentStation.collection,
+                isLoading: currentStation.isLoading,
+                moreStationsAreAvailable:
+                    currentStation.moreStationsAreAvailable);
           },
         );
         if (state.isLoading) {
