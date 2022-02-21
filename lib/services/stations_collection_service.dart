@@ -17,8 +17,10 @@ class StationsCollectionService {
   }
 
   final String title;
-  List<Station> collection = [];
   final bool isFavouritesList;
+
+  List<Station> collection = [];
+  bool isLoading = false;
 
   StationsFilter filter = kDefaultStationsFilter;
 
@@ -39,15 +41,24 @@ class StationsCollectionService {
       return await StationsService.getStreamsByStationUUID(favouritesList,
           isFavourite: isFavouritesList);
     }
+
     return await StationsService.getStreams(filter,
         favouritesList: favouritesList, blacklist: blacklist);
   }
 
   Future<List<Station>> refreshStations({bool isUpdate = false}) async {
+    List<Station> _stations;
     if (isUpdate) {
-      return await _getMoreStations();
+        isLoading = true;
+        _stations = await _getMoreStations();
+        debugPrint(_stations.length.toString());
+        isLoading = false;
+        return _stations;
     }
-    return await _fetchStations();
+    isLoading = true;
+    _stations = await _fetchStations();
+    isLoading = false;
+    return _stations;
   }
 
   static void _removeStationByUUID(
@@ -75,6 +86,7 @@ class StationsCollectionService {
     int newOffset = filter.offset + filter.limit;
 
     Map<String, dynamic> filterMap = filter.toMap();
+
 
     filterMap['offset'] = newOffset;
 
