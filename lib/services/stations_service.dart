@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:lingo_jam/model/station/station.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lingo_jam/model/station/stations_filter.dart';
 

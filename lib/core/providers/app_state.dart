@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:lingo_jam/core/constants/constants.dart';
 import 'package:lingo_jam/core/enums/playing_state.dart';
-import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lingo_jam/model/station/station.dart';
 import 'package:lingo_jam/services/shared_preferences/favourites_service.dart';
