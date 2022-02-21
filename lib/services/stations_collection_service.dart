@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:lingo_jam/core/constants/constants.dart';
 import 'package:lingo_jam/model/station/station.dart';
 import 'package:lingo_jam/model/station/stations_filter.dart';
@@ -18,6 +19,7 @@ class StationsCollectionService {
 
   final String title;
   final bool isFavouritesList;
+  bool moreStationsAreAvailable = true;
 
   List<Station> collection = [];
   bool isLoading = false;
@@ -49,11 +51,13 @@ class StationsCollectionService {
   Future<List<Station>> refreshStations({bool isUpdate = false}) async {
     List<Station> _stations;
     if (isUpdate) {
+      if (moreStationsAreAvailable) {
         isLoading = true;
         _stations = await _getMoreStations();
         debugPrint(_stations.length.toString());
         isLoading = false;
         return _stations;
+      }
     }
     isLoading = true;
     _stations = await _fetchStations();
@@ -84,7 +88,6 @@ class StationsCollectionService {
     /// ok for now.
 
     int newOffset = filter.offset + filter.limit;
-
     Map<String, dynamic> filterMap = filter.toMap();
 
 
@@ -93,6 +96,14 @@ class StationsCollectionService {
     filter = StationsFilter.fromMap(filterMap);
 
     List<Station> newStations = await _fetchStations();
+
+    if (newStations.isEmpty) {
+      moreStationsAreAvailable = false;
+      debugPrint(
+          'StationsCollectionService::_getMoreStations. No More stations available. Not fetching anything new.');
+      return collection;      
+    }
+
 
     for (Station newStation in newStations) {
       // don't add duplicates
