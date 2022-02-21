@@ -14,6 +14,7 @@ class StationsCollection extends StatelessWidget {
     this.scrollDirection = Axis.horizontal,
     this.fetchMoreStationsCallback,
     required this.isLoading,
+    this.moreStationsAreAvailable = false,
   }) : super(key: key);
 
   final List<Station> stations;
@@ -21,6 +22,7 @@ class StationsCollection extends StatelessWidget {
   final Axis scrollDirection;
   final Future Function()? fetchMoreStationsCallback;
   final bool isLoading;
+  final bool moreStationsAreAvailable;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,7 @@ class StationsCollection extends StatelessWidget {
       int lastIndex = itemPositionsListener.itemPositions.value.last.index;
       bool shouldFetchMoreStations = stations.length - (lastIndex + 1) < 2;
 
-      if (shouldFetchMoreStations) {
+      if (shouldFetchMoreStations && moreStationsAreAvailable) {
         debugPrint('fetching more stations. lastIndex: $lastIndex');
         await fetchMoreStationsCallback!();
       }
