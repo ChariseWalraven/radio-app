@@ -44,7 +44,6 @@ class BlackListTest extends StatelessWidget {
               onPressed: () async {
                 List<String> favs = await blService.getItems();
                 await blService.add('${favs.length}');
-                debugPrint('pressed');
               }),
           ElevatedButton(
             onPressed: () async {

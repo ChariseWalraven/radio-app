@@ -56,7 +56,6 @@ class StationsCollectionService {
       if (moreStationsAreAvailable) {
         isLoading = true;
         _stations = await _getMoreStations();
-        debugPrint(_stations.length.toString());
         isLoading = false;
         return _stations;
       }
@@ -100,8 +99,10 @@ class StationsCollectionService {
 
     if (newStations.isEmpty) {
       moreStationsAreAvailable = false;
-      debugPrint(
-          'StationsCollectionService::_getMoreStations. No More stations available. Not fetching anything new.');
+      if (!kReleaseMode) {
+        debugPrint(
+            'StationsCollectionService::_getMoreStations. No More stations available. Not fetching anything new.');
+      }
       return collection;
     }
 
