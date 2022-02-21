@@ -12,19 +12,25 @@ class StationsCollections extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<StationsState>(
       builder: (BuildContext context, StationsState state, Widget? child) {
-        return ListView.builder(
+        Widget _child = ListView.builder(
           itemCount: state.stations.length,
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemBuilder: (BuildContext context, int i) {
-            services_sc.StationsCollectionService currentStation = state.stations[i];
+            services_sc.StationsCollectionService currentStation =
+                state.stations[i];
             return StationsCollection(
               fetchMoreStationsCallback: () => state.updateStreamList(i),
               title: currentStation.title,
               stations: currentStation.collection,
+              isLoading: currentStation.isLoading,
             );
           },
         );
+        if (state.isLoading) {
+          _child = const Center(child: CircularProgressIndicator());
+        }
+        return _child;
       },
     );
   }

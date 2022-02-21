@@ -13,12 +13,14 @@ class StationsCollection extends StatelessWidget {
     required this.title,
     this.scrollDirection = Axis.horizontal,
     this.fetchMoreStationsCallback,
+    required this.isLoading,
   }) : super(key: key);
 
   final List<Station> stations;
   final String title;
   final Axis scrollDirection;
   final Future Function()? fetchMoreStationsCallback;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,9 @@ class StationsCollection extends StatelessWidget {
           placeholderImagePath: station.placeholderFavicon,
           title: station.name,
           onTap: () {
-            context.read<AppState>().playStream(newStation: station, collection: stations);
+            context
+                .read<AppState>()
+                .playStream(newStation: station, collection: stations);
           },
           imageUrl: station.favicon,
         );
@@ -87,8 +91,9 @@ class StationsCollection extends StatelessWidget {
 
     itemPositionsListener.itemPositions.addListener(() async {
       int lastIndex = itemPositionsListener.itemPositions.value.last.index;
-      bool shouldFetchMoreStations = stations.length - (lastIndex + 1) < 5;
-      if(shouldFetchMoreStations) {
+      bool shouldFetchMoreStations = stations.length - (lastIndex + 1) < 2;
+
+      if (shouldFetchMoreStations) {
         debugPrint('fetching more stations. lastIndex: $lastIndex');
         await fetchMoreStationsCallback!();
       }
@@ -96,9 +101,21 @@ class StationsCollection extends StatelessWidget {
 
     return ScrollablePositionedList.builder(
       scrollDirection: scrollDirection,
-      itemCount: stations.length,
+      itemCount: stations.length + 1,
       itemBuilder: (BuildContext context, int index) {
+        if (index == stations.length) {
+          return isLoading
+              ? const SizedBox(
+                  height: 200,
+                  width: 200,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : const SizedBox();
+        }
         Station station = stations[index];
+        // return Text('placeholder');
         return Tile(
           maxWidth: 180,
           enableCustomBackground: true,
@@ -106,7 +123,9 @@ class StationsCollection extends StatelessWidget {
           placeholderImagePath: station.placeholderFavicon,
           title: station.name,
           onTap: () {
-            context.read<AppState>().playStream(newStation: station, collection: stations);
+            context
+                .read<AppState>()
+                .playStream(newStation: station, collection: stations);
           },
           imageUrl: station.favicon,
         );
