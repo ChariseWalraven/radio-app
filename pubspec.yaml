@@ -1,5 +1,5 @@
-name: radio_app
-description: A new Flutter project.
+name: lingo_jam
+description: An online radio streaming app for language learners.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+20
