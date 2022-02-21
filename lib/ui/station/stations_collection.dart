@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lingo_jam/core/providers/stations_state.dart';
+import 'package:lingo_jam/services/stations_collection_service.dart';
 import 'package:provider/provider.dart';
-import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
 import 'package:lingo_jam/model/station/station.dart';
 import 'package:lingo_jam/ui/widgets/tile.dart';
@@ -9,85 +10,60 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class StationsCollection extends StatelessWidget {
   const StationsCollection({
     Key? key,
-    required this.stations,
-    required this.title,
-    this.scrollDirection = Axis.horizontal,
-    this.fetchMoreStationsCallback,
-    required this.isLoading,
-    this.moreStationsAreAvailable = false,
+    required this.stationsCollectionService,
+    this.collectionIndex = 0,
   }) : super(key: key);
 
-  final List<Station> stations;
-  final String title;
-  final Axis scrollDirection;
-  final Future Function()? fetchMoreStationsCallback;
-  final bool isLoading;
-  final bool moreStationsAreAvailable;
+  final StationsCollectionService stationsCollectionService;
+  final int collectionIndex;
 
   @override
   Widget build(BuildContext context) {
-    bool isNotPaused =
-        context.watch<AppState>().playingState != PlayingState.none;
-    bool isVerticalScroll = scrollDirection == Axis.vertical;
-    final double playerHeight = (MediaQuery.of(context).size.height * 0.15) + 5;
-    return Padding(
-      padding: EdgeInsets.only(
-          bottom: isNotPaused && isVerticalScroll ? playerHeight : 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 16 * MediaQuery.of(context).textScaleFactor,
-              ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
+          child: Text(
+            stationsCollectionService.title,
+            style: TextStyle(
+              fontSize: 16 * MediaQuery.of(context).textScaleFactor,
             ),
           ),
-          isVerticalScroll
-              ? Expanded(child: _gridView())
-              : SizedBox(
-                  height: 200,
-                  width: 400,
-                  child: _scrollablePositionedList(),
-                ),
-        ],
-      ),
+        ),
+        SizedBox(
+            height: 200,
+            width: 400,
+            child: PositionedList(
+              collectionIndex: collectionIndex,
+              isLoading: stationsCollectionService.isLoading,
+              moreStationsAreAvailable:
+                  stationsCollectionService.moreStationsAreAvailable,
+              stations: stationsCollectionService.collection,
+            )),
+      ],
     );
   }
+}
 
-  GridView _gridView() {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: scrollDirection == Axis.vertical ? 2 : 1,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      shrinkWrap: true,
-      scrollDirection: scrollDirection,
-      itemCount: stations.length,
-      itemBuilder: (BuildContext context, int index) {
-        Station station = stations[index];
-        return Tile(
-          enableCustomBackground: true,
-          isFavourite: station.isFavourite,
-          placeholderImagePath: station.placeholderFavicon,
-          title: station.name,
-          onTap: () {
-            context
-                .read<AppState>()
-                .playStream(newStation: station, collection: stations);
-          },
-          imageUrl: station.favicon,
-        );
-      },
-    );
-  }
+class PositionedList extends StatelessWidget {
+  const PositionedList(
+      {Key? key,
+      required this.stations,
+      required this.isLoading,
+      required this.moreStationsAreAvailable,
+      required this.collectionIndex})
+      : super(key: key);
 
-  Widget _scrollablePositionedList() {
+  final List<Station> stations;
+  final bool isLoading;
+  final bool moreStationsAreAvailable;
+  final int collectionIndex;
+
+  @override
+  Widget build(BuildContext context) {
     final ItemPositionsListener itemPositionsListener =
         ItemPositionsListener.create();
 
@@ -97,12 +73,11 @@ class StationsCollection extends StatelessWidget {
 
       if (shouldFetchMoreStations && moreStationsAreAvailable) {
         debugPrint('fetching more stations. lastIndex: $lastIndex');
-        await fetchMoreStationsCallback!();
+        await context.read<StationsState>().updateStreamList(collectionIndex);
       }
     });
-
     return ScrollablePositionedList.builder(
-      scrollDirection: scrollDirection,
+      scrollDirection: Axis.horizontal,
       itemCount: stations.length + 1,
       itemBuilder: (BuildContext context, int index) {
         if (index == stations.length) {

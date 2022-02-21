@@ -7,7 +7,7 @@ class CustomCard extends StatelessWidget {
     this.borderColor,
     this.shadowColor,
     this.child,
-    this.shadowSize = 10,
+    this.shadowSize = 5,
     this.cornerRadius = 20,
     this.enableShadow = true,
   }) : super(key: key);

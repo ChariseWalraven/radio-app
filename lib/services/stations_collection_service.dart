@@ -32,7 +32,9 @@ class StationsCollectionService {
   get stations => _fetchStations();
 
   void _init() async {
+    isLoading = true;
     collection = await _fetchStations();
+    isLoading = false;
   }
 
   Future<List<Station>> _fetchStations() async {
@@ -90,7 +92,6 @@ class StationsCollectionService {
     int newOffset = filter.offset + filter.limit;
     Map<String, dynamic> filterMap = filter.toMap();
 
-
     filterMap['offset'] = newOffset;
 
     filter = StationsFilter.fromMap(filterMap);
@@ -101,9 +102,8 @@ class StationsCollectionService {
       moreStationsAreAvailable = false;
       debugPrint(
           'StationsCollectionService::_getMoreStations. No More stations available. Not fetching anything new.');
-      return collection;      
+      return collection;
     }
-
 
     for (Station newStation in newStations) {
       // don't add duplicates
