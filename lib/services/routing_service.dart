@@ -13,6 +13,12 @@ class RoutingService {
   static const Widget favouritesScreen = FavouritesScreen();
   static const Widget testScreen = TestScreen();
 
+  static final Map<String, WidgetBuilder> routes = {
+        RoutingService.favourites: (BuildContext context) => RoutingService.favouritesScreen,
+        RoutingService.home: (BuildContext context) => RoutingService.homeScreen,
+        RoutingService.test: (BuildContext context) => RoutingService.testScreen,
+      };
+
 
   static Route createRoute(int index) {
     Widget screen = homeScreen;
