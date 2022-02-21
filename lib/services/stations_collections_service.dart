@@ -9,7 +9,7 @@ import 'package:lingo_jam/services/locale_service.dart';
 
 class StationsCollectionsService {
 
-  static final List<String> _defaultLanguages = ['chinese', 'english', 'spanish', 'german', 'arabic'];
+  static final List<String> _defaultLanguages = ['chinese', 'english', 'spanish', 'german', 'arabic', 'hindi', 'bengali', 'indonesian', 'french', 'russian', 'portuguese'];
   static final List<StationsCollectionService> _collections = [];
 
   static final LocaleService _localeService = LocaleService();
@@ -29,7 +29,12 @@ class StationsCollectionsService {
         order: Order.clickCount, 
         reverse: true
       );
-      var stationCollection = StationsCollectionService(title: 'Stations in ${languageISOCode.endonym}', filter: filter);
+
+      String title = languageISOCode.endonym;
+
+      if(languageISOCode.endonym.toLowerCase() != 'english') title += ' (${languageISOCode.name})';
+
+      var stationCollection = StationsCollectionService(title: title, filter: filter);
 
       await stationCollection.stations;
       _collections.add(stationCollection);
