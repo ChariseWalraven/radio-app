@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lingo_jam/core/providers/stations_state.dart';
 import 'package:lingo_jam/services/stations_collection_service.dart';
@@ -72,7 +73,9 @@ class PositionedList extends StatelessWidget {
       bool shouldFetchMoreStations = stations.length - (lastIndex + 1) < 2;
 
       if (shouldFetchMoreStations && moreStationsAreAvailable) {
-        debugPrint('fetching more stations. lastIndex: $lastIndex');
+        if (!kReleaseMode) {
+          debugPrint('fetching more stations. lastIndex: $lastIndex');
+        }
         await context.read<StationsState>().updateStreamList(collectionIndex);
       }
     });

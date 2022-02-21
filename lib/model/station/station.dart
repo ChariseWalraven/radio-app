@@ -57,7 +57,9 @@ String _getFavicon(Map<String, dynamic> json) {
       _favicon = json['favicon'];
     }
   } catch (e) {
-    debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
+    if (!kReleaseMode) {
+      debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
+    }
     _favicon = "assets/images/vinyl-record-cyan.png";
   }
   return _favicon;

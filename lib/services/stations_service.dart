@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:lingo_jam/model/station/station.dart';
 import 'package:http/http.dart' as http;
 import 'package:lingo_jam/model/station/stations_filter.dart';
@@ -8,7 +9,8 @@ class StationsService {
 
   List<Station> get tagList => _tagList;
 
-  static Future<Station> getStreamByStationUUID(String uuid, {bool isFavourite = false}) async {
+  static Future<Station> getStreamByStationUUID(String uuid,
+      {bool isFavourite = false}) async {
     Station station = Station(
         urlResolved: "",
         bitrate: 0,
@@ -36,7 +38,9 @@ class StationsService {
         station = Station.fromJson(jsonList[0], isFavourite: isFavourite);
       }
     } catch (e) {
-      debugPrint('StationsService::getStreamByStationUUID::ERROR:: $e');
+      if (!kReleaseMode) {
+        debugPrint('StationsService::getStreamByStationUUID::ERROR:: $e');
+      }
     }
 
     return station;
@@ -55,14 +59,17 @@ class StationsService {
   }
 
   static Future<List<Station>> getStreams(StationsFilter filter,
-      {bool isUpdate = false, List<String> favouritesList = const [], List<String> blacklist = const []}) async {
+      {bool isUpdate = false,
+      List<String> favouritesList = const [],
+      List<String> blacklist = const []}) async {
     // if favourites list != null, check if it's a favourite
     List<Station> _stations = [];
     String url = Uri.encodeFull(
         "https://nl1.api.radio-browser.info/json/stations/search${filter.constructFilterString()}");
-
-    debugPrint(
-        'Getting streams in: ${filter.language}, limit: ${filter.limit} $url');
+    if (!kReleaseMode) {
+      debugPrint(
+          'Getting streams in: ${filter.language}, limit: ${filter.limit} $url');
+    }
     try {
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -78,45 +85,31 @@ class StationsService {
               Station.fromJson(stream, isFavourite: isFavourite);
           int idx = _stations
               .indexWhere((element) => element.name == radioStream.name);
-          if(isOnBlacklist(blacklist, radioStream)) continue;
-          if(idx > 0) {
-            if(_stations[idx].bitrate < radioStream.bitrate) {
+          if (isOnBlacklist(blacklist, radioStream)) continue;
+          if (idx > 0) {
+            if (_stations[idx].bitrate < radioStream.bitrate) {
               _stations[idx] = radioStream;
             }
             continue;
           }
-          if(!_isUrlValid(radioStream.urlResolved)) continue;
+          if (!_isUrlValid(radioStream.urlResolved)) continue;
 
           _stations.add(radioStream);
         }
       }
     } catch (e) {
-      debugPrint('getStreams::ERROR:: $e');
+      if (!kReleaseMode) {
+        debugPrint('getStreams::ERROR:: $e');
+      }
     }
     return _stations;
   }
-
-  Future<int> getTags() async {
-    String url = Uri.encodeFull("http://nl1.api.radio-browser.info/json/tags");
-    try {
-      var response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        var utf = utf8.decode(response.bodyBytes);
-        var jsonList = jsonDecode(utf);
-        // ignore: unused_local_variable
-        for (var tag in jsonList) {
-          continue;
-        }
-      }
-    } catch (e) {
-      debugPrint('getTags::ERROR:: $e');
-    }
-    return _tagList.length;
-  }
 }
 
-bool isOnBlacklist(List<String> blacklist, Station radioStream) => blacklist.indexWhere((String blacklistedUUID) => blacklistedUUID == radioStream.stationuuid) > -1;
-
+bool isOnBlacklist(List<String> blacklist, Station radioStream) =>
+    blacklist.indexWhere((String blacklistedUUID) =>
+        blacklistedUUID == radioStream.stationuuid) >
+    -1;
 
 bool _isUrlValid(String url) {
   // matches urls that start with http or https and that
@@ -125,12 +118,12 @@ bool _isUrlValid(String url) {
   // some alphanumeric characters.
 
   // If it's making your brain turn into pudding trying to
-  // decipher the regex, just paste it into regex101.com, 
+  // decipher the regex, just paste it into regex101.com,
   // along with the following urls to see it in action:
-  // http://178.32.62.154:9010/ 
-  // http://radio.mosaiquefm.net:8000/mosalive 
-  // http://stream6.tanitweb.com/shems 
-  // http://streaming2.toutech.net:8000/jawharafm 
+  // http://178.32.62.154:9010/
+  // http://radio.mosaiquefm.net:8000/mosalive
+  // http://stream6.tanitweb.com/shems
+  // http://streaming2.toutech.net:8000/jawharafm
   // http://stream.live.vc.bbcmedia.co.uk/bbc_arabic_radio/whatever/blah3
 
   // Note of warning: This is the quick and dirty solution, so be nice.

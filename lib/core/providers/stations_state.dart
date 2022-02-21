@@ -36,11 +36,9 @@ class StationsState extends ChangeNotifier {
       StationsCollectionService stationCollectionService = collections[stationIndex];
       StationsCollectionsService.collections;
       await stationCollectionService.refreshStations(isUpdate: true);
-      // debugPrint('Got ${stationCollectionService.collection.} stations');
       notifyListeners();
       isUpdating = false;
       return;
     }
-    debugPrint('Already updating. Not going to fetch more stations.');
   }
 }

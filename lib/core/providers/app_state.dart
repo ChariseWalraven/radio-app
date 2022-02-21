@@ -93,12 +93,11 @@ class AppState extends ChangeNotifier {
     // ignore any old timeouts; if someone switches between
     // stations before they're done loading it can cause false
     // timeouts
-    if(loadingTimeout != null) loadingTimeout!.ignore();
+    if (loadingTimeout != null) loadingTimeout!.ignore();
 
-    loadingTimeout = Future.delayed(const Duration(milliseconds: 5000), () async {
+    loadingTimeout =
+        Future.delayed(const Duration(milliseconds: 5000), () async {
       if (_playingState == PlayingState.loading) {
-        debugPrint(
-            'Player has been loading for 5 seconds. Something went wrong. Stopping player.');
         await _player.stop();
         _setPlayingState(PlayingState.errored);
       }
@@ -113,7 +112,9 @@ class AppState extends ChangeNotifier {
       await _player.load();
       await startPlaying();
     } catch (e) {
-      debugPrint('PlayerState.playStream::ERROR::$e');
+      if (!kReleaseMode) {
+        debugPrint('PlayerState.playStream::ERROR::$e');
+      }
       _setPlayingState(PlayingState.errored);
     }
   }
@@ -124,7 +125,9 @@ class AppState extends ChangeNotifier {
         _setPlayingState(PlayingState.playing);
         await _player.play();
       } catch (e) {
-        debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
+        if (!kReleaseMode) {
+          debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
+        }
         _setPlayingState(PlayingState.errored);
       }
     }
@@ -143,7 +146,9 @@ class AppState extends ChangeNotifier {
       _setPlayingState(PlayingState.paused);
       await _player.pause();
     } catch (e) {
+      if(!kReleaseMode) {
       debugPrint('RadioPlayerState.pausePlaying :: ERROR :: $e');
+      }
       _setPlayingState(PlayingState.none);
     }
   }
@@ -178,10 +183,14 @@ class AppState extends ChangeNotifier {
   _addPlayerListeners() {
     // TODO: move some code that's dependent on events here to optimise the app state
     _player.playbackEventStream.listen((PlaybackEvent? event) {
+      if(!kReleaseMode) {
       debugPrint(
           "AppState::_addPlayerListeners. metadata: ${event.toString()}");
+      }
     }, onError: (Object e, StackTrace stack) {
+      if(!kReleaseMode) {
       debugPrint('AppState::_addPlayerListeners::ERROR: $e');
+      }
     });
   }
 }

@@ -14,6 +14,9 @@ class FavouritesView extends StatelessWidget {
       builder: (BuildContext context, FavouritesState state, Widget? child) {
         StationsCollectionService stationsCollectionService = state.stationsCollectionService;
         List<Station> favourites = stationsCollectionService.collection;
+        if(stationsCollectionService.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
         if (favourites.isEmpty) {
           return Column(
             children: [
