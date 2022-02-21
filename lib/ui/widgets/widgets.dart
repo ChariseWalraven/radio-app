@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:lingo_jam/core/constants/constants.dart';
 import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
 import 'package:lingo_jam/core/providers/favourites_state.dart';
@@ -12,6 +11,8 @@ import 'package:lingo_jam/ui/widgets/tile.dart';
 class PlayPauseButton extends StatelessWidget {
   const PlayPauseButton({Key? key}) : super(key: key);
 
+  final double iconSize = 40.0;
+
   @override
   Widget build(BuildContext context) {
     AppState state = context.watch<AppState>();
@@ -19,15 +20,15 @@ class PlayPauseButton extends StatelessWidget {
 
     if (state.playingState == PlayingState.playing) {
       _playPauseButton = IconButton(
+        iconSize: iconSize,
         onPressed: state.pausePlaying,
         icon: const Icon(Icons.pause_circle_filled),
-        iconSize: kIconSizeDefault,
       );
     } else if (state.playingState == PlayingState.paused) {
       _playPauseButton = IconButton(
+        iconSize: iconSize,
         onPressed: state.startPlaying,
         icon: const Icon(Icons.play_circle),
-        iconSize: kIconSizeDefault,
       );
     }
     return _playPauseButton;
@@ -40,15 +41,26 @@ class FavouriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppState state = context.watch<AppState>();
+
     void _handleOnPress() async {
       await state.toggleFavourite(state.station.stationuuid);
       context.read<FavouritesState>().refreshFavourites();
     }
 
+    Color color = Theme.of(context).colorScheme.onBackground;
+    IconData icon = Icons.favorite_border;
+
+    if (state.station.isFavourite) {
+      color = Theme.of(context).colorScheme.tertiary;
+      icon = Icons.favorite;
+    }
+
     return IconButton(
       onPressed: _handleOnPress,
       icon: Icon(
-          state.station.isFavourite ? Icons.favorite : Icons.favorite_border),
+        icon,
+        color: color,
+      ),
     );
   }
 }
@@ -59,7 +71,10 @@ class RemoveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: const Text('Remove', style: TextStyle(color: Colors.red),),
+      child: const Text(
+        'Remove',
+        style: TextStyle(color: Colors.red),
+      ),
       onPressed: context.watch<AppState>().removeAndBlacklistStream,
     );
   }
