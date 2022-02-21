@@ -1,4 +1,4 @@
-import 'package:radio_app/services/shared_preferences/shared_preferences_list_service.dart';
+import 'package:lingo_jam/services/shared_preferences/shared_preferences_list_service.dart';
 
 /*
   Responsible for:

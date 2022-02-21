@@ -1,8 +1,8 @@
-import 'package:radio_app/core/providers/app_state.dart';
+import 'package:lingo_jam/core/providers/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_app/core/providers/favourites_state.dart';
-import 'package:radio_app/core/providers/stations_state.dart';
+import 'package:lingo_jam/core/providers/favourites_state.dart';
+import 'package:lingo_jam/core/providers/stations_state.dart';
 
 import 'radio_app.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_app/core/providers/stations_state.dart';
-import 'package:radio_app/ui/station/stations_collection.dart';
-import 'package:radio_app/services/stations_collection_service.dart'
+import 'package:lingo_jam/core/providers/stations_state.dart';
+import 'package:lingo_jam/ui/station/stations_collection.dart';
+import 'package:lingo_jam/services/stations_collection_service.dart'
     as services_sc;
 
 class StationsCollections extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:radio_app/model/station/station.dart';
+import 'package:lingo_jam/model/station/station.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:radio_app/model/station/stations_filter.dart';
+import 'package:lingo_jam/model/station/stations_filter.dart';
 
 class StationsService {
   static final List<Station> _tagList = [];

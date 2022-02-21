@@ -1,9 +1,9 @@
 // this class is responsible for keeping track of many station collections
 
-import 'package:radio_app/core/abstract_classes/order.dart';
-import 'package:radio_app/services/stations_collection_service.dart';
-import 'package:radio_app/model/station/stations_filter.dart';
-import 'package:radio_app/services/locale_service.dart';
+import 'package:lingo_jam/core/abstract_classes/order.dart';
+import 'package:lingo_jam/services/stations_collection_service.dart';
+import 'package:lingo_jam/model/station/stations_filter.dart';
+import 'package:lingo_jam/services/locale_service.dart';
 
 // get languages when the app starts up (before you want to access the list in the home screen) possibly in state init
 

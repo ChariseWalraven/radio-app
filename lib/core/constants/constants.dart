@@ -1,5 +1,5 @@
-import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/model/station/stations_filter.dart';
+import 'package:lingo_jam/model/station/station.dart';
+import 'package:lingo_jam/model/station/stations_filter.dart';
 
 const String kAppName = "Radio App";
 const StationsFilter kDefaultStationsFilter = StationsFilter();

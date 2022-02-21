@@ -3,12 +3,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:radio_app/core/constants/constants.dart';
-import 'package:radio_app/core/enums/playing_state.dart';
-import 'package:radio_app/core/providers/app_state.dart';
-import 'package:radio_app/core/providers/favourites_state.dart';
-import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/ui/widgets/tile.dart';
+import 'package:lingo_jam/core/constants/constants.dart';
+import 'package:lingo_jam/core/enums/playing_state.dart';
+import 'package:lingo_jam/core/providers/app_state.dart';
+import 'package:lingo_jam/core/providers/favourites_state.dart';
+import 'package:lingo_jam/model/station/station.dart';
+import 'package:lingo_jam/ui/widgets/tile.dart';
 
 class PlayPauseButton extends StatelessWidget {
   const PlayPauseButton({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
-import 'package:radio_app/core/constants/constants.dart';
-import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/model/station/stations_filter.dart';
-import 'package:radio_app/services/shared_preferences/blacklist_service.dart';
-import 'package:radio_app/services/shared_preferences/favourites_service.dart';
-import 'package:radio_app/services/stations_service.dart';
+import 'package:lingo_jam/core/constants/constants.dart';
+import 'package:lingo_jam/model/station/station.dart';
+import 'package:lingo_jam/model/station/stations_filter.dart';
+import 'package:lingo_jam/services/shared_preferences/blacklist_service.dart';
+import 'package:lingo_jam/services/shared_preferences/favourites_service.dart';
+import 'package:lingo_jam/services/stations_service.dart';
 
 // this class is responsible for keeping track of the stations associated with the filter and title passed to it
 // it can also handle favourite stations collections
