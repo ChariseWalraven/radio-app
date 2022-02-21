@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/services/stations_collection_service.dart';
+import 'package:lingo_jam/model/station/station.dart';
+import 'package:lingo_jam/services/stations_collection_service.dart';
 
 class FavouritesState extends ChangeNotifier {
   final StationsCollectionService _stationsCollectionService = StationsCollectionService(title: "Favourite Stations", isFavouritesList: true);

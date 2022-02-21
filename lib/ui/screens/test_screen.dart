@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:radio_app/services/shared_preferences/blacklist_service.dart';
-import 'package:radio_app/services/shared_preferences/favourites_service.dart';
-import 'package:radio_app/ui/widgets/bottom_bar.dart';
-import 'package:radio_app/ui/widgets/player.dart';
+import 'package:lingo_jam/services/shared_preferences/blacklist_service.dart';
+import 'package:lingo_jam/services/shared_preferences/favourites_service.dart';
+import 'package:lingo_jam/ui/widgets/bottom_bar.dart';
+import 'package:lingo_jam/ui/widgets/player.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({Key? key}) : super(key: key);

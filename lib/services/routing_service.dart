@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/ui/screens/favourites_screen.dart';
-import 'package:radio_app/ui/screens/home_screen.dart';
-import 'package:radio_app/ui/screens/test_screen.dart';
-// import 'package:radio_app/ui/screens/home_screen.dart';
+import 'package:lingo_jam/ui/screens/favourites_screen.dart';
+import 'package:lingo_jam/ui/screens/home_screen.dart';
+import 'package:lingo_jam/ui/screens/test_screen.dart';
+// import 'package:lingo_jam/ui/screens/home_screen.dart';
 
 class RoutingService {
   static const String home = '/';

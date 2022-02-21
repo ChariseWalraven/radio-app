@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:radio_app/model/iso_locale/iso_locale.dart';
+import 'package:lingo_jam/model/iso_locale/iso_locale.dart';
 
 class LocaleService {
   // import json list of all the iso languages and endonyms etc and store as a private var

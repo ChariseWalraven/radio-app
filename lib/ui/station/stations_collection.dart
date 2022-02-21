@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_app/core/enums/playing_state.dart';
-import 'package:radio_app/core/providers/app_state.dart';
-import 'package:radio_app/model/station/station.dart';
-import 'package:radio_app/ui/widgets/tile.dart';
+import 'package:lingo_jam/core/enums/playing_state.dart';
+import 'package:lingo_jam/core/providers/app_state.dart';
+import 'package:lingo_jam/model/station/station.dart';
+import 'package:lingo_jam/ui/widgets/tile.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class StationsCollection extends StatelessWidget {

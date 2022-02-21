@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/ui/widgets/custom_card.dart';
+import 'package:lingo_jam/ui/widgets/custom_card.dart';
 
 class Tile extends StatelessWidget {
   const Tile({

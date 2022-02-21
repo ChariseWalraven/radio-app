@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:radio_app/core/enums/playing_state.dart';
-import 'package:radio_app/core/providers/app_state.dart';
-import 'package:radio_app/ui/station/stations_collections.dart';
+import 'package:lingo_jam/core/enums/playing_state.dart';
+import 'package:lingo_jam/core/providers/app_state.dart';
+import 'package:lingo_jam/ui/station/stations_collections.dart';
 import 'package:provider/provider.dart';
 // ignore: implementation_imports
 
