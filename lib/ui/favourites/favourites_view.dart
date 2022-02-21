@@ -12,12 +12,36 @@ class FavouritesView extends StatelessWidget {
     return Consumer<FavouritesState>(
       builder: (BuildContext context, FavouritesState state, Widget? child) {
         List<Station> favourites = state.favourites;
+        if (favourites.isEmpty) {
+          return Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Favourites',
+                    style: TextStyle(
+                      fontSize: 16 * MediaQuery.of(context).textScaleFactor,
+                    ),
+                  ),
+                ),
+              ),
+              const Expanded(
+                child: Center(
+                  child: Text('You haven\'t favourited anything yet. 🥺'),
+                ),
+              ),
+            ],
+          );
+        }
         return StationsCollection(
-            stations: favourites,
+          stations: favourites,
           isLoading: state.isLoading,
-            title: "Favourites",
-            scrollDirection: Axis.vertical,
-            );
+          title: "Favourites",
+          scrollDirection: Axis.vertical,
+        );
       },
     );
   }
