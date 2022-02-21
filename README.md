@@ -1,3 +1,32 @@
+# Lingo Jam <img src="./assets/documentation/images/lingoJamLogo.png" style="width: 50px; margin-bottom: -15px;"/> 
+
+Do you like music? Do you also like learning languages? With Lingo Jam, you can learn a new language while listening to great music!
+
+Listen to radio streams from all over the world in the world's most popular languages! That way you can practice and enjoy some sweet grooves. :notes:
+
+Features:
+
+- Listen to radio stations from all over the world
+- Save stations you like in your favourites list so you can listen to them again
+- Remove stations that don't work so you won't see them again
+
+<details>
+<summary>Supported Languages (more to come!)</summary>
+<br>
+
+- Chinese - 中文 (Zhōngwén), 汉语, 漢語
+- English
+- Spanish - Español
+- Arabic - العربية
+- German - Deutsch
+
+</details>
+
+
+<details>
+<summary>Original README content</summary>
+<br>
+
 # B-Radio CL
 
 The starting code for the B-Synergy Flutter contest 2022 The contest is adjudicated by the judges and is based who presented the best app, based on the following broad criteria:
@@ -22,3 +51,6 @@ The starting code for the B-Synergy Flutter contest 2022 The contest is adjudica
 * Entries will be reviewed by the judges and a winner announced as soon after closing as possible, hopefully by the last bbq in March.
 * Entries are to be submitted in the form of a Github code repository link. This should be different to this repository and master branch.
 * Rules will be amended as needed.
+
+</details>
+
