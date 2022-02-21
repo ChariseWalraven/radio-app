@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lingo_jam/services/shared_preferences/blacklist_service.dart';
+import 'package:lingo_jam/ui/style/style_constants.dart';
 import 'package:lingo_jam/ui/widgets/bottom_bar.dart';
 import 'package:lingo_jam/ui/widgets/player.dart';
 
@@ -13,7 +14,10 @@ class TestScreen extends StatelessWidget {
         bottomSheet: const PlayerBar(),
         bottomNavigationBar: BottomBar(),
         body: const SafeArea(
-          child: BlackListTest(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: kHorizontalScreenPadding),
+            child: BlackListTest(),
+          ),
         ));
   }
 }
