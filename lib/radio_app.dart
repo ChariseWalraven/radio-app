@@ -12,17 +12,7 @@ class RadioApp extends StatelessWidget {
       initialRoute: RoutingService.home,
       routes: RoutingService.routes,
       title: kAppName,
-      theme: ThemeData(
-        colorScheme: appColorScheme,
-        bottomSheetTheme: BottomSheetThemeData(
-          backgroundColor: Colors.white.withOpacity(0),
-        ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          elevation: 0,
-          backgroundColor: Colors.white.withOpacity(0.0),
-          unselectedItemColor: Colors.black,
-        ),
-      ),
+      theme: theme,
     );
   }
 }
