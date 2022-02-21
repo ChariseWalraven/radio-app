@@ -3,11 +3,9 @@ import 'package:lingo_jam/core/constants/constants.dart';
 import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:lingo_jam/core/providers/stations_state.dart';
 import 'package:lingo_jam/model/station/station.dart';
 import 'package:lingo_jam/services/shared_preferences/favourites_service.dart';
 import 'package:lingo_jam/services/stations_collection_service.dart';
-import 'package:lingo_jam/services/stations_collections_service.dart';
 
 //This is the state manager class for the entire app (stuff that needs to be accessed through the whole app)
 class AppState extends ChangeNotifier {
