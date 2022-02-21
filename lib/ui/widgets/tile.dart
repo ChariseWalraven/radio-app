@@ -25,13 +25,14 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     Widget _withCustomBackground = ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: maxHeight,
           maxWidth: maxWidth,
         ),
         child: CustomCard(
-          shadowColor: isFavourite ? Colors.cyan.shade300 : Colors.yellow,
+          shadowColor: isFavourite ? theme.colorScheme.tertiary :theme.colorScheme.secondary ,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,

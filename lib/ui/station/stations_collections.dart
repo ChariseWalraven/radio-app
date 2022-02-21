@@ -9,29 +9,28 @@ class StationsCollections extends StatelessWidget {
   const StationsCollections({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Consumer<StationsState>(
-      builder: (BuildContext context, StationsState state, Widget? child) {
-        Widget _child = ListView.builder(
+      builder: (_, StationsState state, Widget? child) {
+        // show a spinner if the state is loading
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        // otherwise show the list of stations collections
+        return ListView.builder(
           itemCount: state.stations.length,
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemBuilder: (BuildContext context, int i) {
-            services_sc.StationsCollectionService currentStation =
+          itemBuilder: (_, int i) {
+            services_sc.StationsCollectionService stationsCollectionService =
                 state.stations[i];
             return StationsCollection(
-                fetchMoreStationsCallback: () => state.updateStreamList(i),
-                title: currentStation.title,
-                stations: currentStation.collection,
-                isLoading: currentStation.isLoading,
-                moreStationsAreAvailable:
-                    currentStation.moreStationsAreAvailable);
+              collectionIndex: i,
+              stationsCollectionService: stationsCollectionService,
+            );
           },
         );
-        if (state.isLoading) {
-          _child = const Center(child: CircularProgressIndicator());
-        }
-        return _child;
       },
     );
   }

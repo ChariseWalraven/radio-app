@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
@@ -19,32 +20,41 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppState>(builder: (context, appState, child) {
+      List<BottomNavigationBarItem> _bottomNavigationBarItems = [
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.album),
+          label: '',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),
+          label: '',
+        ),
+      ];
+
+      if (!kReleaseMode) {
+        _bottomNavigationBarItems.add(const BottomNavigationBarItem(
+          icon: Icon(Icons.code),
+          label: '',
+        ));
+      }
+
       return FractionallySizedBox(
         heightFactor: 0.095,
         widthFactor: 1,
-        child: CustomCard(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: BottomNavigationBar(
-              // iconSize: kIconSizeDefault,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              currentIndex: appState.selectedIndex,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.album),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.code),
-                  label: '',
-                )
-              ],
-              onTap: (int index) => _onItemTapped(index, context),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+          child: CustomCard(
+            shadowColor: Theme.of(context).colorScheme.primary,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: BottomNavigationBar(
+                // iconSize: kIconSizeDefault,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                currentIndex: appState.selectedIndex,
+                items: _bottomNavigationBarItems,
+                onTap: (int index) => _onItemTapped(index, context),
+              ),
             ),
           ),
         ),

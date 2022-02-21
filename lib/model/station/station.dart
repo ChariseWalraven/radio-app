@@ -58,19 +58,18 @@ String _getFavicon(Map<String, dynamic> json) {
     }
   } catch (e) {
     debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
-    _favicon = "assets/images/vinyl-record-blue.png";
+    _favicon = "assets/images/vinyl-record-cyan.png";
   }
   return _favicon;
 }
 
 String _pickRandomPlaceholder() {
-  int random = Random().nextInt(4);
+  int random = Random().nextInt(3);
 
   List<String> images = [
     "assets/images/vinyl-record-cyan.png",
     "assets/images/vinyl-record-green.png",
     "assets/images/vinyl-record-yellow.png",
-    "assets/images/vinyl-record-red.png",
   ];
 
   return images[random];
