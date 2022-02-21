@@ -8,6 +8,7 @@ class StationsState extends ChangeNotifier {
   static const int limit = 10;
 
   bool isUpdating = false;
+  bool isLoading = false;
 
   // station collections
   static List<StationsCollectionService> _collections = StationsCollectionsService.collections;
@@ -20,7 +21,10 @@ class StationsState extends ChangeNotifier {
   }
 
   void _init() async {
+    isLoading = true;
+    notifyListeners();
     _collections = await StationsCollectionsService.populateCollections();
+    isLoading = false;
     notifyListeners();
   }
 

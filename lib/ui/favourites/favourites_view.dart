@@ -14,6 +14,7 @@ class FavouritesView extends StatelessWidget {
         List<Station> favourites = state.favourites;
         return StationsCollection(
             stations: favourites,
+          isLoading: state.isLoading,
             title: "Favourites",
             scrollDirection: Axis.vertical,
             );

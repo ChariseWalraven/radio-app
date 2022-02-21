@@ -8,6 +8,8 @@ class FavouritesState extends ChangeNotifier {
   List<Station> _favourites = [];
   List<Station> get favourites => _favourites;
 
+  bool get isLoading => _stationsCollectionService.isLoading; 
+
   FavouritesState() {
     _init();
   }
