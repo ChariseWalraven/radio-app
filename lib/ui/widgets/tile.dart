@@ -32,7 +32,9 @@ class Tile extends StatelessWidget {
           maxWidth: maxWidth,
         ),
         child: CustomCard(
-          shadowColor: isFavourite ? theme.colorScheme.tertiary :theme.colorScheme.secondary ,
+          shadowColor: isFavourite
+              ? theme.colorScheme.tertiary
+              : theme.colorScheme.secondary,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,15 +106,25 @@ class CoverImage extends StatelessWidget {
       const AssetImage("assets/images/vinyl-record-grey.png");
 
   FadeInImage _backgroundImage(String url, String placeholderImagePath) {
+    if(url == "" || url.isEmpty) {
+      return FadeInImage(placeholder: _placeholderImage, image: AssetImage(placeholderImagePath));
+    }
+
     if (url.startsWith('http')) {
       return FadeInImage(
-          placeholder: _placeholderImage,
+          placeholder: AssetImage(placeholderImagePath),
           image: NetworkImage(url),
           fit: BoxFit.contain,
           imageErrorBuilder: (_, _a, _b) {
             return Image.asset(placeholderImagePath);
           });
     }
-    return FadeInImage(placeholder: _placeholderImage, image: AssetImage(url));
+    return FadeInImage(
+        placeholder: AssetImage(placeholderImagePath),
+        image: AssetImage(url),
+        imageErrorBuilder: (_, _a, _b) {
+          debugPrint(placeholderImagePath + " url: " + url);
+          return Image.asset(placeholderImagePath);
+        });
   }
 }
