@@ -53,14 +53,14 @@ class Station {
 String _getFavicon(Map<String, dynamic> json) {
   String _favicon = _pickRandomPlaceholder();
   try {
-    if (json['favicon'] != '') {
+    if (json['favicon'] != '' && json['favicon'] != null) {
       _favicon = json['favicon'];
     }
   } catch (e) {
     if (!kReleaseMode) {
       debugPrint('ERROR::$e. favicon url: ${json['favicon']}');
     }
-    _favicon = "assets/images/vinyl-record-cyan.png";
+    _favicon = "assets/images/vinyl-record-red.png";
   }
   return _favicon;
 }

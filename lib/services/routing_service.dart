@@ -12,6 +12,8 @@ class RoutingService {
   static const Widget favouritesScreen = FavouritesScreen();
   static const Widget testScreen = TestScreen();
 
+  static const List<String> _namedRoutes = [home, favourites, test];
+
   static final Map<String, WidgetBuilder> routes = {
     RoutingService.favourites: (BuildContext context) =>
         RoutingService.favouritesScreen,
@@ -30,5 +32,25 @@ class RoutingService {
         return child;
       },
     );
+  }
+
+  static int indexByRouteName(String name) {
+    return _namedRoutes.indexOf(name);
+  }
+
+  static void routeToIndex(BuildContext context, int index) {
+    final newNamedRoute = _namedRoutes[index];
+    bool isNewRouteSameAsCurrent = false;
+
+    Navigator.of(context).popUntil((route) {
+      if (route.settings.name == newNamedRoute) {
+        isNewRouteSameAsCurrent = true;
+      }
+      return true;
+    });
+
+    if (!isNewRouteSameAsCurrent) {
+      Navigator.pushNamed(context, newNamedRoute);
+    }
   }
 }

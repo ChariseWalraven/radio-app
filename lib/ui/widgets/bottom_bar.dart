@@ -13,13 +13,12 @@ class BottomBar extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     context.read<AppState>().updateSelectedIndex(index);
 
-    // RoutingService.routeToIndex(context, index);
-    Navigator.of(context).push(RoutingService.createRoute(index));
+    RoutingService.routeToIndex(context, index);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppState>(builder: (context, appState, child) {
+    return Consumer<AppState>(builder: (context, state, child) {
       List<BottomNavigationBarItem> _bottomNavigationBarItems = [
         const BottomNavigationBarItem(
           icon: Icon(Icons.album),
@@ -51,7 +50,11 @@ class BottomBar extends StatelessWidget {
                 // iconSize: kIconSizeDefault,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
-                currentIndex: appState.selectedIndex,
+                // favourites page is tertiary colour
+                selectedItemColor: state.selectedIndex == 1
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Theme.of(context).colorScheme.primary,
+                currentIndex: state.selectedIndex,
                 items: _bottomNavigationBarItems,
                 onTap: (int index) => _onItemTapped(index, context),
               ),
