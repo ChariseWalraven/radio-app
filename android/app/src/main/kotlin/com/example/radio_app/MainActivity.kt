@@ -1,4 +1,4 @@
-package com.example.radio_app
+package com.example.lingo_jam
 
 import io.flutter.embedding.android.FlutterActivity
 
