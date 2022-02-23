@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:lingo_jam/core/providers/favourites_state.dart';
 import 'package:lingo_jam/core/providers/stations_state.dart';
 
-import 'lingo_jam.dart';
+import '../lingo_jam.dart';
 
 void main() {
   runApp(
