@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.radio_app">
+    <!-- begin permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- end permissions -->
    <application
         android:label="lingoJam"
         android:name="${applicationName}"
@@ -32,7 +35,4 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-    <!-- begin permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- end permissions -->
 </manifest>
