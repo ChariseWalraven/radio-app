@@ -1,6 +1,7 @@
 // ignore_for_file: implementation_imports
 
 import 'package:flutter/material.dart';
+import 'package:lingo_jam/core/providers/stations_state.dart';
 import 'package:provider/src/provider.dart';
 import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
@@ -44,7 +45,8 @@ class FavouriteButton extends StatelessWidget {
 
     void _handleOnPress() async {
       await state.toggleFavourite(state.station.stationuuid);
-      context.read<FavouritesState>().refreshFavourites();
+      await context.read<FavouritesState>().refreshFavourites();
+      context.read<StationsState>().refreshUI();
     }
 
     Color color = Theme.of(context).colorScheme.onBackground;

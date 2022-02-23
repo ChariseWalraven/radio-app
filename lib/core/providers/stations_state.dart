@@ -41,4 +41,9 @@ class StationsState extends ChangeNotifier {
       return;
     }
   }
+
+  void refreshUI() {
+    // helper function to trigger a refresh of all ui elements listening to this change notifier
+    notifyListeners();
+  }
 }
