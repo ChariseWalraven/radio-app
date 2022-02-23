@@ -51,19 +51,18 @@ class StationsCollectionService {
   }
 
   Future<List<Station>> refreshStations({bool isUpdate = false}) async {
-    List<Station> _stations;
     if (isUpdate) {
       if (moreStationsAreAvailable) {
         isLoading = true;
-        _stations = await _getMoreStations();
+        collection = await _getMoreStations();
         isLoading = false;
-        return _stations;
+        return collection;
       }
     }
     isLoading = true;
-    _stations = await _fetchStations();
+    collection = await _fetchStations();
     isLoading = false;
-    return _stations;
+    return collection;
   }
 
   static void _removeStationByUUID(
