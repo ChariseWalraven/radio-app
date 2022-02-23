@@ -38,12 +38,13 @@ class BottomBar extends StatelessWidget {
       }
 
       return FractionallySizedBox(
-        heightFactor: 0.095,
+        heightFactor: 0.105,
         widthFactor: 1,
         child: Container(
           margin: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
           child: CustomCard(
             shadowColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Colors.grey.shade900,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: BottomNavigationBar(

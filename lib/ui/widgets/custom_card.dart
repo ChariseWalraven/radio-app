@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class CustomCard extends StatelessWidget {
   const CustomCard({
     Key? key,
+    this.backgroundColor,
     this.borderColor,
     this.shadowColor,
     this.child,
@@ -18,6 +19,7 @@ class CustomCard extends StatelessWidget {
   final Widget? child;
   final Color? shadowColor;
   final bool enableShadow;
+  final Color? backgroundColor;
 
   final double cornerRadius;
   final double cornerSmoothing = 0.6;
@@ -27,8 +29,8 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-    final Color _borderColor = borderColor ?? colorScheme.onBackground;
-    final Color _backgroundColor = colorScheme.background;
+    final Color _borderColor = borderColor ?? colorScheme.onSurface;
+    final Color _backgroundColor = backgroundColor?? colorScheme.surface;
     final Color _shadowColor = shadowColor ?? colorScheme.secondary;
 
     return _card(_shadowColor, _backgroundColor, _borderColor);
@@ -66,8 +68,7 @@ class CustomCard extends StatelessWidget {
         Align(
           alignment: Alignment.topCenter,
           child: Container(
-            margin: EdgeInsets.only(top: borderWidth / 2),
-            height: shadowHeight > 0 ? shadowHeight - shadowSize : shadowHeight,
+            height: shadowHeight > 0 ? shadowHeight - shadowSize + (borderWidth/2): shadowHeight,
             width: configuration.maxWidth,
             decoration: ShapeDecoration(
               shape: _shape,
@@ -77,8 +78,9 @@ class CustomCard extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.topCenter,
+          child: Padding(
+            padding: EdgeInsets.only(top: (borderWidth / 2), left: 1, right: 1),
           child: Container(
-            margin: EdgeInsets.only(top: borderWidth / 2),
             height: shadowHeight > 0
                 ? shadowHeight - shadowSize - (borderWidth / 2)
                 : shadowHeight,
@@ -90,6 +92,7 @@ class CustomCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: child ?? const SizedBox(),
+              ),
             ),
           ),
         ),
