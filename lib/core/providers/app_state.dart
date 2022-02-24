@@ -42,6 +42,7 @@ class AppState extends ChangeNotifier {
   void dispose() {
     super.dispose();
     _whatsonTimer.cancel();
+    _player.dispose();
   }
 
   void _init() async {
@@ -113,7 +114,7 @@ class AppState extends ChangeNotifier {
       await startPlaying();
     } catch (e) {
       if (!kReleaseMode) {
-        debugPrint('PlayerState.playStream::ERROR::$e');
+        debugPrint('AppState.playStream::ERROR::$e');
       }
       _setPlayingState(PlayingState.errored);
     }
@@ -126,7 +127,7 @@ class AppState extends ChangeNotifier {
         await _player.play();
       } catch (e) {
         if (!kReleaseMode) {
-          debugPrint('RadioPlayerState.startPlaying::ERROR::$e');
+          debugPrint('AppState.startPlaying::ERROR::$e');
         }
         _setPlayingState(PlayingState.errored);
       }
@@ -146,8 +147,8 @@ class AppState extends ChangeNotifier {
       _setPlayingState(PlayingState.paused);
       await _player.pause();
     } catch (e) {
-      if(!kReleaseMode) {
-      debugPrint('RadioPlayerState.pausePlaying :: ERROR :: $e');
+      if (!kReleaseMode) {
+        debugPrint('AppState.pausePlaying :: ERROR :: $e');
       }
       _setPlayingState(PlayingState.none);
     }
@@ -181,15 +182,19 @@ class AppState extends ChangeNotifier {
   }
 
   _addPlayerListeners() {
+    ProcessingState processingState = ProcessingState.idle;
     // TODO: move some code that's dependent on events here to optimise the app state
     _player.playbackEventStream.listen((PlaybackEvent? event) {
-      if(!kReleaseMode) {
-      debugPrint(
-          "AppState::_addPlayerListeners. metadata: ${event.toString()}");
+      if (event != null) {
+        if (!kReleaseMode && processingState != event.processingState) {
+          processingState = event.processingState;
+          debugPrint(
+              "AppState::_addPlayerListeners. processingState: $processingState");
+        }
       }
     }, onError: (Object e, StackTrace stack) {
-      if(!kReleaseMode) {
-      debugPrint('AppState::_addPlayerListeners::ERROR: $e');
+      if (!kReleaseMode) {
+        debugPrint('AppState::_addPlayerListeners::ERROR: $e');
       }
     });
   }
