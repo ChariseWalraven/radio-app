@@ -38,6 +38,11 @@ Features:
 <summary>Original README content</summary>
 <br>
 
+Notes to the adjudicators:
+
+- I don't have an Apple developer account, so this app was not tested on iOS. If you're planning on using an iPhone, please keep this in mind.
+- The debug build has a testing page that can be reached via the last navigation item in the bottom bar.
+
 # B-Radio CL
 
 The starting code for the B-Synergy Flutter contest 2022 The contest is adjudicated by the judges and is based who presented the best app, based on the following broad criteria:
