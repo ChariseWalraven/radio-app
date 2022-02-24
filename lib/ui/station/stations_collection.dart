@@ -63,6 +63,11 @@ class PositionedList extends StatelessWidget {
   final bool moreStationsAreAvailable;
   final int collectionIndex;
 
+  void playNewStation(BuildContext context, Station station) async {
+
+    await context.read<AppState>().playStream(newStation: station, collection: stations);
+  }
+
   @override
   Widget build(BuildContext context) {
     final ItemPositionsListener itemPositionsListener =
@@ -102,11 +107,7 @@ class PositionedList extends StatelessWidget {
           isFavourite: station.isFavourite,
           placeholderImagePath: station.placeholderFavicon,
           title: station.name,
-          onTap: () {
-            context
-                .read<AppState>()
-                .playStream(newStation: station, collection: stations);
-          },
+          onTap: () => playNewStation(context, station),
           imageUrl: station.favicon,
         );
       },
