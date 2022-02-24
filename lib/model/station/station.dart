@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:lingo_jam/core/constants/constants.dart';
 
 class Station {
   Station({
@@ -52,8 +53,9 @@ class Station {
 
 String _getFavicon(Map<String, dynamic> json) {
   String _favicon = _pickRandomPlaceholder();
+  String _jsonFavicon = json['favicon'].toString();
   try {
-    if (json['favicon'] != '' && json['favicon'] != null) {
+    if (_isValidFavicon(_jsonFavicon)) {
       _favicon = json['favicon'];
     }
   } catch (e) {
@@ -75,4 +77,29 @@ String _pickRandomPlaceholder() {
   ];
 
   return images[random];
+
+}
+
+bool _isValidFavicon(String url) {
+  bool isValid = true;
+  isValid = !_hostIsBlacklisted(url) && _isValidImageFormat(url);
+
+  return isValid;
+}
+
+
+bool _isValidImageFormat(String url) {
+  RegExp validFormatsRegex = RegExp('/.*(jpe?g|png|gif|webp|w?bmp)');
+  return validFormatsRegex.hasMatch(url);
+}
+
+
+bool _hostIsBlacklisted(String url) {
+  bool result = false;
+  for (var blacklistedHost in kBlacklistedHosts) {
+    if (result == true) break;
+    result = url.contains(blacklistedHost); 
+  }
+
+  return result;
 }
