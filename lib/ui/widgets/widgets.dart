@@ -109,14 +109,16 @@ class SongNameAndPlayerButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String title = context.watch<AppState>().title;
+    AppState state = context.watch<AppState>();
+    String title = state.title;
+    String name = state.name;
     PlayingState playingState = context.watch<AppState>().playingState;
 
     String? _errorMessage;
 
     if (playingState == PlayingState.errored) {
       _errorMessage =
-          'Cannot play $title. Remove this station to prevent it from appearing.';
+          'Cannot play $name. Remove this station to prevent it from appearing.';
     }
 
     return Column(
