@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lingo_jam/ui/widgets/custom_card.dart';
+import 'package:lingo_jam/ui.dart';
 
 class Tile extends StatelessWidget {
   const Tile({
@@ -84,47 +84,5 @@ class Tile extends StatelessWidget {
             : _withoutCustomBackground,
       ),
     );
-  }
-}
-
-class CoverImage extends StatelessWidget {
-  const CoverImage(
-      {Key? key, required this.imageUrl, required this.placeholderImagePath})
-      : super(key: key);
-
-  final String imageUrl;
-  final String placeholderImagePath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: _backgroundImage(imageUrl, placeholderImagePath),
-    );
-  }
-
-  final ImageProvider _placeholderImage =
-      const AssetImage("assets/images/vinyl-record-grey.png");
-
-  FadeInImage _backgroundImage(String url, String placeholderImagePath) {
-    if(url == "" || url.isEmpty) {
-      return FadeInImage(placeholder: _placeholderImage, image: AssetImage(placeholderImagePath));
-    }
-
-    if (url.startsWith('http')) {
-      return FadeInImage(
-          placeholder: AssetImage(placeholderImagePath),
-          image: NetworkImage(url),
-          fit: BoxFit.contain,
-          imageErrorBuilder: (_, _a, _b) {
-            return Image.asset(placeholderImagePath);
-          });
-    }
-    return FadeInImage(
-        placeholder: AssetImage(placeholderImagePath),
-        image: AssetImage(url),
-        imageErrorBuilder: (_, _a, _b) {
-          debugPrint(placeholderImagePath + " url: " + url);
-          return Image.asset(placeholderImagePath);
-        });
   }
 }

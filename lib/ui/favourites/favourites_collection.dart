@@ -3,9 +3,7 @@ import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
 import 'package:lingo_jam/model/station/station.dart';
 import 'package:lingo_jam/services/stations_collection_service.dart';
-import 'package:lingo_jam/ui/style/style_constants.dart';
-import 'package:lingo_jam/ui/style/style_utils.dart';
-import 'package:lingo_jam/ui/widgets/tile.dart';
+import 'package:lingo_jam/ui.dart';
 import 'package:provider/provider.dart';
 
 class FavouritesCollection extends StatelessWidget {
