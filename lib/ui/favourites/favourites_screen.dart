@@ -6,15 +6,8 @@ class FavouritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomBar(),
-      bottomSheet: const PlayerBar(),
-      body: const SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizontalScreenPadding),
-          child: FavouritesView(),
-        ),
-      ),
+    return const LingoAppScaffold(
+      child: FavouritesView(),
     );
   }
 }

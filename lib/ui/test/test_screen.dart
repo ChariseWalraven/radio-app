@@ -8,15 +8,9 @@ class TestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomSheet: const PlayerBar(),
-        bottomNavigationBar: BottomBar(),
-        body: const SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: kHorizontalScreenPadding),
-            child: BlackListTest(),
-          ),
-        ));
+    return const LingoAppScaffold(
+      child: BlackListTest(),
+    );
   }
 }
 
@@ -34,8 +28,7 @@ class BlackListTest extends StatelessWidget {
         children: [
           Expanded(
             child: FutureBuilder(
-                future: blService.getItems(),
-                builder: _favouritesListBuilder),
+                future: blService.getItems(), builder: _favouritesListBuilder),
           ),
           ElevatedButton(
               child: const Text('Add black list item'),
