@@ -7,7 +7,7 @@ class StationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const LingoAppScaffold(
-          child:  StationsView()
+          child:  StationsView(),
     );
   }
 }

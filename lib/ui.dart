@@ -2,6 +2,7 @@ library ui;
 
 export 'ui/widgets/bottom_bar.dart';
 export 'ui/widgets/custom_card.dart';
+export 'ui/widgets/lingo_app_scaffold.dart';
 export 'ui/widgets/player.dart';
 export 'ui/widgets/tile.dart';
 export 'ui/widgets/widgets.dart';
