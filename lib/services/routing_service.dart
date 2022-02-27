@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lingo_jam/ui/screens/favourites_screen.dart';
-import 'package:lingo_jam/ui/screens/stations_screen.dart';
+import 'package:lingo_jam/ui/stations/stations_screen.dart';
 import 'package:lingo_jam/ui/screens/test_screen.dart';
 
 class RoutingService {
