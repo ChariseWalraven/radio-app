@@ -10,6 +10,12 @@ Features:
 - Save stations you like in your favourites list so you can listen to them again
 - Remove stations that don't work so you won't see them again
 
+
+Notes to the adjudicators:
+
+- I don't have anything Apple, so this app was made for Android. If you're planning on using an iPhone, please keep this in mind. It probably won't work, since I didn't add any permissions or anything for iOS. I'd rather not develop for iOS at all than have a frustrating, non-functional app.
+- The debug build has a testing page that can be reached via the last navigation item in the bottom bar.
+
 <details>
 <summary>Supported Languages (more to come!)</summary>
 <br>
@@ -37,11 +43,6 @@ Features:
 <details>
 <summary>Original README content</summary>
 <br>
-
-Notes to the adjudicators:
-
-- I don't have anything Apple, so this app was made for Android. If you're planning on using an iPhone, please keep this in mind. It probably won't work, since I didn't add any permissions or anything for iOS. I'd rather not develop for iOS at all than have a frustrating, non-functional app.
-- The debug build has a testing page that can be reached via the last navigation item in the bottom bar.
 
 # B-Radio CL
 
