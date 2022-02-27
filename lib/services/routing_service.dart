@@ -8,7 +8,7 @@ class RoutingService {
   static const String favourites = '/favourites';
   static const String test = '/test';
 
-  static const Widget homeScreen = HomeScreen();
+  static const Widget homeScreen = StationsScreen();
   static const Widget favouritesScreen = FavouritesScreen();
   static const Widget testScreen = TestScreen();
 
