@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
-import 'package:lingo_jam/ui/station/stations_collections.dart';
+import 'package:lingo_jam/ui/stations/stations_collections.dart';
 import 'package:lingo_jam/ui/style/style_constants.dart';
 import 'package:lingo_jam/ui/style/style_utils.dart';
 import 'package:provider/provider.dart';
@@ -23,3 +23,27 @@ class StationsView extends StatelessWidget {
     );
   }
 }
+
+/// screens
+/// -- views
+/// --- widgets (common use widgets, specific widgets)
+/// 
+/// View Model Controller
+/// View - UI
+/// Model - Data Structure
+/// Controller - Logic
+/// 
+/// ui/stations/
+///   -- stations_screen.dart (currently home_screen.dart)
+///   -- stations_view.dart
+///   -- stations_*.dart
+///   /favourites/
+///   -- favourites_screen.dart
+///   -- favourites_view.dart
+///   -- favourites_*.dart
+///   /widgets/
+///   -- bottom_bar.dart
+///   -- // whatever reusable widgets
+/// 
+/// try WillPopScope to implement custom backbutton functionality
+/// move some of the scaffold code into a custom scaffold to be reused
