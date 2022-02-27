@@ -77,7 +77,6 @@ String _pickRandomPlaceholder() {
   ];
 
   return images[random];
-
 }
 
 bool _isValidFavicon(String url) {
