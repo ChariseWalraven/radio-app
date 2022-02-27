@@ -81,20 +81,20 @@ class StationsService {
                   .indexWhere((element) => element == stream["stationuuid"]) >
               -1;
 
-          Station radioStream =
+          Station station =
               Station.fromJson(stream, isFavourite: isFavourite);
           int idx = _stations
-              .indexWhere((element) => element.name == radioStream.name);
-          if (isOnBlacklist(blacklist, radioStream)) continue;
+              .indexWhere((element) => element.name == station.name);
+          if (isOnBlacklist(blacklist, station)) continue;
           if (idx > 0) {
-            if (_stations[idx].bitrate < radioStream.bitrate) {
-              _stations[idx] = radioStream;
+            if (_stations[idx].bitrate < station.bitrate) {
+              _stations[idx] = station;
             }
             continue;
           }
-          if (!_isUrlValid(radioStream.urlResolved)) continue;
+          if (!_isUrlValid(station.urlResolved)) continue;
 
-          _stations.add(radioStream);
+          _stations.add(station);
         }
       }
     } catch (e) {
