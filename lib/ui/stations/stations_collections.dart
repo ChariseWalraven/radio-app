@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lingo_jam/ui/stations/stations_collection.dart';
 import 'package:provider/provider.dart';
 import 'package:lingo_jam/core/providers/stations_state.dart';
 import 'package:lingo_jam/services/stations_collection_service.dart'
     as services_sc;
+import 'package:lingo_jam/ui.dart';
 
 class StationsCollections extends StatelessWidget {
   const StationsCollections({Key? key}) : super(key: key);

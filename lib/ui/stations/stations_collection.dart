@@ -5,7 +5,7 @@ import 'package:lingo_jam/services/stations_collection_service.dart';
 import 'package:provider/provider.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
 import 'package:lingo_jam/model/station/station.dart';
-import 'package:lingo_jam/ui/widgets/tile.dart';
+import 'package:lingo_jam/ui.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class StationsCollection extends StatelessWidget {

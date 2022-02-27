@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingo_jam/core/enums/playing_state.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
-import 'package:lingo_jam/ui/stations/stations_collections.dart';
-import 'package:lingo_jam/ui/style/style_constants.dart';
-import 'package:lingo_jam/ui/style/style_utils.dart';
+import 'package:lingo_jam/ui.dart';
 import 'package:provider/provider.dart';
 // ignore: implementation_imports
 

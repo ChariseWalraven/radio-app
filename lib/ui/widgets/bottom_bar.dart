@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lingo_jam/core/providers/app_state.dart';
 import 'package:lingo_jam/services/routing_service.dart';
-import 'package:lingo_jam/ui/widgets/custom_card.dart';
+import 'package:lingo_jam/ui.dart';
 
 class BottomBar extends StatelessWidget {
   BottomBar({Key? key}) : super(key: key);

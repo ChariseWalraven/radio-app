@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lingo_jam/services/stations_collection_service.dart';
-import 'package:lingo_jam/ui/favourites/favourites_collection.dart';
+import 'package:lingo_jam/ui.dart';
 import 'package:provider/provider.dart';
 import 'package:lingo_jam/core/providers/favourites_state.dart';
 import 'package:lingo_jam/model/station/station.dart';
